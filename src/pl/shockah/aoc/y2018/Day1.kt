@@ -1,6 +1,8 @@
 package pl.shockah.aoc.y2018
 
-class Day1: Year2018<List<Int>, Int, Int>() {
+class Day1(
+		useExampleInputFile: Boolean = false
+): Year2018<List<Int>, Int, Int>(useExampleInputFile) {
 	override val parsedInput: List<Int> by lazy {
 		inputFile.readLines().map { it.toInt() }
 	}

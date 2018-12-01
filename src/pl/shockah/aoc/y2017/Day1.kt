@@ -2,9 +2,9 @@ package pl.shockah.aoc.y2017
 
 import kotlin.streams.toList
 
-class Day1: Year2017<List<Int>, Int, Int>() {
-	private val zeroAscii: Int = '0'.toInt()
-
+class Day1(
+		useExampleInputFile: Boolean = false
+): Year2017<List<Int>, Int, Int>(useExampleInputFile) {
 	override val parsedInput: List<Int> by lazy {
 		inputFile.readText().trim().chars().map { it - zeroAscii }.toList()
 	}

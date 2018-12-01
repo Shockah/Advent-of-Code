@@ -3,7 +3,12 @@ package pl.shockah.aoc.y2018
 import pl.shockah.aoc.AdventTask
 import java.io.File
 
-abstract class Year2018<ParsedInput, A, B> : AdventTask<ParsedInput, A, B>() {
-	override val inputFile: File
+abstract class Year2018<ParsedInput, A, B>(
+		useExampleInputFile: Boolean = false
+) : AdventTask<ParsedInput, A, B>(useExampleInputFile) {
+	override val actualInputFile: File
 		get() = File("input/2018/${this::class.simpleName}.txt")
+
+	override val exampleInputFile: File
+		get() = File("input/2018/${this::class.simpleName}-example.txt")
 }

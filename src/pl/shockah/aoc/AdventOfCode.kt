@@ -1,18 +1,20 @@
 package pl.shockah.aoc
 
-import kotlin.reflect.full.createInstance
+import kotlin.reflect.full.primaryConstructor
 
 class AdventOfCode {
 	companion object {
 		@JvmStatic
 		fun main(args: Array<String>) {
 			try {
-				if (args.size != 2)
+				if (args.size !in 2..3)
 					return
 
 				val year = args[0].toInt()
 				val day = args[1].toInt()
-				val task = Class.forName("pl.shockah.aoc.y$year.Day$day").kotlin.createInstance() as? AdventTask<*, *, *>
+				val example = if (args.size == 3) args[2].toBoolean() else false
+
+				val task = Class.forName("pl.shockah.aoc.y$year.Day$day").kotlin.primaryConstructor?.call(example) as? AdventTask<*, *, *>
 				task?.let {
 					measure("Parsing") { task.parsedInput }
 					runTask("A", task::part1)
