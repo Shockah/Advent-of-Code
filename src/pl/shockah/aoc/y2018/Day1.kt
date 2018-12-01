@@ -10,7 +10,7 @@ class Day1: Year2018<List<Int>, Int, Int>() {
 	}
 
 	override fun part2(): Int {
-		val set = HashSet<Int>()
+		val set = mutableSetOf(0)
 		var current = 0
 		for (change in parsedInput) {
 			current += change
