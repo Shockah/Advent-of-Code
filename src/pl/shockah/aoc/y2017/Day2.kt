@@ -18,22 +18,20 @@ class Day2(
 	}
 
 	override fun part2(): Int {
-		return parsedInput.map { line ->
-			val sorted = line.sorted()
-			sorted.mapIndexed { index: Int, value: Int ->
-				var divided = 0
-				for (i in 0 until index) {
-					val value2 = sorted[i]
-					if (value2 % value == 0) {
+		return parsedInput.map { it.sorted() }.map {
+			var divided = 0
+			for (i in 0 until it.size) {
+				for (j in i until it.size) {
+					if (it[j] != it[i] && it[j] % it[i] == 0) {
 						if (divided != 0)
-							continue
-						divided = value2 / value
+							throw IllegalArgumentException("Invalid input data (extra matching values).")
+						divided = it[j] / it[i]
 					}
 				}
 				if (divided != 0)
 					return@map divided
 			}
-			throw IllegalArgumentException("Invalid input data.")
+			throw IllegalArgumentException("Invalid input data (no matching values).")
 		}.sum()
 	}
 }
