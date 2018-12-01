@@ -15,6 +15,7 @@ buildscript {
 
 apply plugin: "kotlin"
 apply plugin: "maven"
+apply plugin: "application"
 
 group = "com.github.Shockah"
 
@@ -57,3 +58,5 @@ compileKotlin {
 		freeCompilerArgs = ["-XXLanguage:+InlineClasses"]
 	}
 }
+
+mainClassName = "pl.shockah.aoc.AdventOfCode"
