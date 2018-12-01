@@ -25,9 +25,9 @@ class AdventOfCode {
 
 		private fun measure(name: String, task: () -> Unit) {
 			try {
-				val before = System.nanoTime()
+				val before = System.currentTimeMillis()
 				task()
-				val after = System.nanoTime()
+				val after = System.currentTimeMillis()
 				println("Time $name: ${(after - before) / 1000.0}s")
 			} catch (e: Throwable) {
 				e.printStackTrace()
