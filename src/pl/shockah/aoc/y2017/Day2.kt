@@ -2,11 +2,8 @@ package pl.shockah.aoc.y2017
 
 import pl.shockah.aoc.AdventTask
 import java.io.File
-import java.util.regex.Pattern
 
 class Day2: AdventTask<List<List<Int>>, Int, Int>(2017, 2) {
-	private val inputSplitPattern: Pattern = Pattern.compile("\\s+")
-
 	override fun parseInput(file: File): List<List<Int>> {
 		return file.readLines().map {
 			it.trim().split(inputSplitPattern).map { it.toInt() }
