@@ -1,12 +1,12 @@
 package pl.shockah.aoc.y2017
 
+import pl.shockah.aoc.AdventTask
+import java.io.File
 import kotlin.streams.toList
 
-class Day1(
-		useExampleInputFile: Boolean = false
-): Year2017<List<Int>, Int, Int>(useExampleInputFile) {
-	override val parsedInput: List<Int> by lazy {
-		inputFile.readText().trim().chars().map { it - zeroAscii }.toList()
+class Day1 : AdventTask<List<Int>, Int, Int>(2017, 1) {
+	override fun parseInput(file: File): List<Int> {
+		return file.readText().trim().chars().map { it - zeroAscii }.toList()
 	}
 
 	private enum class Mode {
@@ -14,24 +14,24 @@ class Day1(
 	}
 
 	@Suppress("NOTHING_TO_INLINE")
-	private inline fun task(mode: Mode): Int {
+	private inline fun task(input: List<Int>, mode: Mode): Int {
 		var sum = 0
-		for (i in 0 until parsedInput.size) {
+		for (i in 0 until input.size) {
 			val indexToCheck = when (mode) {
 				Mode.Next -> i + 1
-				Mode.HalfwayThrough -> i + parsedInput.size / 2
+				Mode.HalfwayThrough -> i + input.size / 2
 			}
-			if (parsedInput[i] == parsedInput[indexToCheck % parsedInput.size])
-				sum += parsedInput[i]
+			if (input[i] == input[indexToCheck % input.size])
+				sum += input[i]
 		}
 		return sum
 	}
 
-	override fun part1(): Int {
-		return task(Mode.Next)
+	override fun part1(input: List<Int>): Int {
+		return task(input, Mode.Next)
 	}
 
-	override fun part2(): Int {
-		return task(Mode.HalfwayThrough)
+	override fun part2(input: List<Int>): Int {
+		return task(input, Mode.HalfwayThrough)
 	}
 }

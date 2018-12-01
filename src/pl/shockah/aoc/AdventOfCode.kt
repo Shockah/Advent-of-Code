@@ -1,9 +1,11 @@
 package pl.shockah.aoc
 
-import kotlin.reflect.full.primaryConstructor
+import java.io.File
+import kotlin.reflect.full.createInstance
 
 class AdventOfCode {
 	companion object {
+		@Suppress("UNCHECKED_CAST")
 		@JvmStatic
 		fun main(args: Array<String>) {
 			try {
@@ -12,13 +14,18 @@ class AdventOfCode {
 
 				val year = args[0].toInt()
 				val day = args[1].toInt()
-				val example = if (args.size == 3) args[2].toBoolean() else false
+				val modifier = if (args.size == 3) args[2] else null
 
-				val task = Class.forName("pl.shockah.aoc.y$year.Day$day").kotlin.primaryConstructor?.call(example) as? AdventTask<*, *, *>
+				val task = Class.forName("pl.shockah.aoc.y$year.Day$day").kotlin.createInstance() as? AdventTask<Any, Any, Any>
 				task?.let {
-					measure("Parsing") { task.parsedInput }
-					runTask("A", task::part1)
-					runTask("B", task::part2)
+					val fileName = "${task.year}/Day${task.day}"
+					val fullFileName = if (modifier == null) "input/$fileName.txt" else "input/$fileName-$modifier.txt"
+
+					var parsedInput: Any? = null
+					measure("Parsing") { parsedInput = task.parseInput(File(fullFileName)) }
+
+					runTask("A") { task.part1(parsedInput!!) }
+					runTask("B") { task.part2(parsedInput!!) }
 				}
 			} catch (e: Throwable) {
 				e.printStackTrace()

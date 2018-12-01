@@ -3,22 +3,14 @@ package pl.shockah.aoc
 import java.io.File
 
 abstract class AdventTask<ParsedInput, A, B>(
-		private val useExampleInputFile: Boolean = false
+		val year: Int,
+		val day: Int
 ) {
 	protected val zeroAscii: Int = '0'.toInt()
 
-	val inputFile: File
-		get() = if (useExampleInputFile) exampleInputFile else actualInputFile
+	abstract fun parseInput(file: File): ParsedInput
 
-	open val actualInputFile: File
-		get() = File("input/${this::class.simpleName}.txt")
+	abstract fun part1(input: ParsedInput): A
 
-	open val exampleInputFile: File
-		get() = File("input/${this::class.simpleName}-example.txt")
-
-	abstract val parsedInput: ParsedInput
-
-	abstract fun part1(): A
-
-	abstract fun part2(): B
+	abstract fun part2(input: ParsedInput): B
 }
