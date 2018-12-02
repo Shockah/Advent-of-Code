@@ -58,8 +58,8 @@ class Day8: AdventTask<List<Day8.Instruction>, Int, Int>(2017, 8) {
 		val registers = mutableMapOf<String, Int>()
 		var maxValue = 0
 		for (instruction in input) {
-			if (instruction.conditionOperator(registers.computeIfAbsent(instruction.conditionRegister) { 0 }, instruction.conditionValue)) {
-				registers[instruction.register] = registers.computeIfAbsent(instruction.register) { 0 } + instruction.adding
+			if (instruction.conditionOperator(registers[instruction.conditionRegister] ?: 0, instruction.conditionValue)) {
+				registers[instruction.register] = (registers[instruction.register] ?: 0) + instruction.adding
 				if (mode == Mode.MaxValueEver)
 					maxValue = max(maxValue, registers[instruction.register]!!)
 			}
