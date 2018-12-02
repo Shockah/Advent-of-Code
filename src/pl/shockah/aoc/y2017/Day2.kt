@@ -1,5 +1,8 @@
 package pl.shockah.aoc.y2017
 
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
 
 class Day2: AdventTask<List<List<Int>>, Int, Int>(2017, 2) {
@@ -29,5 +32,36 @@ class Day2: AdventTask<List<List<Int>>, Int, Int>(2017, 2) {
 			}
 			throw IllegalArgumentException("Invalid input data (no matching values).")
 		}.sum()
+	}
+
+	@Suppress("FunctionName")
+	class Tests {
+		private val task = Day2()
+
+		@Nested
+		inner class Part1 {
+			@Test
+			fun `#1`() {
+				val input = task.parseInput("""
+					5 1 9 5
+					7 5 3
+					2 4 6 8
+				""".trimIndent())
+				Assertions.assertEquals(18, task.part1(input))
+			}
+		}
+
+		@Nested
+		inner class Part2 {
+			@Test
+			fun `#1`() {
+				val input = task.parseInput("""
+					5 9 2 8
+					9 4 7 3
+					3 8 6 5
+				""".trimIndent())
+				Assertions.assertEquals(9, task.part2(input))
+			}
+		}
 	}
 }
