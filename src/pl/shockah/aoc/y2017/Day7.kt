@@ -8,7 +8,7 @@ import java.util.regex.Pattern
 class Day7: AdventTask<List<Day7.Program>, String, Int>(2017, 7) {
 	private val inputPattern: Pattern = Pattern.compile("(\\w+) \\((\\d+)\\)(?: -> ([\\w, ]+))?")
 
-	data class InputEntry(
+	private data class InputEntry(
 			val name: String,
 			val weight: Int,
 			val childrenNames: List<String>

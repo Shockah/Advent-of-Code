@@ -9,7 +9,7 @@ class Day3: AdventTask<Int, Int, Int>(2017, 3) {
 		return file.readText().toInt()
 	}
 
-	enum class Direction(
+	private enum class Direction(
 			val x: Int,
 			val y: Int
 	) {

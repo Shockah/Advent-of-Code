@@ -47,7 +47,7 @@ class Day8: AdventTask<List<Day8.Instruction>, Int, Int>(2017, 8) {
 		}
 	}
 
-	enum class Mode {
+	private enum class Mode {
 		FinalMaxValue, MaxValueEver
 	}
 
