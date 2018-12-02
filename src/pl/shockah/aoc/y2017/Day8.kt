@@ -1,5 +1,8 @@
 package pl.shockah.aoc.y2017
 
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
 import java.util.regex.Pattern
 import kotlin.math.max
@@ -74,5 +77,35 @@ class Day8: AdventTask<List<Day8.Instruction>, Int, Int>(2017, 8) {
 
 	override fun part2(input: List<Instruction>): Int {
 		return task(input, Mode.MaxValueEver)
+	}
+
+	@Suppress("FunctionName")
+	class Tests {
+		private val task = Day8()
+
+		private val rawInput = """
+			b inc 5 if a > 1
+			a inc 1 if b < 5
+			c dec -10 if a >= 1
+			c inc -20 if c == 10
+		""".trimIndent()
+
+		@Nested
+		inner class Part1 {
+			@Test
+			fun `#1`() {
+				val input = task.parseInput(rawInput)
+				Assertions.assertEquals(1, task.part1(input))
+			}
+		}
+
+		@Nested
+		inner class Part2 {
+			@Test
+			fun `#1`() {
+				val input = task.parseInput(rawInput)
+				Assertions.assertEquals(10, task.part2(input))
+			}
+		}
 	}
 }
