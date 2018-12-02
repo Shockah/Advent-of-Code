@@ -1,5 +1,8 @@
 package pl.shockah.aoc.y2017
 
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
 import kotlin.math.absoluteValue
 
@@ -27,6 +30,9 @@ class Day3: AdventTask<Int, Int, Int>(2017, 3) {
 		var index = 1
 		var direction = Direction.Right
 		var edgeLength = 1
+
+		if (input == 1)
+			return 0
 
 		while (true) {
 			repeat(2) {
@@ -75,6 +81,38 @@ class Day3: AdventTask<Int, Int, Int>(2017, 3) {
 				direction = direction.next
 			}
 			edgeLength++
+		}
+	}
+
+	@Suppress("FunctionName")
+	class Tests {
+		private val task = Day3()
+
+		@Nested
+		inner class Part1 {
+			@Test
+			fun `#1`() {
+				val input = task.parseInput("1")
+				Assertions.assertEquals(0, task.part1(input))
+			}
+
+			@Test
+			fun `#2`() {
+				val input = task.parseInput("12")
+				Assertions.assertEquals(3, task.part1(input))
+			}
+
+			@Test
+			fun `#3`() {
+				val input = task.parseInput("23")
+				Assertions.assertEquals(2, task.part1(input))
+			}
+
+			@Test
+			fun `#4`() {
+				val input = task.parseInput("1024")
+				Assertions.assertEquals(31, task.part1(input))
+			}
 		}
 	}
 }
