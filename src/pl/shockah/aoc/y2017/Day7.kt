@@ -1,5 +1,8 @@
 package pl.shockah.aoc.y2017
 
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
 import java.util.*
 import java.util.regex.Pattern
@@ -98,5 +101,44 @@ class Day7: AdventTask<List<Day7.Program>, String, Int>(2017, 7) {
 		val unbalanced = getRoot(input).unbalancedProgram ?: throw IllegalStateException("No unbalanced program.")
 		val siblingWeight = unbalanced.parent?.children?.first { it != unbalanced }?.totalWeight ?: throw IllegalArgumentException()
 		return unbalanced.weight + (siblingWeight - unbalanced.totalWeight)
+	}
+
+	@Suppress("FunctionName")
+	class Tests {
+		private val task = Day7()
+
+		private val rawInput = """
+			pbga (66)
+			xhth (57)
+			ebii (61)
+			havc (66)
+			ktlj (57)
+			fwft (72) -> ktlj, cntj, xhth
+			qoyq (66)
+			padx (45) -> pbga, havc, qoyq
+			tknk (41) -> ugml, padx, fwft
+			jptl (61)
+			ugml (68) -> gyxo, ebii, jptl
+			gyxo (61)
+			cntj (57)
+		""".trimIndent()
+
+		@Nested
+		inner class Part1 {
+			@Test
+			fun `#1`() {
+				val input = task.parseInput(rawInput)
+				Assertions.assertEquals("tknk", task.part1(input))
+			}
+		}
+
+		@Nested
+		inner class Part2 {
+			@Test
+			fun `#1`() {
+				val input = task.parseInput(rawInput)
+				Assertions.assertEquals(60, task.part2(input))
+			}
+		}
 	}
 }
