@@ -1,7 +1,6 @@
 package pl.shockah.aoc.y2017
 
 import pl.shockah.aoc.AdventTask
-import java.io.File
 import java.util.regex.Pattern
 import kotlin.math.max
 
@@ -32,8 +31,8 @@ class Day8: AdventTask<List<Day8.Instruction>, Int, Int>(2017, 8) {
 			val conditionValue: Int
 	)
 
-	override fun parseInput(file: File): List<Instruction> {
-		return file.readLines().map {
+	override fun parseInput(rawInput: String): List<Instruction> {
+		return rawInput.lines().map {
 			val matcher = inputPattern.matcher(it)
 			if (!matcher.find())
 				throw IllegalArgumentException()

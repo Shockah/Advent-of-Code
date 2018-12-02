@@ -1,7 +1,6 @@
 package pl.shockah.aoc.y2016
 
 import pl.shockah.aoc.AdventTask
-import java.io.File
 import kotlin.math.absoluteValue
 
 class Day1 : AdventTask<List<Day1.Instruction>, Int, Int>(2016, 1) {
@@ -34,8 +33,8 @@ class Day1 : AdventTask<List<Day1.Instruction>, Int, Int>(2016, 1) {
 		}
 	}
 
-	override fun parseInput(file: File): List<Instruction> {
-		return file.readText().trim().split(", ").map {
+	override fun parseInput(rawInput: String): List<Instruction> {
+		return rawInput.split(", ").map {
 			val direction = if (it[0] == 'L') Turn.Left else Turn.Right
 			val steps = it.substring(1).toInt()
 			return@map Instruction(direction, steps)

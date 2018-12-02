@@ -1,12 +1,11 @@
 package pl.shockah.aoc.y2017
 
 import pl.shockah.aoc.AdventTask
-import java.io.File
 import kotlin.math.absoluteValue
 
 class Day3: AdventTask<Int, Int, Int>(2017, 3) {
-	override fun parseInput(file: File): Int {
-		return file.readText().toInt()
+	override fun parseInput(rawInput: String): Int {
+		return rawInput.toInt()
 	}
 
 	private enum class Direction(

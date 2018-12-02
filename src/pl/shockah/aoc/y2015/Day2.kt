@@ -1,7 +1,6 @@
 package pl.shockah.aoc.y2015
 
 import pl.shockah.aoc.AdventTask
-import java.io.File
 
 class Day2 : AdventTask<List<Day2.Dimensions>, Int, Int>(2015, 2) {
 	data class Dimensions(
@@ -32,8 +31,8 @@ class Day2 : AdventTask<List<Day2.Dimensions>, Int, Int>(2015, 2) {
 			get() = sortedSidesByLength[1]
 	}
 
-	override fun parseInput(file: File): List<Dimensions> {
-		return file.readLines().filter { !it.isEmpty() }.map {
+	override fun parseInput(rawInput: String): List<Dimensions> {
+		return rawInput.lines().map {
 			val split = it.split("x").map { it.toInt() }
 			return@map Dimensions(split[0], split[1], split[2])
 		}

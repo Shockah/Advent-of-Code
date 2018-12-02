@@ -1,12 +1,11 @@
 package pl.shockah.aoc.y2017
 
 import pl.shockah.aoc.AdventTask
-import java.io.File
 import kotlin.streams.toList
 
 class Day1 : AdventTask<List<Int>, Int, Int>(2017, 1) {
-	override fun parseInput(file: File): List<Int> {
-		return file.readText().trim().chars().map { it - zeroAscii }.toList()
+	override fun parseInput(rawInput: String): List<Int> {
+		return rawInput.chars().map { it - zeroAscii }.toList()
 	}
 
 	private enum class Mode {

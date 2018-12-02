@@ -2,11 +2,10 @@ package pl.shockah.aoc.y2017
 
 import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.maxIndex
-import java.io.File
 
 class Day6: AdventTask<IntArray, Int, Int>(2017, 6) {
-	override fun parseInput(file: File): IntArray {
-		return file.readText().trim().split(inputSplitPattern).map { it.toInt() }.toIntArray()
+	override fun parseInput(rawInput: String): IntArray {
+		return rawInput.split(inputSplitPattern).map { it.toInt() }.toIntArray()
 	}
 
 	private enum class Mode {

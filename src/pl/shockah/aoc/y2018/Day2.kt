@@ -1,11 +1,10 @@
 package pl.shockah.aoc.y2018
 
 import pl.shockah.aoc.AdventTask
-import java.io.File
 
 class Day2: AdventTask<List<String>, Int, String>(2018, 2) {
-	override fun parseInput(file: File): List<String> {
-		return file.readLines()
+	override fun parseInput(rawInput: String): List<String> {
+		return rawInput.lines()
 	}
 
 	override fun part1(input: List<String>): Int {

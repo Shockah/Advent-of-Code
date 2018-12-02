@@ -22,7 +22,7 @@ class AdventOfCode {
 					val fullFileName = if (modifier == null) "input/$fileName.txt" else "input/$fileName-$modifier.txt"
 
 					var parsedInput: Any? = null
-					measure("Parsing") { parsedInput = task.parseInput(File(fullFileName)) }
+					measure("Parsing") { parsedInput = task.parseInput(File(fullFileName).readText().trim()) }
 
 					runTask("A") { task.part1(parsedInput!!) }
 					runTask("B") { task.part2(parsedInput!!) }

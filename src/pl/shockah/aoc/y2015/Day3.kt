@@ -1,7 +1,6 @@
 package pl.shockah.aoc.y2015
 
 import pl.shockah.aoc.AdventTask
-import java.io.File
 
 class Day3 : AdventTask<List<Day3.Direction>, Int, Int>(2015, 3) {
 	enum class Direction(
@@ -15,8 +14,8 @@ class Day3 : AdventTask<List<Day3.Direction>, Int, Int>(2015, 3) {
 		Down('v', 0, 1)
 	}
 
-	override fun parseInput(file: File): List<Direction> {
-		return file.readText().toCharArray().map { char -> Direction.values().first { it.symbol == char } }
+	override fun parseInput(rawInput: String): List<Direction> {
+		return rawInput.toCharArray().map { char -> Direction.values().first { it.symbol == char } }
 	}
 
 	private fun task(input: List<Direction>, santaCount: Int = 1): Int {

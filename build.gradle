@@ -36,6 +36,9 @@ repositories {
 dependencies {
 	compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
 	compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+
+	compile 'org.junit.jupiter:junit-jupiter-api:5.1.0'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
 }
 
 sourceSets.main {

@@ -1,11 +1,10 @@
 package pl.shockah.aoc.y2017
 
 import pl.shockah.aoc.AdventTask
-import java.io.File
 
 class Day2: AdventTask<List<List<Int>>, Int, Int>(2017, 2) {
-	override fun parseInput(file: File): List<List<Int>> {
-		return file.readLines().map {
+	override fun parseInput(rawInput: String): List<List<Int>> {
+		return rawInput.lines().map {
 			it.trim().split(inputSplitPattern).map { it.toInt() }
 		}
 	}

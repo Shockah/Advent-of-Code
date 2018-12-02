@@ -1,6 +1,5 @@
 package pl.shockah.aoc
 
-import java.io.File
 import java.util.regex.Pattern
 
 abstract class AdventTask<ParsedInput, A, B>(
@@ -10,7 +9,7 @@ abstract class AdventTask<ParsedInput, A, B>(
 	protected val zeroAscii: Int = '0'.toInt()
 	protected val inputSplitPattern: Pattern = Pattern.compile("\\s+")
 
-	abstract fun parseInput(file: File): ParsedInput
+	abstract fun parseInput(rawInput: String): ParsedInput
 
 	abstract fun part1(input: ParsedInput): A
 

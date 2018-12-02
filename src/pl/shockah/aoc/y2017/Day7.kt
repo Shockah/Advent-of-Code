@@ -1,7 +1,6 @@
 package pl.shockah.aoc.y2017
 
 import pl.shockah.aoc.AdventTask
-import java.io.File
 import java.util.*
 import java.util.regex.Pattern
 
@@ -26,8 +25,8 @@ class Day7: AdventTask<List<Day7.Program>, String, Int>(2017, 7) {
 		}
 	}
 
-	override fun parseInput(file: File): List<Program> {
-		val entries = LinkedList(file.readLines().map {
+	override fun parseInput(rawInput: String): List<Program> {
+		val entries = LinkedList(rawInput.lines().map {
 			val matcher = inputPattern.matcher(it)
 			if (!matcher.find())
 				throw IllegalArgumentException()
