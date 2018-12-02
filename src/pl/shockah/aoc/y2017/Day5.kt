@@ -1,5 +1,8 @@
 package pl.shockah.aoc.y2017
 
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
 
 class Day5: AdventTask<List<Int>, Int, Int>(2017, 5) {
@@ -35,5 +38,28 @@ class Day5: AdventTask<List<Int>, Int, Int>(2017, 5) {
 
 	override fun part2(input: List<Int>): Int {
 		return task(input, true)
+	}
+
+	@Suppress("FunctionName")
+	class Tests {
+		private val task = Day5()
+
+		@Nested
+		inner class Part1 {
+			@Test
+			fun `#1`() {
+				val input = task.parseInput("0\n3\n0\n1\n-3")
+				Assertions.assertEquals(5, task.part1(input))
+			}
+		}
+
+		@Nested
+		inner class Part2 {
+			@Test
+			fun `#1`() {
+				val input = task.parseInput("0\n3\n0\n1\n-3")
+				Assertions.assertEquals(10, task.part2(input))
+			}
+		}
 	}
 }
