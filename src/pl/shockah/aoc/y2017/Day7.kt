@@ -97,6 +97,7 @@ class Day7: AdventTask<List<Day7.Program>, String, Int>(2017, 7) {
 
 	override fun part2(input: List<Program>): Int {
 		val unbalanced = getRoot(input).unbalancedProgram ?: throw IllegalStateException("No unbalanced program.")
-		return unbalanced.parent?.children?.first { it != unbalanced }?.totalWeight ?: throw IllegalArgumentException()
+		val siblingWeight = unbalanced.parent?.children?.first { it != unbalanced }?.totalWeight ?: throw IllegalArgumentException()
+		return unbalanced.weight + (siblingWeight - unbalanced.totalWeight)
 	}
 }
