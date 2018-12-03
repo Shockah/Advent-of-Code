@@ -1,7 +1,6 @@
 package pl.shockah.aoc.y2018
 
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
 
@@ -50,15 +49,12 @@ class Day2: AdventTask<List<String>, Int, String>(2018, 2) {
 		throw IllegalArgumentException("No matching pairs.")
 	}
 
-	@Suppress("FunctionName")
 	class Tests {
 		private val task = Day2()
 
-		@Nested
-		inner class Part1 {
-			@Test
-			fun `#1`() {
-				val input = task.parseInput("""
+		@Test
+		fun part1() {
+			val input = task.parseInput("""
 					abcdef
 					bababc
 					abbcde
@@ -67,15 +63,12 @@ class Day2: AdventTask<List<String>, Int, String>(2018, 2) {
 					abcdee
 					ababab
 				""".trimIndent())
-				Assertions.assertEquals(12, task.part1(input))
-			}
+			Assertions.assertEquals(12, task.part1(input))
 		}
 
-		@Nested
-		inner class Part2 {
-			@Test
-			fun `#1`() {
-				val input = task.parseInput("""
+		@Test
+		fun part2() {
+			val input = task.parseInput("""
 					abcde
 					fghij
 					klmno
@@ -84,8 +77,7 @@ class Day2: AdventTask<List<String>, Int, String>(2018, 2) {
 					axcye
 					wvxyz
 				""".trimIndent())
-				Assertions.assertEquals("fgij", task.part2(input))
-			}
+			Assertions.assertEquals("fgij", task.part2(input))
 		}
 	}
 }
