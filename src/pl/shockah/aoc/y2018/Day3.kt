@@ -45,15 +45,7 @@ class Day3: AdventTask<List<Day3.Rectangle>, Int, Int>(2018, 3) {
 			}
 		}
 
-		var sum = 0
-		for (y in 0 until 1000) {
-			for (x in 0 until 1000) {
-				val point = Pair(x, y)
-				if (map[point] ?: 0 > 1)
-					sum++
-			}
-		}
-		return sum
+		return map.values.filter { it > 1 }.size
 	}
 
 	override fun part2(input: List<Rectangle>): Int {
