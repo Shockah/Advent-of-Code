@@ -15,14 +15,7 @@ class Day3: AdventTask<List<Day3.Rectangle>, Int, Int>(2018, 3) {
 			val y: Int,
 			val w: Int,
 			val h: Int
-	) {
-		infix fun intersects(rectangle: Rectangle): Boolean {
-			return x < rectangle.x + rectangle.w
-					&& x + w > rectangle.x
-					&& y < rectangle.y + rectangle.h
-					&& y + h > rectangle.y
-		}
-	}
+	)
 
 	override fun parseInput(rawInput: String): List<Rectangle> {
 		return rawInput.lines().map {
