@@ -1,8 +1,9 @@
 package pl.shockah.aoc.y2016
 
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
 import kotlin.math.absoluteValue
 
@@ -84,39 +85,24 @@ class Day1 : AdventTask<List<Day1.Instruction>, Int, Int>(2016, 1) {
 	override fun part2(input: List<Instruction>): Int {
 		return task(input, Mode.FirstVisitedTwice)
 	}
-
-	@Suppress("FunctionName")
+	
 	class Tests {
 		private val task = Day1()
 
-		@Nested
-		inner class Part1 {
-			@Test
-			fun `#1`() {
-				val input = task.parseInput("R2, L3")
-				Assertions.assertEquals(5, task.part1(input))
-			}
-
-			@Test
-			fun `#2`() {
-				val input = task.parseInput("R2, R2, R2")
-				Assertions.assertEquals(2, task.part1(input))
-			}
-
-			@Test
-			fun `#3`() {
-				val input = task.parseInput("R5, L5, R5, R3")
-				Assertions.assertEquals(12, task.part1(input))
-			}
+		@TestFactory
+		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
+				Case("R2, L3", 5),
+				Case("R2, R2, R2", 2),
+				Case("R5, L5, R5, R3", 12)
+		)) { rawInput, expected ->
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals(expected, task.part1(input))
 		}
 
-		@Nested
-		inner class Part2 {
-			@Test
-			fun `#1`() {
-				val input = task.parseInput("R8, R4, R4, R8")
-				Assertions.assertEquals(4, task.part2(input))
-			}
+		@Test
+		fun part2() {
+			val input = task.parseInput("R8, R4, R4, R8")
+			Assertions.assertEquals(4, task.part2(input))
 		}
 	}
 }

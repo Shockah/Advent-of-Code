@@ -1,8 +1,8 @@
 package pl.shockah.aoc.y2015
 
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.DynamicTest
+import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
 
 class Day2 : AdventTask<List<Day2.Dimensions>, Int, Int>(2015, 2) {
@@ -53,38 +53,25 @@ class Day2 : AdventTask<List<Day2.Dimensions>, Int, Int>(2015, 2) {
 		}.sum()
 	}
 
-	@Suppress("FunctionName")
 	class Tests {
 		private val task = Day2()
 
-		@Nested
-		inner class Part1 {
-			@Test
-			fun `#1`() {
-				val input = task.parseInput("2x3x4")
-				Assertions.assertEquals(58, task.part1(input))
-			}
-
-			@Test
-			fun `#2`() {
-				val input = task.parseInput("1x1x10")
-				Assertions.assertEquals(43, task.part1(input))
-			}
+		@TestFactory
+		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
+				Case("2x3x4", 58),
+				Case("1x1x10", 43)
+		)) { rawInput, expected ->
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals(expected, task.part1(input))
 		}
 
-		@Nested
-		inner class Part2 {
-			@Test
-			fun `#1`() {
-				val input = task.parseInput("2x3x4")
-				Assertions.assertEquals(34, task.part2(input))
-			}
-
-			@Test
-			fun `#2`() {
-				val input = task.parseInput("1x1x10")
-				Assertions.assertEquals(14, task.part2(input))
-			}
+		@TestFactory
+		fun part2(): Collection<DynamicTest> = createTestCases(listOf(
+				Case("2x3x4", 34),
+				Case("1x1x10", 14)
+		)) { rawInput, expected ->
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals(expected, task.part2(input))
 		}
 	}
 }
