@@ -1,8 +1,8 @@
 package pl.shockah.aoc.y2017
 
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.DynamicTest
+import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
 import kotlin.streams.toList
 
@@ -37,68 +37,30 @@ class Day1 : AdventTask<List<Int>, Int, Int>(2017, 1) {
 		return task(input, Mode.HalfwayThrough)
 	}
 
-	@Suppress("FunctionName")
 	class Tests {
 		private val task = Day1()
 
-		@Nested
-		inner class Part1 {
-			@Test
-			fun `#1`() {
-				val input = task.parseInput("1122")
-				Assertions.assertEquals(3, task.part1(input))
-			}
-
-			@Test
-			fun `#2`() {
-				val input = task.parseInput("1111")
-				Assertions.assertEquals(4, task.part1(input))
-			}
-
-			@Test
-			fun `#3`() {
-				val input = task.parseInput("1234")
-				Assertions.assertEquals(0, task.part1(input))
-			}
-
-			@Test
-			fun `#4`() {
-				val input = task.parseInput("91212129")
-				Assertions.assertEquals(9, task.part1(input))
-			}
+		@TestFactory
+		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
+				Case("1122", 3),
+				Case("1111", 4),
+				Case("1234", 0),
+				Case("91212129", 9)
+		)) { rawInput, expected ->
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals(expected, task.part1(input))
 		}
 
-		@Nested
-		inner class Part2 {
-			@Test
-			fun `#1`() {
-				val input = task.parseInput("1212")
-				Assertions.assertEquals(6, task.part2(input))
-			}
-
-			@Test
-			fun `#2`() {
-				val input = task.parseInput("1221")
-				Assertions.assertEquals(0, task.part2(input))
-			}
-
-			@Test
-			fun `#3`() {
-				val input = task.parseInput("123425")
-				Assertions.assertEquals(4, task.part2(input))
-			}
-
-			@Test
-			fun `#4`() {
-				val input = task.parseInput("123123")
-				Assertions.assertEquals(12, task.part2(input))
-			}
-
-			@Test
-			fun `#5`() {
-				val input = task.parseInput("12131415")
-				Assertions.assertEquals(4, task.part2(input))
-			}
+		@TestFactory
+		fun part2(): Collection<DynamicTest> = createTestCases(listOf(
+				Case("1212", 6),
+				Case("1221", 0),
+				Case("123425", 4),
+				Case("123123", 12),
+				Case("12131415", 4)
+		)) { rawInput, expected ->
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals(expected, task.part2(input))
 		}
 	}
 }

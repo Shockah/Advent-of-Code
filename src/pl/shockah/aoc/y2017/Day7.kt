@@ -1,7 +1,6 @@
 package pl.shockah.aoc.y2017
 
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
 import java.util.*
@@ -103,7 +102,6 @@ class Day7: AdventTask<List<Day7.Program>, String, Int>(2017, 7) {
 		return unbalanced.weight + (siblingWeight - unbalanced.totalWeight)
 	}
 
-	@Suppress("FunctionName")
 	class Tests {
 		private val task = Day7()
 
@@ -123,22 +121,16 @@ class Day7: AdventTask<List<Day7.Program>, String, Int>(2017, 7) {
 			cntj (57)
 		""".trimIndent()
 
-		@Nested
-		inner class Part1 {
-			@Test
-			fun `#1`() {
-				val input = task.parseInput(rawInput)
-				Assertions.assertEquals("tknk", task.part1(input))
-			}
+		@Test
+		fun part1() {
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals("tknk", task.part1(input))
 		}
 
-		@Nested
-		inner class Part2 {
-			@Test
-			fun `#1`() {
-				val input = task.parseInput(rawInput)
-				Assertions.assertEquals(60, task.part2(input))
-			}
+		@Test
+		fun part2() {
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals(60, task.part2(input))
 		}
 	}
 }

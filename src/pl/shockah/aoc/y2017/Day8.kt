@@ -1,7 +1,6 @@
 package pl.shockah.aoc.y2017
 
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
 import java.util.regex.Pattern
@@ -79,7 +78,6 @@ class Day8: AdventTask<List<Day8.Instruction>, Int, Int>(2017, 8) {
 		return task(input, Mode.MaxValueEver)
 	}
 
-	@Suppress("FunctionName")
 	class Tests {
 		private val task = Day8()
 
@@ -90,22 +88,16 @@ class Day8: AdventTask<List<Day8.Instruction>, Int, Int>(2017, 8) {
 			c inc -20 if c == 10
 		""".trimIndent()
 
-		@Nested
-		inner class Part1 {
-			@Test
-			fun `#1`() {
-				val input = task.parseInput(rawInput)
-				Assertions.assertEquals(1, task.part1(input))
-			}
+		@Test
+		fun part1() {
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals(1, task.part1(input))
 		}
 
-		@Nested
-		inner class Part2 {
-			@Test
-			fun `#1`() {
-				val input = task.parseInput(rawInput)
-				Assertions.assertEquals(10, task.part2(input))
-			}
+		@Test
+		fun part2() {
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals(10, task.part2(input))
 		}
 	}
 }

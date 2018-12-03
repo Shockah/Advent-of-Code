@@ -1,7 +1,6 @@
 package pl.shockah.aoc.y2017
 
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.maxIndex
@@ -55,26 +54,19 @@ class Day6: AdventTask<IntArray, Int, Int>(2017, 6) {
 		return task(input, Mode.LoopLength)
 	}
 
-	@Suppress("FunctionName")
 	class Tests {
 		private val task = Day6()
 
-		@Nested
-		inner class Part1 {
-			@Test
-			fun `#1`() {
-				val input = task.parseInput("0 2 7 0")
-				Assertions.assertEquals(5, task.part1(input))
-			}
+		@Test
+		fun part1() {
+			val input = task.parseInput("0 2 7 0")
+			Assertions.assertEquals(5, task.part1(input))
 		}
 
-		@Nested
-		inner class Part2 {
-			@Test
-			fun `#1`() {
-				val input = task.parseInput("0 2 7 0")
-				Assertions.assertEquals(4, task.part2(input))
-			}
+		@Test
+		fun part2() {
+			val input = task.parseInput("0 2 7 0")
+			Assertions.assertEquals(4, task.part2(input))
 		}
 	}
 }

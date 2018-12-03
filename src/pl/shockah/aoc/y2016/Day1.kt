@@ -85,7 +85,7 @@ class Day1 : AdventTask<List<Day1.Instruction>, Int, Int>(2016, 1) {
 	override fun part2(input: List<Instruction>): Int {
 		return task(input, Mode.FirstVisitedTwice)
 	}
-	
+
 	class Tests {
 		private val task = Day1()
 
