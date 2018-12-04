@@ -52,7 +52,10 @@ class Day8 : AdventTask<List<String>, Int, Int>(2015, 8) {
 	}
 
 	override fun part2(input: List<String>): Int {
-		TODO()
+		return input.map {
+			val escaped = it.replace("\\", "\\\\").replace("\"", "\\\"")
+			return@map escaped.length - it.length + 2
+		}.sum()
 	}
 
 	class Tests {
@@ -67,6 +70,17 @@ class Day8 : AdventTask<List<String>, Int, Int>(2015, 8) {
 		)) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part1(input))
+		}
+
+		@TestFactory
+		fun part2(): Collection<DynamicTest> = createTestCases(listOf(
+				Case("\"\"", 4),
+				Case("\"abc\"", 4),
+				Case("\"aaa\\\"aaa\"", 6),
+				Case("\"\\x27\"", 5)
+		)) { rawInput, expected ->
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals(expected, task.part2(input))
 		}
 	}
 }
