@@ -73,29 +73,23 @@ class Day4: AdventTask<List<Day4.LogEntry>, Int, Int>(2018, 4) {
 	private fun getSleepPeriods(input: List<LogEntry>): Map<Int, List<ClosedRange<Date>>> {
 		var currentGuard: Int? = null
 		var asleepSince: Date? = null
-
 		val sleepPeriods = mutableMapOf<Int, MutableList<ClosedRange<Date>>>()
 
-		fun onWakeUp(date: Date) {
-			if (currentGuard == null)
-				return
-			if (asleepSince == null)
-				return
-
-			if (sleepPeriods[currentGuard!!] == null)
-				sleepPeriods[currentGuard!!] = mutableListOf()
-			sleepPeriods[currentGuard!!]!! += asleepSince!!..date
-			asleepSince = null
-		}
-
-		for (entry in input) {
+		outer@ for (entry in input) {
 			when (entry.type) {
 				is LogType.Shift -> {
 					currentGuard = entry.type.guardId
 					asleepSince = null
 				}
 				LogType.FallAsleep -> asleepSince = entry.date
-				LogType.WakeUp -> onWakeUp(entry.date)
+				LogType.WakeUp -> {
+					if (currentGuard == null || asleepSince == null)
+						continue@outer
+					if (sleepPeriods[currentGuard] == null)
+						sleepPeriods[currentGuard] = mutableListOf()
+					sleepPeriods[currentGuard]!! += asleepSince..entry.date
+					asleepSince = null
+				}
 			}
 		}
 
