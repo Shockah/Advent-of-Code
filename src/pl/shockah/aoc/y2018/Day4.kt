@@ -70,7 +70,7 @@ class Day4: AdventTask<List<Day4.LogEntry>, Int, Int>(2018, 4) {
 		return parsed
 	}
 
-	override fun part1(input: List<LogEntry>): Int {
+	private fun getSleepPeriods(input: List<LogEntry>): Map<Int, List<ClosedRange<Date>>> {
 		var currentGuard: Int? = null
 		var asleepSince: Date? = null
 
@@ -99,9 +99,15 @@ class Day4: AdventTask<List<Day4.LogEntry>, Int, Int>(2018, 4) {
 			}
 		}
 
-		val (guardId, minutes) = sleepPeriods.map { (guardId, periods) ->
+		return sleepPeriods
+	}
+
+	override fun part1(input: List<LogEntry>): Int {
+		val sleepPeriods = getSleepPeriods(input)
+
+		val guardId = sleepPeriods.map { (guardId, periods) ->
 			guardId to periods.map { TimeUnit.MILLISECONDS.toMinutes(it.endInclusive.time - it.start.time) }.sum()
-		}.sortedByDescending { it.second }.first()
+		}.sortedByDescending { it.second }.first().first
 
 		val calendar = Calendar.getInstance()
 		val minuteOccurences = IntArray(60)
@@ -120,7 +126,26 @@ class Day4: AdventTask<List<Day4.LogEntry>, Int, Int>(2018, 4) {
 	}
 
 	override fun part2(input: List<LogEntry>): Int {
-		TODO()
+		val sleepPeriods = getSleepPeriods(input)
+
+		val calendar = Calendar.getInstance()
+
+		val (guardId, minuteIndex, _) = sleepPeriods.map { (guardId, periods) ->
+			val minuteOccurences = IntArray(60)
+			for (period in periods) {
+				calendar.time = period.endInclusive
+				val minutesEnd = if (calendar.get(Calendar.HOUR) == 0) calendar.get(Calendar.MINUTE) else 60
+				calendar.time = period.start
+				val minutesStart = calendar.get(Calendar.MINUTE)
+				for (minute in minutesStart until minutesEnd) {
+					minuteOccurences[minute]++
+				}
+			}
+
+			val (minuteIndex, totalTimes) = minuteOccurences.mapIndexed { index: Int, i: Int -> index to i }.sortedByDescending { it.second }.first()
+			return@map Triple(guardId, minuteIndex, totalTimes)
+		}.sortedByDescending { it.third }.first()
+		return guardId * minuteIndex
 	}
 
 	class Tests {
@@ -150,13 +175,19 @@ class Day4: AdventTask<List<Day4.LogEntry>, Int, Int>(2018, 4) {
 		fun inputSorting() {
 			val input1 = task.parseInput(rawInput, false)
 			val input2 = task.parseInput(rawInput, true)
-			Assertions.assertEquals(input1, input2)
+			Assertions.assertEquals(input1.toString(), input2.toString())
 		}
 
 		@Test
 		fun part1() {
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(240, task.part1(input))
+		}
+
+		@Test
+		fun part2() {
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals(4455, task.part2(input))
 		}
 	}
 }
