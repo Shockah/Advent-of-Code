@@ -100,6 +100,76 @@ fun <A, B, C, D, E, F> Pattern.parse(
 	)
 }
 
+inline fun <reified T> Pattern.parseGroup(group: String?): T {
+	return when (T::class) {
+		String::class -> group as? T ?: throw NullPointerException()
+		Int::class -> group?.toInt() as? T ?: throw NullPointerException()
+		else -> throw IllegalArgumentException()
+	}
+}
+
+inline fun <reified A, reified B> Pattern.parse2(input: String): Tuple2<A, B> {
+	val matcher = matcher(input)
+	if (!matcher.find())
+		throw IllegalArgumentException()
+	return Tuple2(
+			parseGroup(matcher.group(1)),
+			parseGroup(matcher.group(2))
+	)
+}
+
+inline fun <reified A, reified B, reified C> Pattern.parse3(input: String): Tuple3<A, B, C> {
+	val matcher = matcher(input)
+	if (!matcher.find())
+		throw IllegalArgumentException()
+	return Tuple3(
+			parseGroup(matcher.group(1)),
+			parseGroup(matcher.group(2)),
+			parseGroup(matcher.group(3))
+	)
+}
+
+inline fun <reified A, reified B, reified C, reified D> Pattern.parse4(input: String): Tuple4<A, B, C, D> {
+	val matcher = matcher(input)
+	if (!matcher.find())
+		throw IllegalArgumentException()
+	return Tuple4(
+			parseGroup(matcher.group(1)),
+			parseGroup(matcher.group(2)),
+			parseGroup(matcher.group(3)),
+			parseGroup(matcher.group(4))
+	)
+}
+
+inline fun <reified A, reified B, reified C, reified D, reified E> Pattern.parse5(input: String): Tuple5<A, B, C, D, E> {
+	val matcher = matcher(input)
+	if (!matcher.find())
+		throw IllegalArgumentException()
+	return Tuple5(
+			parseGroup(matcher.group(1)),
+			parseGroup(matcher.group(2)),
+			parseGroup(matcher.group(3)),
+			parseGroup(matcher.group(4)),
+			parseGroup(matcher.group(5))
+	)
+}
+
+
+
+inline fun <reified A, reified B, reified C, reified D, reified E, reified F> Pattern.parse6(input: String): Tuple6<A, B, C, D, E, F> {
+	val matcher = matcher(input)
+	if (!matcher.find())
+		throw IllegalArgumentException()
+	return Tuple6(
+			parseGroup(matcher.group(1)),
+			parseGroup(matcher.group(2)),
+			parseGroup(matcher.group(3)),
+			parseGroup(matcher.group(4)),
+			parseGroup(matcher.group(5)),
+			parseGroup(matcher.group(6))
+	)
+}
+
 fun <Input : Any, Output : Any> ((Input) -> Output).orThrow(): (Input?) -> Output {
 	return { arg -> if (arg == null) throw NullPointerException() else this(arg) }
 }
