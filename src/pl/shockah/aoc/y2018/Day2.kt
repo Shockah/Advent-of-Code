@@ -10,18 +10,10 @@ class Day2: AdventTask<List<String>, Int, String>(2018, 2) {
 	}
 
 	override fun part1(input: List<String>): Int {
-		var hasTwo = 0
-		var hasThree = 0
-
-		for (word in input) {
-			val groups = word.toCharArray().groupBy { it }.values.filter { it.size in 2..3 }.sortedByDescending { it.size }
-			if (groups.any { it.size == 2 })
-				hasTwo++
-			if (groups.any { it.size == 3 })
-				hasThree++
-		}
-
-		return hasTwo * hasThree
+		val grouped = input.map { it.toCharArray().groupBy { it }.values }
+		val twoCount = grouped.count { it.any { it.size == 2 } }
+		val threeCount = grouped.count { it.any { it.size == 3 } }
+		return twoCount * threeCount
 	}
 
 	override fun part2(input: List<String>): String {
