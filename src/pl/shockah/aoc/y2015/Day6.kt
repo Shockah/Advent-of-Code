@@ -35,6 +35,10 @@ class Day6 : AdventTask<List<Day6.Instruction>, Int, Int>(2015, 6) {
 		}, { map, point ->
 			map[point] = (map[point] ?: 0) + 2
 		});
+
+		companion object {
+			val byInputName = values().map { it.inputName to it }.toMap()
+		}
 	}
 
 	data class Instruction(
@@ -49,7 +53,7 @@ class Day6 : AdventTask<List<Day6.Instruction>, Int, Int>(2015, 6) {
 		return rawInput.lines().map {
 			val (operation, x1, y1, x2, y2) = inputPattern.parse(
 					it,
-					{ Operation.values().first { operation -> operation.inputName == it } },
+					{ Operation.byInputName[it]!! },
 					IntPatternParser,
 					IntPatternParser,
 					IntPatternParser,
