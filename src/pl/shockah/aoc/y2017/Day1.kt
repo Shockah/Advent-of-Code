@@ -19,13 +19,13 @@ class Day1 : AdventTask<List<Int>, Int, Int>(2017, 1) {
 	@Suppress("NOTHING_TO_INLINE")
 	private inline fun task(input: List<Int>, mode: Mode): Int {
 		var sum = 0
-		for (i in 0 until input.size) {
+		input.forEachIndexed { i, digit ->
 			val indexToCheck = when (mode) {
 				Mode.Next -> i + 1
 				Mode.HalfwayThrough -> i + input.size / 2
 			}
-			if (input[i] == input[indexToCheck % input.size])
-				sum += input[i]
+			if (digit == input[indexToCheck % input.size])
+				sum += digit
 		}
 		return sum
 	}

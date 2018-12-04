@@ -17,8 +17,7 @@ class Day2: AdventTask<List<String>, Int, String>(2018, 2) {
 	}
 
 	override fun part2(input: List<String>): String {
-		for (i in 0 until input.size) {
-			val id1 = input[i]
+		input.forEachIndexed { i, id1 ->
 			outer@ for (j in (i + 1) until input.size) {
 				val id2 = input[j]
 				if (id1.length != id2.length)
