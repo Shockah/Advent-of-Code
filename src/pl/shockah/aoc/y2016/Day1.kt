@@ -5,6 +5,8 @@ import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.nextInCycle
+import pl.shockah.aoc.previousInCycle
 import kotlin.math.absoluteValue
 
 class Day1 : AdventTask<List<Day1.Instruction>, Int, Int>(2016, 1) {
@@ -27,10 +29,10 @@ class Day1 : AdventTask<List<Day1.Instruction>, Int, Int>(2016, 1) {
 		Down(0, 1);
 
 		val clockwise: Direction
-			get() = Direction.values()[(ordinal + Direction.values().size - 1) % Direction.values().size]
+			get() = previousInCycle
 
 		val counterClockwise: Direction
-			get() = Direction.values()[(ordinal + 1) % Direction.values().size]
+			get() = nextInCycle
 
 		fun getAfterTurn(turn: Turn): Direction {
 			return if (turn == Turn.Left) counterClockwise else clockwise

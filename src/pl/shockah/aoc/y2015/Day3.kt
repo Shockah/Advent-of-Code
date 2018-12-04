@@ -14,11 +14,15 @@ class Day3 : AdventTask<List<Day3.Direction>, Int, Int>(2015, 3) {
 		Right('>', 1, 0),
 		Up('^', 0, -1),
 		Left('<', -1, 0),
-		Down('v', 0, 1)
+		Down('v', 0, 1);
+
+		companion object {
+			val bySymbol = values().map { it.symbol to it }.toMap()
+		}
 	}
 
 	override fun parseInput(rawInput: String): List<Direction> {
-		return rawInput.toCharArray().map { char -> Direction.values().first { it.symbol == char } }
+		return rawInput.toCharArray().map { Direction.bySymbol[it]!! }
 	}
 
 	private fun task(input: List<Direction>, santaCount: Int = 1): Int {

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.nextInCycle
 import kotlin.math.absoluteValue
 
 class Day3: AdventTask<Int, Int, Int>(2017, 3) {
@@ -18,10 +19,7 @@ class Day3: AdventTask<Int, Int, Int>(2017, 3) {
 		Right(1, 0),
 		Up(0, -1),
 		Left(-1, 0),
-		Down(0, 1);
-
-		val next: Direction
-			get() = Direction.values()[(ordinal + 1) % Direction.values().size]
+		Down(0, 1)
 	}
 
 	override fun part1(input: Int): Int {
@@ -44,7 +42,7 @@ class Day3: AdventTask<Int, Int, Int>(2017, 3) {
 					if (index == input)
 						return x.absoluteValue + y.absoluteValue
 				}
-				direction = direction.next
+				direction = direction.nextInCycle
 			}
 			edgeLength++
 		}
@@ -78,7 +76,7 @@ class Day3: AdventTask<Int, Int, Int>(2017, 3) {
 						return sum
 					memory[Pair(x, y)] = sum
 				}
-				direction = direction.next
+				direction = direction.nextInCycle
 			}
 			edgeLength++
 		}

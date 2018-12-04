@@ -23,6 +23,10 @@ class Day8: AdventTask<List<Day8.Instruction>, Int, Int>(2017, 8) {
 		operator fun invoke(a: Int, b: Int): Boolean {
 			return lambda(a, b)
 		}
+
+		companion object {
+			val bySymbol = values().map { it.symbol to it }.toMap()
+		}
 	}
 
 	data class Instruction(
@@ -42,7 +46,7 @@ class Day8: AdventTask<List<Day8.Instruction>, Int, Int>(2017, 8) {
 			val register = matcher.group(1)
 			val adding = matcher.group(3).toInt() * (if (matcher.group(2) == "dec") -1 else 1)
 			val conditionRegister = matcher.group(4)
-			val conditionOperator = Operator.values().first { it.symbol == matcher.group(5) }
+			val conditionOperator = Operator.bySymbol[matcher.group(5)]!!
 			val conditionValue = matcher.group(6).toInt()
 			return@map Instruction(register, adding, conditionRegister, conditionOperator, conditionValue)
 		}

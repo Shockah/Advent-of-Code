@@ -3,6 +3,8 @@ package pl.shockah.aoc.y2018
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.IntPatternParser
+import pl.shockah.aoc.parse
 import java.util.regex.Pattern
 
 class Day3: AdventTask<List<Day3.Rectangle>, Int, Int>(2018, 3) {
@@ -18,17 +20,14 @@ class Day3: AdventTask<List<Day3.Rectangle>, Int, Int>(2018, 3) {
 
 	override fun parseInput(rawInput: String): List<Rectangle> {
 		return rawInput.lines().map {
-			val matcher = inputPattern.matcher(it)
-			if (!matcher.find()) {
-				println(it)
-				throw IllegalArgumentException()
-			}
-
-			val id = matcher.group(1).toInt()
-			val x = matcher.group(2).toInt()
-			val y = matcher.group(3).toInt()
-			val w = matcher.group(4).toInt()
-			val h = matcher.group(5).toInt()
+			val (id, x, y, w, h) = inputPattern.parse(
+					it,
+					IntPatternParser,
+					IntPatternParser,
+					IntPatternParser,
+					IntPatternParser,
+					IntPatternParser
+			)
 			return@map Rectangle(id, x, y, w, h)
 		}
 	}
