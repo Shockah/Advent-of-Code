@@ -6,15 +6,35 @@ import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.IntPatternParser
 import pl.shockah.aoc.StringPatternParser
 import pl.shockah.aoc.parse
-import java.util.*
-import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
-class Day4: AdventTask<Map<Int, List<ClosedRange<Date>>>, Int, Int>(2018, 4) {
+class Day4: AdventTask<Map<Int, List<ClosedRange<Day4.Date>>>, Int, Int>(2018, 4) {
 	private val baseInputPattern: Pattern = Pattern.compile("\\[(\\d+)-(\\d+)-(\\d+) (\\d+):(\\d+)] (.*)")
 	private val shiftPattern: Pattern = Pattern.compile("Guard #(\\d+) begins shift")
 	private val fallAsleep: String = "falls asleep"
 	private val wakeUp: String = "wakes up"
+
+	data class Date(
+			val year: Int,
+			val month: Int,
+			val day: Int,
+			val hour: Int,
+			val minute: Int
+	) : Comparable<Date> {
+		override fun compareTo(other: Date): Int {
+			if (year != other.year)
+				return year.compareTo(other.year)
+			if (month != other.month)
+				return month.compareTo(other.month)
+			if (day != other.day)
+				return day.compareTo(other.day)
+			if (hour != other.hour)
+				return hour.compareTo(other.hour)
+			if (minute != other.minute)
+				return minute.compareTo(other.minute)
+			return 0
+		}
+	}
 
 	data class LogEntry(
 			val date: Date,
@@ -56,9 +76,7 @@ class Day4: AdventTask<Map<Int, List<ClosedRange<Date>>>, Int, Int>(2018, 4) {
 				}
 			}
 
-			val calendar = Calendar.getInstance()
-			calendar.set(year, month, day, hour, minute)
-			return@map LogEntry(calendar.time, type)
+			return@map LogEntry(Date(year, month, day, hour, minute), type)
 		}
 
 		if (sorting)
@@ -98,17 +116,12 @@ class Day4: AdventTask<Map<Int, List<ClosedRange<Date>>>, Int, Int>(2018, 4) {
 
 	override fun part1(input: Map<Int, List<ClosedRange<Date>>>): Int {
 		val guardId = input.map { (guardId, periods) ->
-			guardId to periods.map { TimeUnit.MILLISECONDS.toMinutes(it.endInclusive.time - it.start.time) }.sum()
+			guardId to periods.map { it.endInclusive.minute - it.start.minute }.sum()
 		}.sortedByDescending { it.second }.first().first
 
-		val calendar = Calendar.getInstance()
 		val minuteOccurences = IntArray(60)
 		for (period in input[guardId]!!) {
-			calendar.time = period.endInclusive
-			val minutesEnd = if (calendar.get(Calendar.HOUR) == 0) calendar.get(Calendar.MINUTE) else 60
-			calendar.time = period.start
-			val minutesStart = calendar.get(Calendar.MINUTE)
-			for (minute in minutesStart until minutesEnd) {
+			for (minute in period.start.minute until period.endInclusive.minute) {
 				minuteOccurences[minute]++
 			}
 		}
@@ -118,16 +131,10 @@ class Day4: AdventTask<Map<Int, List<ClosedRange<Date>>>, Int, Int>(2018, 4) {
 	}
 
 	override fun part2(input: Map<Int, List<ClosedRange<Date>>>): Int {
-		val calendar = Calendar.getInstance()
-
 		val (guardId, minuteIndex, _) = input.map { (guardId, periods) ->
 			val minuteOccurences = IntArray(60)
 			for (period in periods) {
-				calendar.time = period.endInclusive
-				val minutesEnd = if (calendar.get(Calendar.HOUR) == 0) calendar.get(Calendar.MINUTE) else 60
-				calendar.time = period.start
-				val minutesStart = calendar.get(Calendar.MINUTE)
-				for (minute in minutesStart until minutesEnd) {
+				for (minute in period.start.minute until period.endInclusive.minute) {
 					minuteOccurences[minute]++
 				}
 			}
