@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.IntPatternParser
-import pl.shockah.aoc.StringPatternParser
 import pl.shockah.aoc.parse
+import pl.shockah.aoc.parse6
 import java.util.regex.Pattern
 
 class Day4: AdventTask<Map<Int, List<ClosedRange<Day4.Date>>>, Int, Int>(2018, 4) {
@@ -57,15 +57,7 @@ class Day4: AdventTask<Map<Int, List<ClosedRange<Day4.Date>>>, Int, Int>(2018, 4
 
 	private fun preParseInput(rawInput: String, sorting: Boolean): List<LogEntry> {
 		var parsed = rawInput.lines().map {
-			val (year, month, day, hour, minute, content) = baseInputPattern.parse(
-					it,
-					IntPatternParser,
-					IntPatternParser,
-					IntPatternParser,
-					IntPatternParser,
-					IntPatternParser,
-					StringPatternParser
-			)
+			val (year, month, day, hour, minute, content) = baseInputPattern.parse6<Int, Int, Int, Int, Int, String>(it)
 
 			val type: LogType = when (content) {
 				fallAsleep -> LogType.FallAsleep
