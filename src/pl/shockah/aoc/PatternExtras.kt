@@ -104,4 +104,5 @@ fun <Input : Any, Output : Any> ((Input) -> Output).orThrow(): (Input?) -> Outpu
 	return { arg -> if (arg == null) throw NullPointerException() else this(arg) }
 }
 
+val StringPatternParser: (String?) -> String = { s: String -> s }.orThrow()
 val IntPatternParser: (String?) -> Int = { s: String -> s.toInt() }.orThrow()
