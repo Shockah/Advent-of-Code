@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.expects
 import pl.shockah.aoc.nextInCycle
 import kotlin.math.absoluteValue
 
@@ -87,10 +88,10 @@ class Day3: AdventTask<Int, Int, Int>(2017, 3) {
 
 		@TestFactory
 		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
-				Case("1", 0),
-				Case("12", 3),
-				Case("23", 2),
-				Case("1024", 31)
+				"1" expects 0,
+				"12" expects 3,
+				"23" expects 2,
+				"1024" expects 31
 		)) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part1(input))

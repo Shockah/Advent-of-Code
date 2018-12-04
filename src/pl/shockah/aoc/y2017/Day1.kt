@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.expects
 import kotlin.streams.toList
 
 class Day1 : AdventTask<List<Int>, Int, Int>(2017, 1) {
@@ -42,10 +43,10 @@ class Day1 : AdventTask<List<Int>, Int, Int>(2017, 1) {
 
 		@TestFactory
 		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
-				Case("1122", 3),
-				Case("1111", 4),
-				Case("1234", 0),
-				Case("91212129", 9)
+				"1122" expects 3,
+				"1111" expects 4,
+				"1234" expects 0,
+				"91212129" expects 9
 		)) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part1(input))
@@ -53,11 +54,11 @@ class Day1 : AdventTask<List<Int>, Int, Int>(2017, 1) {
 
 		@TestFactory
 		fun part2(): Collection<DynamicTest> = createTestCases(listOf(
-				Case("1212", 6),
-				Case("1221", 0),
-				Case("123425", 4),
-				Case("123123", 12),
-				Case("12131415", 4)
+				"1212" expects 6,
+				"1221" expects 0,
+				"123425" expects 4,
+				"123123" expects 12,
+				"12131415" expects 4
 		)) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part2(input))
