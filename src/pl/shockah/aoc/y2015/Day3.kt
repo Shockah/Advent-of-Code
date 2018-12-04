@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.expects
 
 class Day3 : AdventTask<List<Day3.Direction>, Int, Int>(2015, 3) {
 	enum class Direction(
@@ -55,9 +56,9 @@ class Day3 : AdventTask<List<Day3.Direction>, Int, Int>(2015, 3) {
 
 		@TestFactory
 		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
-				Case(">", 2),
-				Case("^>v<", 4),
-				Case("^v^v^v^v^v", 2)
+				">" expects 2,
+				"^>v<" expects 4,
+				"^v^v^v^v^v" expects 2
 		)) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part1(input))
@@ -65,9 +66,9 @@ class Day3 : AdventTask<List<Day3.Direction>, Int, Int>(2015, 3) {
 
 		@TestFactory
 		fun part2(): Collection<DynamicTest> = createTestCases(listOf(
-				Case("^v", 3),
-				Case("^>v<", 3),
-				Case("^v^v^v^v^v", 11)
+				"^v" expects 3,
+				"^>v<" expects 3,
+				"^v^v^v^v^v" expects 11
 		)) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part2(input))

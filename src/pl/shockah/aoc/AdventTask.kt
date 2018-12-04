@@ -31,3 +31,7 @@ abstract class AdventTask<ParsedInput, A, B>(
 		}
 	}
 }
+
+infix fun <R> String.expects(expected: R): AdventTask.Case<R> {
+	return AdventTask.Case(this, expected)
+}

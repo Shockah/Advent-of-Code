@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.IntPatternParser
+import pl.shockah.aoc.expects
 import pl.shockah.aoc.parse
 import java.util.regex.Pattern
 import kotlin.math.max
@@ -98,10 +99,10 @@ class Day6 : AdventTask<List<Day6.Instruction>, Int, Int>(2015, 6) {
 
 		@TestFactory
 		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
-				Case(rawPart1Input.lines().take(1).joinToString("\n"), 1_000_000), // lines 1-1
-				Case(rawPart1Input.lines().take(2).joinToString("\n"), 999_000), // lines 1-2
-				Case(rawPart1Input.lines().take(3).joinToString("\n"), 998_996), // lines 1-3
-				Case(rawPart1Input.lines().drop(1).take(1).joinToString("\n"), 1_000) // lines 2-2
+				rawPart1Input.lines().take(1).joinToString("\n") expects 1_000_000, // lines 1-1
+				rawPart1Input.lines().take(2).joinToString("\n") expects 999_000, // lines 1-2
+				rawPart1Input.lines().take(3).joinToString("\n") expects 998_996, // lines 1-3
+				rawPart1Input.lines().drop(1).take(1).joinToString("\n") expects 1_000 // lines 2-2
 		)) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part1(input))
@@ -109,9 +110,9 @@ class Day6 : AdventTask<List<Day6.Instruction>, Int, Int>(2015, 6) {
 
 		@TestFactory
 		fun part2(): Collection<DynamicTest> = createTestCases(listOf(
-				Case("turn on 0,0 through 0,0", 1),
-				Case("toggle 0,0 through 999,999", 2_000_000),
-				Case("turn off 0,0 through 0,0", 0)
+				"turn on 0,0 through 0,0" expects 1,
+				"toggle 0,0 through 999,999" expects 2_000_000,
+				"turn off 0,0 through 0,0" expects 0
 		)) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part2(input))

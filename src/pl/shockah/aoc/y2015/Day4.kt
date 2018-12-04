@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.expects
 import java.math.BigInteger
 import java.security.MessageDigest
 
@@ -39,8 +40,8 @@ class Day4 : AdventTask<String, Int, Int>(2015, 4) {
 
 		@TestFactory
 		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
-				Case("abcdef", 609043),
-				Case("pqrstuv", 1048970)
+				"abcdef" expects 609043,
+				"pqrstuv" expects 1048970
 		)) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part1(input))

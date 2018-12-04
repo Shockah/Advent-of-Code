@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.expects
 import pl.shockah.aoc.parse2
 import java.util.*
 import java.util.regex.Pattern
@@ -209,14 +210,14 @@ class Day7 : AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 
 		@TestFactory
 		fun parse(): Collection<DynamicTest> = createTestCases(listOf(
-				Case("d", 72),
-				Case("e", 507),
-				Case("f", 492),
-				Case("g", 114),
-				Case("h", 65412),
-				Case("i", 65079),
-				Case("x", 123),
-				Case("y", 456)
+				"d" expects 72,
+				"e" expects 507,
+				"f" expects 492,
+				"g" expects 114,
+				"h" expects 65412,
+				"i" expects 65079,
+				"x" expects 123,
+				"y" expects 456
 		)) { entry, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, input[entry]!!.getValue(input))

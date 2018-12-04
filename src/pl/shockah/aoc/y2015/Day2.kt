@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.expects
 
 class Day2 : AdventTask<List<Day2.Dimensions>, Int, Int>(2015, 2) {
 	data class Dimensions(
@@ -58,8 +59,8 @@ class Day2 : AdventTask<List<Day2.Dimensions>, Int, Int>(2015, 2) {
 
 		@TestFactory
 		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
-				Case("2x3x4", 58),
-				Case("1x1x10", 43)
+				"2x3x4" expects 58,
+				"1x1x10" expects 43
 		)) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part1(input))
@@ -67,8 +68,8 @@ class Day2 : AdventTask<List<Day2.Dimensions>, Int, Int>(2015, 2) {
 
 		@TestFactory
 		fun part2(): Collection<DynamicTest> = createTestCases(listOf(
-				Case("2x3x4", 34),
-				Case("1x1x10", 14)
+				"2x3x4" expects 34,
+				"1x1x10" expects 14
 		)) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part2(input))

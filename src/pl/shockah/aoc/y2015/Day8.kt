@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.expects
 
 class Day8 : AdventTask<List<String>, Int, Int>(2015, 8) {
 	override fun parseInput(rawInput: String): List<String> {
@@ -63,10 +64,10 @@ class Day8 : AdventTask<List<String>, Int, Int>(2015, 8) {
 
 		@TestFactory
 		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
-				Case("\"\"", 2),
-				Case("\"abc\"", 2),
-				Case("\"aaa\\\"aaa\"", 3),
-				Case("\"\\x27\"", 5)
+				"\"\"" expects 2,
+				"\"abc\"" expects 2,
+				"\"aaa\\\"aaa\"" expects 3,
+				"\"\\x27\"" expects 5
 		)) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part1(input))
@@ -74,10 +75,10 @@ class Day8 : AdventTask<List<String>, Int, Int>(2015, 8) {
 
 		@TestFactory
 		fun part2(): Collection<DynamicTest> = createTestCases(listOf(
-				Case("\"\"", 4),
-				Case("\"abc\"", 4),
-				Case("\"aaa\\\"aaa\"", 6),
-				Case("\"\\x27\"", 5)
+				"\"\"" expects 4,
+				"\"abc\"" expects 4,
+				"\"aaa\\\"aaa\"" expects 6,
+				"\"\\x27\"" expects 5
 		)) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part2(input))

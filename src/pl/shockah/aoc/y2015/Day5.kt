@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.expects
 
 class Day5 : AdventTask<List<String>, Int, Int>(2015, 5) {
 	override fun parseInput(rawInput: String): List<String> {
@@ -68,11 +69,11 @@ class Day5 : AdventTask<List<String>, Int, Int>(2015, 5) {
 
 		@TestFactory
 		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
-				Case("ugknbfddgicrmopn", 1),
-				Case("aaa", 1),
-				Case("jchzalrnumimnmhp", 0),
-				Case("haegwjzuvuyypxyu", 0),
-				Case("dvszwmarrgswjxmb", 0)
+				"ugknbfddgicrmopn" expects 1,
+				"aaa" expects 1,
+				"jchzalrnumimnmhp" expects 0,
+				"haegwjzuvuyypxyu" expects 0,
+				"dvszwmarrgswjxmb" expects 0
 		)) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part1(input))
@@ -80,10 +81,10 @@ class Day5 : AdventTask<List<String>, Int, Int>(2015, 5) {
 
 		@TestFactory
 		fun part2(): Collection<DynamicTest> = createTestCases(listOf(
-				Case("qjhvhtzxzqqjkmpb", 1),
-				Case("xxyxx", 1),
-				Case("uurcxstgmygtbstg", 0),
-				Case("ieodomkazucvgmuy", 0)
+				"qjhvhtzxzqqjkmpb" expects 1,
+				"xxyxx" expects 1,
+				"uurcxstgmygtbstg" expects 0,
+				"ieodomkazucvgmuy" expects 0
 		)) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part2(input))
