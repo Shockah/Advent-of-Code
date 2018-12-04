@@ -10,7 +10,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
-class Day4: AdventTask<List<Day4.LogEntry>, Int, Int>(2018, 4) {
+class Day4: AdventTask<Map<Int, List<ClosedRange<Date>>>, Int, Int>(2018, 4) {
 	private val baseInputPattern: Pattern = Pattern.compile("\\[(\\d+)-(\\d+)-(\\d+) (\\d+):(\\d+)] (.*)")
 	private val shiftPattern: Pattern = Pattern.compile("Guard #(\\d+) begins shift")
 	private val fallAsleep: String = "falls asleep"
@@ -35,11 +35,7 @@ class Day4: AdventTask<List<Day4.LogEntry>, Int, Int>(2018, 4) {
 		object FallAsleep : LogType()
 	}
 
-	override fun parseInput(rawInput: String): List<LogEntry> {
-		return parseInput(rawInput, true)
-	}
-
-	private fun parseInput(rawInput: String, sorting: Boolean): List<LogEntry> {
+	private fun preParseInput(rawInput: String, sorting: Boolean): List<LogEntry> {
 		var parsed = rawInput.lines().map {
 			val (year, month, day, hour, minute, content) = baseInputPattern.parse(
 					it,
@@ -70,7 +66,7 @@ class Day4: AdventTask<List<Day4.LogEntry>, Int, Int>(2018, 4) {
 		return parsed
 	}
 
-	private fun getSleepPeriods(input: List<LogEntry>): Map<Int, List<ClosedRange<Date>>> {
+	private fun parseInput(input: List<LogEntry>): Map<Int, List<ClosedRange<Date>>> {
 		var currentGuard: Int? = null
 		var asleepSince: Date? = null
 		val sleepPeriods = mutableMapOf<Int, MutableList<ClosedRange<Date>>>()
@@ -96,16 +92,18 @@ class Day4: AdventTask<List<Day4.LogEntry>, Int, Int>(2018, 4) {
 		return sleepPeriods
 	}
 
-	override fun part1(input: List<LogEntry>): Int {
-		val sleepPeriods = getSleepPeriods(input)
+	override fun parseInput(rawInput: String): Map<Int, List<ClosedRange<Date>>> {
+		return parseInput(preParseInput(rawInput, true))
+	}
 
-		val guardId = sleepPeriods.map { (guardId, periods) ->
+	override fun part1(input: Map<Int, List<ClosedRange<Date>>>): Int {
+		val guardId = input.map { (guardId, periods) ->
 			guardId to periods.map { TimeUnit.MILLISECONDS.toMinutes(it.endInclusive.time - it.start.time) }.sum()
 		}.sortedByDescending { it.second }.first().first
 
 		val calendar = Calendar.getInstance()
 		val minuteOccurences = IntArray(60)
-		for (period in sleepPeriods[guardId]!!) {
+		for (period in input[guardId]!!) {
 			calendar.time = period.endInclusive
 			val minutesEnd = if (calendar.get(Calendar.HOUR) == 0) calendar.get(Calendar.MINUTE) else 60
 			calendar.time = period.start
@@ -119,12 +117,10 @@ class Day4: AdventTask<List<Day4.LogEntry>, Int, Int>(2018, 4) {
 		return guardId * mostSleptMinute
 	}
 
-	override fun part2(input: List<LogEntry>): Int {
-		val sleepPeriods = getSleepPeriods(input)
-
+	override fun part2(input: Map<Int, List<ClosedRange<Date>>>): Int {
 		val calendar = Calendar.getInstance()
 
-		val (guardId, minuteIndex, _) = sleepPeriods.map { (guardId, periods) ->
+		val (guardId, minuteIndex, _) = input.map { (guardId, periods) ->
 			val minuteOccurences = IntArray(60)
 			for (period in periods) {
 				calendar.time = period.endInclusive
@@ -166,9 +162,9 @@ class Day4: AdventTask<List<Day4.LogEntry>, Int, Int>(2018, 4) {
 		""".trimIndent()
 
 		@Test
-		fun inputSorting() {
-			val input1 = task.parseInput(rawInput, false)
-			val input2 = task.parseInput(rawInput, true)
+		fun preInputSorting() {
+			val input1 = task.preParseInput(rawInput, false)
+			val input2 = task.preParseInput(rawInput, true)
 			Assertions.assertEquals(input1.toString(), input2.toString())
 		}
 
