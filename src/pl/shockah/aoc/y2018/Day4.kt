@@ -114,32 +114,28 @@ class Day4: AdventTask<Map<Int, List<ClosedRange<Day4.Date>>>, Int, Int>(2018, 4
 		return parseInput(preParseInput(rawInput, true))
 	}
 
+	private fun countMinuteOccurences(periods: List<ClosedRange<Date>>): IntArray {
+		val occurences = IntArray(60)
+		for (period in periods) {
+			for (minute in period.start.minute until period.endInclusive.minute) {
+				occurences[minute]++
+			}
+		}
+		return occurences
+	}
+
 	override fun part1(input: Map<Int, List<ClosedRange<Date>>>): Int {
 		val guardId = input.map { (guardId, periods) ->
 			guardId to periods.map { it.endInclusive.minute - it.start.minute }.sum()
 		}.sortedByDescending { it.second }.first().first
 
-		val minuteOccurences = IntArray(60)
-		for (period in input[guardId]!!) {
-			for (minute in period.start.minute until period.endInclusive.minute) {
-				minuteOccurences[minute]++
-			}
-		}
-
-		val mostSleptMinute = minuteOccurences.mapIndexed { index: Int, i: Int -> index to i }.sortedByDescending { it.second }.first().first
+		val mostSleptMinute = countMinuteOccurences(input[guardId]!!).mapIndexed { index: Int, i: Int -> index to i }.sortedByDescending { it.second }.first().first
 		return guardId * mostSleptMinute
 	}
 
 	override fun part2(input: Map<Int, List<ClosedRange<Date>>>): Int {
 		val (guardId, minuteIndex, _) = input.map { (guardId, periods) ->
-			val minuteOccurences = IntArray(60)
-			for (period in periods) {
-				for (minute in period.start.minute until period.endInclusive.minute) {
-					minuteOccurences[minute]++
-				}
-			}
-
-			val (minuteIndex, totalTimes) = minuteOccurences.mapIndexed { index: Int, i: Int -> index to i }.sortedByDescending { it.second }.first()
+			val (minuteIndex, totalTimes) = countMinuteOccurences(periods).mapIndexed { index: Int, i: Int -> index to i }.sortedByDescending { it.second }.first()
 			return@map Triple(guardId, minuteIndex, totalTimes)
 		}.sortedByDescending { it.third }.first()
 		return guardId * minuteIndex
