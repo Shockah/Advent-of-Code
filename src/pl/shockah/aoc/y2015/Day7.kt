@@ -209,7 +209,7 @@ class Day7 : AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 		""".trimIndent()
 
 		@TestFactory
-		fun parse(): Collection<DynamicTest> = createTestCases(listOf(
+		fun parse(): Collection<DynamicTest> = createTestCases(
 				"d" expects 72,
 				"e" expects 507,
 				"f" expects 492,
@@ -218,7 +218,7 @@ class Day7 : AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 				"i" expects 65079,
 				"x" expects 123,
 				"y" expects 456
-		)) { entry, expected ->
+		) { entry, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, input[entry]!!.getValue(input))
 		}

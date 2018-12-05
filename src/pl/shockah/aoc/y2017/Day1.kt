@@ -42,24 +42,24 @@ class Day1 : AdventTask<List<Int>, Int, Int>(2017, 1) {
 		private val task = Day1()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
+		fun part1(): Collection<DynamicTest> = createTestCases(
 				"1122" expects 3,
 				"1111" expects 4,
 				"1234" expects 0,
 				"91212129" expects 9
-		)) { rawInput, expected ->
+		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part1(input))
 		}
 
 		@TestFactory
-		fun part2(): Collection<DynamicTest> = createTestCases(listOf(
+		fun part2(): Collection<DynamicTest> = createTestCases(
 				"1212" expects 6,
 				"1221" expects 0,
 				"123425" expects 4,
 				"123123" expects 12,
 				"12131415" expects 4
-		)) { rawInput, expected ->
+		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part2(input))
 		}

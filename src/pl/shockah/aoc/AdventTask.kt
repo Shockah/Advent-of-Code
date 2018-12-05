@@ -22,6 +22,10 @@ abstract class AdventTask<ParsedInput, A, B>(
 	)
 
 	companion object {
+		fun <R> createTestCases(vararg cases: Case<R>, executable: (rawInput: String, expected: R) -> Unit): Collection<DynamicTest> {
+			return createTestCases(cases.toList(), executable)
+		}
+
 		fun <R> createTestCases(cases: List<Case<R>>, executable: (rawInput: String, expected: R) -> Unit): Collection<DynamicTest> {
 			return cases.mapIndexed { index: Int, case: Case<R> ->
 				DynamicTest.dynamicTest("#${index + 1} - input: ${case.rawInput.lines().joinToString("; ")}") {

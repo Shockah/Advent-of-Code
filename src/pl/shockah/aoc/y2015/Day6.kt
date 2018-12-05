@@ -98,22 +98,22 @@ class Day6 : AdventTask<List<Day6.Instruction>, Int, Int>(2015, 6) {
 		""".trimIndent()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
+		fun part1(): Collection<DynamicTest> = createTestCases(
 				rawPart1Input.lines().take(1).joinToString("\n") expects 1_000_000, // lines 1-1
 				rawPart1Input.lines().take(2).joinToString("\n") expects 999_000, // lines 1-2
 				rawPart1Input.lines().take(3).joinToString("\n") expects 998_996, // lines 1-3
 				rawPart1Input.lines().drop(1).take(1).joinToString("\n") expects 1_000 // lines 2-2
-		)) { rawInput, expected ->
+		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part1(input))
 		}
 
 		@TestFactory
-		fun part2(): Collection<DynamicTest> = createTestCases(listOf(
+		fun part2(): Collection<DynamicTest> = createTestCases(
 				"turn on 0,0 through 0,0" expects 1,
 				"toggle 0,0 through 999,999" expects 2_000_000,
 				"turn off 0,0 through 0,0" expects 0
-		)) { rawInput, expected ->
+		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part2(input))
 		}

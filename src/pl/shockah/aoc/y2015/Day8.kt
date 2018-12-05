@@ -63,23 +63,23 @@ class Day8 : AdventTask<List<String>, Int, Int>(2015, 8) {
 		private val task = Day8()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
+		fun part1(): Collection<DynamicTest> = createTestCases(
 				"\"\"" expects 2,
 				"\"abc\"" expects 2,
 				"\"aaa\\\"aaa\"" expects 3,
 				"\"\\x27\"" expects 5
-		)) { rawInput, expected ->
+		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part1(input))
 		}
 
 		@TestFactory
-		fun part2(): Collection<DynamicTest> = createTestCases(listOf(
+		fun part2(): Collection<DynamicTest> = createTestCases(
 				"\"\"" expects 4,
 				"\"abc\"" expects 4,
 				"\"aaa\\\"aaa\"" expects 6,
 				"\"\\x27\"" expects 5
-		)) { rawInput, expected ->
+		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part2(input))
 		}

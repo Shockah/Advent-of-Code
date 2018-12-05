@@ -87,12 +87,12 @@ class Day3: AdventTask<Int, Int, Int>(2017, 3) {
 		private val task = Day3()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
+		fun part1(): Collection<DynamicTest> = createTestCases(
 				"1" expects 0,
 				"12" expects 3,
 				"23" expects 2,
 				"1024" expects 31
-		)) { rawInput, expected ->
+		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part1(input))
 		}

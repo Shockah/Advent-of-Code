@@ -79,40 +79,40 @@ class Day11 : AdventTask<String, String, String>(2015, 11) {
 		private val task = Day11()
 
 		@TestFactory
-		fun passwordNotAmbiguous(): Collection<DynamicTest> = createTestCases(listOf(
+		fun passwordNotAmbiguous(): Collection<DynamicTest> = createTestCases(
 				"hijklmmn" expects false,
 				"abbceffg" expects true,
 				"abbcegjk" expects true
-		)) { rawInput, expected ->
+		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, !input.isAmbiguous)
 		}
 
 		@TestFactory
-		fun passwordContrainsThreeStraight(): Collection<DynamicTest> = createTestCases(listOf(
+		fun passwordContrainsThreeStraight(): Collection<DynamicTest> = createTestCases(
 				"hijklmmn" expects true,
 				"abbceffg" expects false,
 				"abbcegjk" expects false
-		)) { rawInput, expected ->
+		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, input.containsThreeStraight)
 		}
 
 		@TestFactory
-		fun passwordHasTwoPairs(): Collection<DynamicTest> = createTestCases(listOf(
+		fun passwordHasTwoPairs(): Collection<DynamicTest> = createTestCases(
 				"hijklmmn" expects false,
 				"abbceffg" expects true,
 				"abbcegjk" expects false
-		)) { rawInput, expected ->
+		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, input.hasTwoPairs)
 		}
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
+		fun part1(): Collection<DynamicTest> = createTestCases(
 				"abcdefgh" expects "abcdffaa",
 				"ghijklmn" expects "ghjaabcc"
-		)) { rawInput, expected ->
+		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part1(input))
 		}

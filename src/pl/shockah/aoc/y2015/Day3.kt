@@ -55,21 +55,21 @@ class Day3 : AdventTask<List<Day3.Direction>, Int, Int>(2015, 3) {
 		private val task = Day3()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(listOf(
+		fun part1(): Collection<DynamicTest> = createTestCases(
 				">" expects 2,
 				"^>v<" expects 4,
 				"^v^v^v^v^v" expects 2
-		)) { rawInput, expected ->
+		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part1(input))
 		}
 
 		@TestFactory
-		fun part2(): Collection<DynamicTest> = createTestCases(listOf(
+		fun part2(): Collection<DynamicTest> = createTestCases(
 				"^v" expects 3,
 				"^>v<" expects 3,
 				"^v^v^v^v^v" expects 11
-		)) { rawInput, expected ->
+		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part2(input))
 		}
