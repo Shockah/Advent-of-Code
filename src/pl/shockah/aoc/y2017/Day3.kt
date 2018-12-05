@@ -24,14 +24,14 @@ class Day3: AdventTask<Int, Int, Int>(2017, 3) {
 	}
 
 	override fun part1(input: Int): Int {
+		if (input == 1)
+			return 0
+
 		var x = 0
 		var y = 0
 		var index = 1
 		var direction = Direction.Right
 		var edgeLength = 1
-
-		if (input == 1)
-			return 0
 
 		while (true) {
 			repeat(2) {
