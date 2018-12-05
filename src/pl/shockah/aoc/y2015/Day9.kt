@@ -7,7 +7,7 @@ import pl.shockah.aoc.parse3
 import java.util.regex.Pattern
 
 class Day9 : AdventTask<Map<Day9.UnorderedPair<String>, Int>, Int, Int>(2015, 9) {
-	private val inputPattern: Pattern = Pattern.compile("")
+	private val inputPattern: Pattern = Pattern.compile("(.*) to (.*) = (\\d+)")
 
 	data class UnorderedPair<T>(
 			val first: T,
@@ -29,14 +29,36 @@ class Day9 : AdventTask<Map<Day9.UnorderedPair<String>, Int>, Int, Int>(2015, 9)
 		}.toMap()
 	}
 
-	private fun findShortestPathLength()
+	private fun getDistance(distances: Map<UnorderedPair<String>, Int>, path: List<String>): Int {
+		var distance = 0
+		for (i in 1 until path.size) {
+			distance += distances[UnorderedPair(path[i - 1], path[i])]!!
+		}
+		return distance
+	}
 
 	override fun part1(input: Map<UnorderedPair<String>, Int>): Int {
 		val locations = input.keys.map { it.first }.toSet() + input.keys.map { it.second }.toSet()
+
+		fun findShortestPath(distances: Map<UnorderedPair<String>, Int>, path: List<String>, available: Set<String>): List<String> {
+			if (available.isEmpty())
+				return path
+			return available.map { findShortestPath(distances, path + it, available - it) }.minBy { getDistance(distances, it) }!!
+		}
+
+		return getDistance(input, findShortestPath(input, listOf(), locations))
 	}
 
 	override fun part2(input: Map<UnorderedPair<String>, Int>): Int {
-		TODO()
+		val locations = input.keys.map { it.first }.toSet() + input.keys.map { it.second }.toSet()
+
+		fun findLongestPath(distances: Map<UnorderedPair<String>, Int>, path: List<String>, available: Set<String>): List<String> {
+			if (available.isEmpty())
+				return path
+			return available.map { findLongestPath(distances, path + it, available - it) }.maxBy { getDistance(distances, it) }!!
+		}
+
+		return getDistance(input, findLongestPath(input, listOf(), locations))
 	}
 
 	class Tests {
@@ -52,6 +74,12 @@ class Day9 : AdventTask<Map<Day9.UnorderedPair<String>, Int>, Int, Int>(2015, 9)
 		fun part1() {
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(605, task.part1(input))
+		}
+
+		@Test
+		fun part2() {
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals(982, task.part2(input))
 		}
 	}
 }
