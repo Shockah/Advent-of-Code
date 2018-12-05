@@ -3,10 +3,7 @@ package pl.shockah.aoc.y2015
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
-import pl.shockah.aoc.AdventTask
-import pl.shockah.aoc.IntPatternParser
-import pl.shockah.aoc.expects
-import pl.shockah.aoc.parse
+import pl.shockah.aoc.*
 import java.util.regex.Pattern
 import kotlin.math.max
 
@@ -16,25 +13,25 @@ class Day6 : AdventTask<List<Day6.Instruction>, Int, Int>(2015, 6) {
 	enum class Operation(
 			val inputName: String,
 			val part1Action: (set: MutableSet<Pair<Int, Int>>, point: Pair<Int, Int>) -> Unit,
-			val part2Action: (map: MutableMap<Pair<Int, Int>, Int>, point: Pair<Int, Int>) -> Unit
+			val part2Action: (map: MutableArray2D<Int>, point: Pair<Int, Int>) -> Unit
 	) {
 		TurnOn("turn on", { set, point ->
 			set += point
-		}, { map, point ->
-			map[point] = (map[point] ?: 0) + 1
+		}, { map, (x, y) ->
+			map[x, y]++
 		}),
 		TurnOff("turn off", { set, point ->
 			set -= point
-		}, { map, point ->
-			map[point] = max((map[point] ?: 0) - 1, 0)
+		}, { map, (x, y) ->
+			map[x, y] = max(map[x, y] - 1, 0)
 		}),
 		Toggle("toggle", { set, point ->
 			if (point in set)
 				set -= point
 			else
 				set += point
-		}, { map, point ->
-			map[point] = (map[point] ?: 0) + 2
+		}, { map, (x, y) ->
+			map[x, y] += 2
 		});
 
 		companion object {
@@ -77,7 +74,7 @@ class Day6 : AdventTask<List<Day6.Instruction>, Int, Int>(2015, 6) {
 	}
 
 	override fun part2(input: List<Instruction>): Int {
-		val lights = mutableMapOf<Pair<Int, Int>, Int>()
+		val lights = MutableArray2D(1000, 1000, 0)
 		for (instruction in input) {
 			for (y in instruction.y1..instruction.y2) {
 				for (x in instruction.x1..instruction.x2) {
@@ -85,7 +82,7 @@ class Day6 : AdventTask<List<Day6.Instruction>, Int, Int>(2015, 6) {
 				}
 			}
 		}
-		return lights.values.sum()
+		return lights.toList().sum()
 	}
 
 	class Tests {
