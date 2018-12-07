@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.parse2
+import java.util.*
 import java.util.regex.Pattern
 
 class Day7 : AdventTask<Map<String, Day7.Step>, String, Int>(2018, 7) {
@@ -68,8 +69,49 @@ class Day7 : AdventTask<Map<String, Day7.Step>, String, Int>(2018, 7) {
 		return completed.joinToString("") { it.name }
 	}
 
+	class Worker {
+		var currentStep: Step? = null
+		var timer: Int = 0
+	}
+
+	private fun part2(input: Map<String, Step>, workerCount: Int, baseTaskLength: Int): Int {
+		val completed = mutableListOf<Step>()
+		val left = input.values.toMutableList()
+		val workers = Array(workerCount) { Worker() }
+		var seconds = -1
+
+		while (completed.size != input.size) {
+			seconds++
+			workers.forEach {
+				if (it.currentStep != null) {
+					it.timer++
+					if (it.timer == baseTaskLength + (it.currentStep!!.name[0] - 'A') + 1) {
+						completed += it.currentStep!!
+						it.currentStep = null
+						it.timer = 0
+					}
+				}
+			}
+
+			val currentWorkerSteps = workers.map { it.currentStep }.filterNotNull()
+			val availableNow = LinkedList(left.filter { completed.containsAll(it.requires) }.filter { it !in currentWorkerSteps }.sortedBy { it.name })
+
+			for (worker in workers) {
+				if (availableNow.isEmpty())
+					break
+				if (worker.currentStep == null) {
+					val newStep = availableNow.removeFirst()
+					worker.currentStep = newStep
+					left -= newStep
+				}
+			}
+		}
+
+		return seconds
+	}
+
 	override fun part2(input: Map<String, Step>): Int {
-		TODO()
+		return part2(input, 5, 60)
 	}
 
 	class Tests {
@@ -86,9 +128,9 @@ class Day7 : AdventTask<Map<String, Day7.Step>, String, Int>(2018, 7) {
 		""".trimIndent()
 
 		@Test
-		fun part1() {
+		fun part2() {
 			val input = task.parseInput(rawInput)
-			Assertions.assertEquals("CABDFE", task.part1(input))
+			Assertions.assertEquals(15, task.part2(input, 2, 0))
 		}
 	}
 }
