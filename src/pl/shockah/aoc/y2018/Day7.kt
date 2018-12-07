@@ -69,7 +69,7 @@ class Day7 : AdventTask<Map<String, Day7.Step>, String, Int>(2018, 7) {
 		return completed.joinToString("") { it.name }
 	}
 
-	class Worker {
+	private class Worker {
 		var currentStep: Step? = null
 		var timer: Int = 0
 	}
