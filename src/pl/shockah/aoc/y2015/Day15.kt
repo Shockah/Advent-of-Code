@@ -46,7 +46,8 @@ class Day15 : AdventTask<List<Day15.Ingredient>, Int, Int>(2015, 15) {
 		val ingredient = input.first()
 		val newInput = input.subList(1, input.size)
 
-		var results = (0..spoonsLeft).mapNotNull { findBestIngredients(newInput, current + (ingredient to it), spoonsLeft - it, calories) }
+		val range = if (input.size == 1) (spoonsLeft..spoonsLeft) else (0..spoonsLeft)
+		var results = range.mapNotNull { findBestIngredients(newInput, current + (ingredient to it), spoonsLeft - it, calories) }
 		if (calories != null)
 			results = results.filter { getCalories(it) == calories }
 		return results.maxBy { getTotalCost(it) }
