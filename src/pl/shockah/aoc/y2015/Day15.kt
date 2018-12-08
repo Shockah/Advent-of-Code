@@ -26,58 +26,38 @@ class Day15 : AdventTask<List<Day15.Ingredient>, Int, Int>(2015, 15) {
 		}.sortedByDescending { it.capacity + it.durability + it.flavor + it.texture }
 	}
 
-	@Suppress("NOTHING_TO_INLINE")
-	private inline fun getTotalCost(ingredients: Map<Ingredient, Int>, zeroOut: Boolean): Int {
+	private fun getTotalCost(ingredients: Map<Ingredient, Int>): Int {
 		val capacity = ingredients.entries.sumBy { (ingredient, amount) -> ingredient.capacity * amount }
 		val durability = ingredients.entries.sumBy { (ingredient, amount) -> ingredient.durability * amount }
 		val flavor = ingredients.entries.sumBy { (ingredient, amount) -> ingredient.flavor * amount }
 		val texture = ingredients.entries.sumBy { (ingredient, amount) -> ingredient.texture * amount }
 
-		return if (zeroOut)
-			max(capacity, 0) * max(durability, 0) * max(flavor, 0) * max(texture, 0)
-		else
-			capacity * durability * flavor * texture
+		return max(capacity, 0) * max(durability, 0) * max(flavor, 0) * max(texture, 0)
 	}
 
-	private fun findBestIngredients(input: List<Ingredient>, ingredients: Map<Ingredient, Int>, spoonsLeft: Int): Map<Ingredient, Int> {
-		if (spoonsLeft == 0)
-			return ingredients
+	private fun getCalories(ingredients: Map<Ingredient, Int>): Int {
+		return ingredients.entries.sumBy { (ingredient, amount) -> ingredient.calories * amount }
+	}
 
-		operator fun Map<Ingredient, Int>.plus(ingredient: Ingredient): Map<Ingredient, Int> {
-			val result = toMutableMap()
-			result[ingredient] = (result[ingredient] ?: 0) + 1
-			return result
-		}
+	private fun findBestIngredients(input: List<Ingredient>, current: Map<Ingredient, Int>, spoonsLeft: Int, calories: Int?): Map<Ingredient, Int>? {
+		if (input.isEmpty())
+			return current
 
-		val capacity = ingredients.entries.sumBy { (ingredient, amount) -> ingredient.capacity * amount }
-		val durability = ingredients.entries.sumBy { (ingredient, amount) -> ingredient.durability * amount }
-		val flavor = ingredients.entries.sumBy { (ingredient, amount) -> ingredient.flavor * amount }
-		val texture = ingredients.entries.sumBy { (ingredient, amount) -> ingredient.texture * amount }
-		val min = arrayOf(capacity, durability, flavor, texture, 0).min()!!
+		val ingredient = input.first()
+		val newInput = input.subList(1, input.size)
 
-		fun getBest(filteredInput: List<Ingredient>): Map<Ingredient, Int> {
-			return filteredInput.map {
-				findBestIngredients(input, ingredients + it, spoonsLeft - 1)
-			}.maxBy {
-				getTotalCost(it, false)
-			}!!
-		}
-
-		return when (min) {
-			capacity -> getBest(input.filter { it.capacity > 0 })
-			durability -> getBest(input.filter { it.durability > 0 })
-			flavor -> getBest(input.filter { it.flavor > 0 })
-			texture -> getBest(input.filter { it.texture > 0 })
-			else -> getBest(input)
-		}
+		var results = (0..spoonsLeft).mapNotNull { findBestIngredients(newInput, current + (ingredient to it), spoonsLeft - it, calories) }
+		if (calories != null)
+			results = results.filter { getCalories(it) == calories }
+		return results.maxBy { getTotalCost(it) }
 	}
 
 	override fun part1(input: List<Ingredient>): Int {
-		return getTotalCost(findBestIngredients(input, mapOf(), 100), true)
+		return getTotalCost(findBestIngredients(input, mapOf(), 100, null)!!)
 	}
 
 	override fun part2(input: List<Ingredient>): Int {
-		TODO()
+		return getTotalCost(findBestIngredients(input, mapOf(), 100, 500)!!)
 	}
 
 	class Tests {
@@ -92,6 +72,12 @@ class Day15 : AdventTask<List<Day15.Ingredient>, Int, Int>(2015, 15) {
 		fun part1() {
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(62842880, task.part1(input))
+		}
+
+		@Test
+		fun part2() {
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals(57600000, task.part2(input))
 		}
 	}
 }
