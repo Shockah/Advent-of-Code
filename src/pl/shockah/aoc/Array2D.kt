@@ -1,5 +1,6 @@
 package pl.shockah.aoc
 
+@Suppress("EqualsOrHashCode")
 open class Array2D<T> @PublishedApi internal constructor(
 		val width: Int,
 		val height: Int,
@@ -18,6 +19,10 @@ open class Array2D<T> @PublishedApi internal constructor(
 	protected fun getIndex(x: Int, y: Int): Int = y * width + x
 
 	operator fun get(x: Int, y: Int): T = values[getIndex(x, y)]
+
+	override fun equals(other: Any?): Boolean {
+		return other is Array2D<*> && other.width == width && other.height == height && other.values.contentEquals(values)
+	}
 
 	fun toList(): List<T> {
 		val result = ArrayList<T>(width * height)
