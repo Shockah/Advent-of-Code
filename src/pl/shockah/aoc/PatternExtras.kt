@@ -100,10 +100,12 @@ fun <A, B, C, D, E, F> Pattern.parse(
 	)
 }
 
-inline fun <reified T> Pattern.parseGroup(group: String?): T {
+@PublishedApi
+internal inline fun <reified T> parseGroup(group: String?): T {
 	return when (T::class) {
-		String::class -> group as? T ?: throw NullPointerException()
-		Int::class -> group?.toInt() as? T ?: throw NullPointerException()
+		String::class -> group as T
+		Int::class -> group!!.toInt() as T
+		Char::class -> group!![0] as T
 		else -> throw IllegalArgumentException()
 	}
 }
