@@ -45,7 +45,7 @@ class Day14: AdventTask<String, String, Int>(2018, 14) {
 			val index = scores.indexOf(input, lastIndex - input.length)
 			if (index != -1)
 				return index
-			lastIndex = scores.length
+			lastIndex = scores.length - input.length
 		}
 	}
 
