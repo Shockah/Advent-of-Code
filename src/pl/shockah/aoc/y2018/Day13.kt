@@ -2,10 +2,7 @@ package pl.shockah.aoc.y2018
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import pl.shockah.aoc.AdventTask
-import pl.shockah.aoc.Array2D
-import pl.shockah.aoc.nextInCycle
-import pl.shockah.aoc.previousInCycle
+import pl.shockah.aoc.*
 
 class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 	data class Input(
@@ -110,6 +107,13 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 		FirstCollision, LastStanding
 	}
 
+	companion object {
+		@JvmStatic
+		fun main(args: Array<String>) {
+			AdventOfCode.main(arrayOf("2018", "13"))
+		}
+	}
+
 	private fun task(input: Day13.Input, mode: Mode): String {
 		fun advance(grid: Array2D<Rail?>, carts: List<Cart>): Pair<Int, Int>? {
 			for (cart in carts.sortedBy { it.y * grid.width + it.x }) {
@@ -118,18 +122,21 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 				cart.advance(grid)
 
 				val activeCarts = carts.filter { !it.collided }
-				val collided = activeCarts.map { it.x to it.y }.toSet().size != activeCarts.size
-				if (collided) {
+				val colliding = activeCarts.firstOrNull { it !== cart && it.x == cart.x && it.y == cart.y }
+				if (colliding != null) {
 					if (mode == Mode.FirstCollision) {
 						return cart.x to cart.y
 					} else {
-						carts.filter { it.x == cart.x && it.y == cart.y }.forEach { it.collided = true }
+						cart.collided = true
+						colliding.collided = true
 					}
 				}
 			}
 
 			if (mode == Mode.LastStanding) {
 				val activeCarts = carts.filter { !it.collided }
+				if (activeCarts.isEmpty())
+					throw IllegalStateException()
 				if (activeCarts.size == 1)
 					return activeCarts[0].x to activeCarts[0].y
 			}
