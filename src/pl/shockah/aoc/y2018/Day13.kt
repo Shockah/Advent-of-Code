@@ -1,7 +1,9 @@
 package pl.shockah.aoc.y2018
 
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.*
 
 class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
@@ -144,7 +146,7 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 			return null
 		}
 
-		val carts = input.carts.toList()
+		val carts = input.carts.map { it.copy() }
 		while (true) {
 			val collision = advance(input.grid, carts)
 			if (collision != null)
@@ -176,18 +178,29 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 			Assertions.assertEquals("7,3", task.part1(input))
 		}
 
-		@Test
-		fun part2() {
-			val input = task.parseInput("""
-				/>-<\
-				|   |
-				| /<+-\
-				| | | v
-				\>+</ |
-				  |   ^
-				  \<->/
-			""".trimIndent())
-			Assertions.assertEquals("6,4", task.part2(input))
+		@TestFactory
+		fun part2(): Collection<DynamicTest> = createTestCases(
+				"""
+					/>-<\
+					|   |
+					| /<+-\
+					| | | v
+					\>+</ |
+					  |   ^
+					  \<->/
+				""".trimIndent() expects "6,4",
+				"""
+					/-\
+					^ |
+					\-+-\
+					  | ^
+					  \</
+				""".trimIndent() expects "2,0",
+				"->>>-" expects "4,0",
+				"->->>-" expects "2,0"
+		) { rawInput, expected ->
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals(expected, task.part2(input))
 		}
 	}
 }
