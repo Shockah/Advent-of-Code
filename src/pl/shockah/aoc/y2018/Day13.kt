@@ -109,13 +109,6 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 		FirstCollision, LastStanding
 	}
 
-	companion object {
-		@JvmStatic
-		fun main(args: Array<String>) {
-			AdventOfCode.main(arrayOf("2018", "13"))
-		}
-	}
-
 	private fun task(input: Day13.Input, mode: Mode): String {
 		fun advance(grid: Array2D<Rail?>, carts: List<Cart>): Pair<Int, Int>? {
 			for (cart in carts.sortedBy { it.y * grid.width + it.x }) {
