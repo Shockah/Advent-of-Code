@@ -1,10 +1,12 @@
 package pl.shockah.aoc.y2018
 
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.DynamicTest
+import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.Array2D
 import pl.shockah.aoc.MutableArray2D
+import pl.shockah.aoc.expects
 import java.util.*
 import kotlin.Comparator
 
@@ -44,6 +46,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 	sealed class Entity {
 		abstract class Unit(
+				val symbol: Char,
 				var position: Vector
 		) : Entity() {
 			var health: Int = 200
@@ -94,7 +97,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 					val newDistance = entry.distance + 1
 
 					val currentShortest = shortest[entry.position]
-					if (currentShortest == null || currentShortest.distance > newDistance) {
+					if (currentShortest == null || currentShortest.distance > newDistance || (newDistance > 0 && currentShortest.distance == newDistance && currentShortest.path[0].getXY(grid) > entry.path[0].getXY(grid))) {
 						shortest[entry.position] = entry
 						toCheck += entry.position.neighbors.filter { it !in checkedPositions }.map { Entry(it, entry.path + it) }
 					}
@@ -109,7 +112,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 			}
 
 			private fun move(grid: MutableArray2D<Entity>, enemies: List<Unit>) {
-				val pathToFollow = pathToClosestPoint(grid, enemies.flatMap { it.position.neighbors.toList() }.toSet()) ?: return
+				val pathToFollow = pathToClosestPoint(grid, enemies.flatMap { it.position.neighbors.filter { grid[it] == Empty }.toList() }.toSet()) ?: return
 				if (!pathToFollow.isEmpty()) {
 					grid[position] = Empty
 					position = pathToFollow[0]
@@ -118,13 +121,13 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 			}
 
 			private fun attack(grid: MutableArray2D<Entity>) {
-				when {
-					canAttack(grid, Vector(position.x, position.y - 1)) -> attack(grid, grid[Vector(position.x, position.y - 1)] as Unit)
-					canAttack(grid, Vector(position.x - 1, position.y)) -> attack(grid, grid[Vector(position.x - 1, position.y)] as Unit)
-					canAttack(grid, Vector(position.x + 1, position.y)) -> attack(grid, grid[Vector(position.x + 1, position.y)] as Unit)
-					canAttack(grid, Vector(position.x, position.y + 1)) -> attack(grid, grid[Vector(position.x, position.y + 1)] as Unit)
-					else -> { }
-				}
+				val attackableUnits = position.neighbors.filter { canAttack(grid, it) }.map { grid[it] }.filterIsInstance<Unit>()
+				attackableUnits.sortedWith(Comparator { o1, o2 ->
+					return@Comparator if (o1.health != o2.health)
+						Integer.compare(o1.health, o2.health)
+					else
+						Integer.compare(o1.position.getXY(grid), o2.position.getXY(grid))
+				}).firstOrNull()?.let { attack(grid, it) }
 			}
 
 			private fun canAttack(grid: MutableArray2D<Entity>, vector: Vector): Boolean {
@@ -141,7 +144,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 		class Elf(
 				position: Vector
-		) : Unit(position) {
+		) : Unit('E', position) {
 			override fun isEnemy(unit: Unit): Boolean {
 				return unit is Goblin
 			}
@@ -149,7 +152,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 		class Goblin(
 				position: Vector
-		) : Unit(position) {
+		) : Unit('G', position) {
 			override fun isEnemy(unit: Unit): Boolean {
 				return unit is Elf
 			}
@@ -186,7 +189,29 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 		return Input(grid, units)
 	}
 
-	override fun part1(input: Input): Int {
+	private enum class ResultType {
+		FullTurns, Outcome
+	}
+
+	private fun part1(input: Input, resultType: ResultType): Int {
+		fun println(grid: Array2D<Entity>) {
+			println((0 until grid.height).joinToString("\n") { y ->
+				val units = mutableListOf<Entity.Unit>()
+				val gridString = (0 until grid.width).map { x ->
+					val entity = grid[x, y]
+					when (entity) {
+						Entity.Empty -> '.'
+						Entity.Wall -> '#'
+						is Entity.Unit -> {
+							units += entity
+							return@map entity.symbol
+						}
+					}
+				}.joinToString("")
+				return@joinToString "$gridString  ${units.joinToString(", ") { "${it.symbol}(${it.health})" }}"
+			})
+		}
+
 		val units = mutableListOf<Entity.Unit>()
 		val grid = MutableArray2D(input.grid.width, input.grid.height) { x, y ->
 			val entity = input.grid[x, y]
@@ -206,46 +231,45 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 		}
 
 		println("> Turn 0")
-//		println((0 until grid.height).joinToString("\n") { y ->
-//			(0 until grid.width).map { x ->
-//				when (grid[x, y]) {
-//					Entity.Empty -> '.'
-//					Entity.Wall -> '#'
-//					is Entity.Elf -> 'E'
-//					is Entity.Goblin -> 'G'
-//					else -> throw IllegalStateException()
-//				}
-//			}.joinToString("")
-//		})
+		println(grid)
 
 		var turns = 0
 		while (true) {
-			for (unit in units.filter { it.isAlive }.sortedBy { it.position.getXY(grid) }) {
+			val toMove = LinkedList(units.filter { it.isAlive })
+
+			while (!toMove.isEmpty()) {
+				val unit = toMove.sortedBy { it.position.getXY(grid) }.first()
+				toMove -= unit
+
+				if (unit.isDead)
+					continue
+
 				val aliveUnits = units.filter { it.isAlive }
 				val aliveElves = aliveUnits.filterIsInstance<Entity.Elf>()
 				val aliveGoblins = aliveUnits.filterIsInstance<Entity.Goblin>()
 
-				if (aliveElves.isEmpty() || aliveGoblins.isEmpty())
-					return turns * aliveUnits.map { it.health }.sum()
+				if (aliveElves.isEmpty() || aliveGoblins.isEmpty()) {
+					println("> Last turn: ${turns + 1}")
+					println(grid)
+
+					return when (resultType) {
+						ResultType.Outcome -> turns * aliveUnits.map { it.health }.sum()
+						ResultType.FullTurns -> turns
+					}
+				}
 
 				unit.advance(grid, units)
 			}
 
 			println("> Turn ${turns + 1}")
-//			println((0 until grid.height).joinToString("\n") { y ->
-//				(0 until grid.width).map { x ->
-//					when (grid[x, y]) {
-//						Entity.Empty -> '.'
-//						Entity.Wall -> '#'
-//						is Entity.Elf -> 'E'
-//						is Entity.Goblin -> 'G'
-//						else -> throw IllegalStateException()
-//					}
-//				}.joinToString("")
-//			})
+//			println(grid)
 
 			turns++
 		}
+	}
+
+	override fun part1(input: Input): Int {
+		return part1(input, ResultType.Outcome)
 	}
 
 	override fun part2(input: Input): Int {
@@ -255,18 +279,59 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 	class Tests {
 		private val task = Day15()
 
-		@Test
-		fun part1() {
-			val input = task.parseInput("""
-				#######
-				#.G...#
-				#...EG#
-				#.#.#G#
-				#..G#E#
-				#.....#
-				#######
-			""".trimIndent())
-			Assertions.assertEquals(27730, task.part1(input))
+		@TestFactory
+		fun part1Outcome(): Collection<DynamicTest> = createTestCases(
+				"""
+					#######
+					#.G...#
+					#...EG#
+					#.#.#G#
+					#..G#E#
+					#.....#
+					#######
+				""".trimIndent() expects 27730,
+				"""
+					################
+					#.......G......#
+					#G.............#
+					#..............#
+					#....###########
+					#....###########
+					#.......EG.....#
+					################
+				""".trimIndent() expects 18468
+		) { rawInput, expected ->
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals(expected, task.part1(input, ResultType.Outcome))
+		}
+
+		@TestFactory
+		fun part1FullTurns(): Collection<DynamicTest> = createTestCases(
+				"""
+					####
+					##E#
+					#GG#
+					####
+				""".trimIndent() expects 67,
+				"""
+					#####
+					#GG##
+					#.###
+					#..E#
+					#.#G#
+					#.E##
+					#####
+				""".trimIndent() expects 71,
+				"""
+					#######
+					#.E..G#
+					#.#####
+					#G#####
+					#######
+				""".trimIndent() expects 34
+		) { rawInput, expected ->
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals(expected, task.part1(input, ResultType.FullTurns))
 		}
 	}
 }
