@@ -184,18 +184,19 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 		val grid = Array2D(lines.map { it.length }.max()!!, lines.size) { x, y ->
 			val position = Vector(x, y)
 			when (lines[y][x]) {
-				'E' -> {
+				elfSymbol -> {
 					val entity = Entity.Elf(position)
 					units += entity
 					return@Array2D entity
 				}
-				'G' -> {
+				goblinSymbol -> {
 					val entity = Entity.Goblin(position)
 					units += entity
 					return@Array2D entity
 				}
-				'.' -> return@Array2D Entity.Empty
-				else -> return@Array2D Entity.Wall
+				emptySymbol -> return@Array2D Entity.Empty
+				wallSymbol -> return@Array2D Entity.Wall
+				else -> throw IllegalArgumentException()
 			}
 		}
 
