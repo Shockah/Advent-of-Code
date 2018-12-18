@@ -10,6 +10,11 @@ import pl.shockah.aoc.expects
 import java.util.*
 import kotlin.Comparator
 
+private const val elfSymbol = 'E'
+private const val goblinSymbol = 'G'
+private const val wallSymbol = '#'
+private const val emptySymbol = '.'
+
 private val printGrids = PrintGrids.InitialAndFinal
 
 private enum class PrintGrids {
@@ -152,7 +157,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 		class Elf(
 				position: Vector
-		) : Unit('E', position) {
+		) : Unit(elfSymbol, position) {
 			override fun isEnemy(unit: Unit): Boolean {
 				return unit is Goblin
 			}
@@ -160,15 +165,15 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 		class Goblin(
 				position: Vector
-		) : Unit('G', position) {
+		) : Unit(goblinSymbol, position) {
 			override fun isEnemy(unit: Unit): Boolean {
 				return unit is Elf
 			}
 		}
 
-		object Wall : Entity('#')
+		object Wall : Entity(wallSymbol)
 
-		object Empty : Entity('.')
+		object Empty : Entity(emptySymbol)
 	}
 
 	override fun parseInput(rawInput: String): Input {
