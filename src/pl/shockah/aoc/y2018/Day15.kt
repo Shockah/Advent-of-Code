@@ -10,6 +10,12 @@ import pl.shockah.aoc.expects
 import java.util.*
 import kotlin.Comparator
 
+private val printGrids = PrintGrids.InitialAndFinal
+
+private enum class PrintGrids {
+	Never, InitialAndFinal, Always
+}
+
 private operator fun <T> Array2D<T>.get(vector: Day15.Vector): T {
 	return this[vector.x, vector.y]
 }
@@ -44,11 +50,13 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 		}
 	}
 
-	sealed class Entity {
+	sealed class Entity(
+			val symbol: Char
+	) {
 		abstract class Unit(
-				val symbol: Char,
+				symbol: Char,
 				var position: Vector
-		) : Entity() {
+		) : Entity(symbol) {
 			var health: Int = 200
 
 			val isDead: Boolean
@@ -158,9 +166,9 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 			}
 		}
 
-		object Wall : Entity()
+		object Wall : Entity('#')
 
-		object Empty : Entity()
+		object Empty : Entity('.')
 	}
 
 	override fun parseInput(rawInput: String): Input {
@@ -199,14 +207,9 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 				val units = mutableListOf<Entity.Unit>()
 				val gridString = (0 until grid.width).map { x ->
 					val entity = grid[x, y]
-					when (entity) {
-						Entity.Empty -> '.'
-						Entity.Wall -> '#'
-						is Entity.Unit -> {
-							units += entity
-							return@map entity.symbol
-						}
-					}
+					if (entity is Entity.Unit)
+						units += entity
+					return@map entity.symbol
 				}.joinToString("")
 				return@joinToString "$gridString  ${units.joinToString(", ") { "${it.symbol}(${it.health})" }}"
 			})
@@ -231,7 +234,8 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 		}
 
 		println("> Turn 0")
-		println(grid)
+		if (printGrids != PrintGrids.Never)
+			println(grid)
 
 		var turns = 0
 		while (true) {
@@ -250,7 +254,8 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 				if (aliveElves.isEmpty() || aliveGoblins.isEmpty()) {
 					println("> Last turn: ${turns + 1}")
-					println(grid)
+					if (printGrids != PrintGrids.Never)
+						println(grid)
 
 					return when (resultType) {
 						ResultType.Outcome -> turns * aliveUnits.map { it.health }.sum()
@@ -262,7 +267,8 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 			}
 
 			println("> Turn ${turns + 1}")
-//			println(grid)
+			if (printGrids == PrintGrids.Always)
+				println(grid)
 
 			turns++
 		}
