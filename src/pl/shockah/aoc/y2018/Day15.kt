@@ -55,6 +55,60 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 		}
 	}
 
+	class AStar(
+			val grid: Array2D<Entity>,
+			val initialPoint: Vector,
+			endPoints: Set<Vector>
+	) {
+		val endPoints = endPoints.filter { grid[it] == Entity.Empty }
+		private val mutablePaths = MutableArray2D<List<Vector>?>(grid.width, grid.height)
+
+		val paths: Array2D<List<Vector>?>
+			get() = mutablePaths
+
+		fun execute(): AStar {
+			if (endPoints.isEmpty())
+				return this
+
+			val evaluated = mutableSetOf<Vector>()
+			val toEvaluate = LinkedList<Vector>()
+			toEvaluate += initialPoint
+			mutablePaths[initialPoint] = listOf()
+			var reachedLength: Int? = null
+
+			while (!toEvaluate.isEmpty()) {
+				val current = toEvaluate.removeFirst()
+				val currentPath = mutablePaths[current]!!
+				evaluated += current
+
+				if (reachedLength != null && reachedLength < currentPath.size)
+					continue
+				if (current in endPoints) {
+					if (reachedLength == null)
+						reachedLength = currentPath.size
+				}
+
+				if (reachedLength == null) {
+					for (neighbor in current.neighbors) {
+						if (grid[neighbor] != Entity.Empty)
+							continue
+						if (neighbor in evaluated)
+							continue
+
+						val existingPath = mutablePaths[neighbor]
+						val newPathLength = currentPath.size + 1
+						if (existingPath == null || newPathLength < existingPath.size || (newPathLength == existingPath.size && currentPath[0].getXY(grid) < existingPath[0].getXY(grid)))
+							mutablePaths[neighbor] = currentPath + neighbor
+
+						toEvaluate += neighbor
+					}
+				}
+			}
+
+			return this
+		}
+	}
+
 	sealed class Entity(
 			val symbol: Char
 	) {
@@ -70,58 +124,30 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 			val isAlive: Boolean
 				get() = !isDead
 
-			fun advance(grid: MutableArray2D<Entity>, units: List<Unit>) {
+			fun advance(grid: MutableArray2D<Entity>, units: List<Unit>, elfPower: Int = 3) {
 				val aliveEnemies = units.filter { it.isAlive && isEnemy(it) }
 				if (aliveEnemies.isEmpty())
 					return
 
 				if (position in aliveEnemies.flatMap { it.position.neighbors.toList() }) {
-					attack(grid)
+					attack(grid, elfPower)
 				} else {
 					move(grid, aliveEnemies)
 					if (position in aliveEnemies.flatMap { it.position.neighbors.toList() })
-						attack(grid)
+						attack(grid, elfPower)
 				}
 			}
 
 			abstract fun isEnemy(unit: Unit): Boolean
 
 			private fun pathToClosestPoint(grid: Array2D<Entity>, to: Set<Vector>): List<Vector>? {
-				data class Entry(
-						val position: Vector,
-						val path: List<Vector>
-				) {
-					val distance: Int
-						get() = path.size
-				}
-
-				val toCheck = LinkedList<Entry>()
-				toCheck += Entry(position, listOf())
-				val checkedPositions = mutableSetOf<Vector>()
-				val shortest = mutableMapOf<Vector, Entry>()
-
-				while (!toCheck.isEmpty()) {
-					val entry = toCheck.removeFirst()
-					checkedPositions += entry.position
-
-					if (grid[entry.position] != Empty && entry.position != position)
-						continue
-
-					val newDistance = entry.distance + 1
-
-					val currentShortest = shortest[entry.position]
-					if (currentShortest == null || currentShortest.distance > newDistance || (newDistance > 0 && currentShortest.distance == newDistance && currentShortest.path[0].getXY(grid) > entry.path[0].getXY(grid))) {
-						shortest[entry.position] = entry
-						toCheck += entry.position.neighbors.filter { it !in checkedPositions }.map { Entry(it, entry.path + it) }
-					}
-				}
-
-				return to.mapNotNull { shortest[it] }.sortedWith(Comparator { o1, o2 ->
-					return@Comparator if (o1.distance != o2.distance)
-						Integer.compare(o1.distance, o2.distance)
+				val astar = AStar(grid, position, to).execute()
+				return to.mapNotNull { astar.paths[it] }.sortedWith(Comparator { o1, o2 ->
+					return@Comparator if (o1.size != o2.size)
+						Integer.compare(o1.size, o2.size)
 					else
-						Integer.compare(o1.position.getXY(grid), o2.position.getXY(grid))
-				}).map { it.path }.firstOrNull()
+						Integer.compare(o1.last().getXY(grid), o2.last().getXY(grid))
+				}).firstOrNull()
 			}
 
 			private fun move(grid: MutableArray2D<Entity>, enemies: List<Unit>) {
@@ -133,14 +159,14 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 				}
 			}
 
-			private fun attack(grid: MutableArray2D<Entity>) {
+			private fun attack(grid: MutableArray2D<Entity>, elfPower: Int) {
 				val attackableUnits = position.neighbors.filter { canAttack(grid, it) }.map { grid[it] }.filterIsInstance<Unit>()
 				attackableUnits.sortedWith(Comparator { o1, o2 ->
 					return@Comparator if (o1.health != o2.health)
 						Integer.compare(o1.health, o2.health)
 					else
 						Integer.compare(o1.position.getXY(grid), o2.position.getXY(grid))
-				}).firstOrNull()?.let { attack(grid, it) }
+				}).firstOrNull()?.let { attack(grid, it, elfPower) }
 			}
 
 			private fun canAttack(grid: MutableArray2D<Entity>, vector: Vector): Boolean {
@@ -148,8 +174,8 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 				return entity is Unit && isEnemy(entity)
 			}
 
-			private fun attack(grid: MutableArray2D<Entity>, enemy: Unit) {
-				enemy.health -= 3
+			private fun attack(grid: MutableArray2D<Entity>, enemy: Unit, elfPower: Int) {
+				enemy.health -= if (this is Elf) elfPower else 3
 				if (enemy.isDead)
 					grid[enemy.position] = Empty
 			}
@@ -207,7 +233,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 		FullTurns, Outcome
 	}
 
-	private fun part1(input: Input, resultType: ResultType): Int {
+	private fun task(input: Input, resultType: ResultType, elfPower: Int = 3, stopAtElfDeath: Boolean = false): Int {
 		fun println(grid: Array2D<Entity>) {
 			println((0 until grid.height).joinToString("\n") { y ->
 				val units = mutableListOf<Entity.Unit>()
@@ -245,12 +271,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 		var turns = 0
 		while (true) {
-			val toMove = LinkedList(units.filter { it.isAlive })
-
-			while (!toMove.isEmpty()) {
-				val unit = toMove.sortedBy { it.position.getXY(grid) }.first()
-				toMove -= unit
-
+			for (unit in units.filter { it.isAlive }.sortedBy { it.position.getXY(grid) }) {
 				if (unit.isDead)
 					continue
 
@@ -269,7 +290,9 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 					}
 				}
 
-				unit.advance(grid, units)
+				unit.advance(grid, units, elfPower)
+				if (stopAtElfDeath && aliveElves.any { it.isDead })
+					return 0
 			}
 
 			println("> Turn ${turns + 1}")
@@ -281,11 +304,19 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 	}
 
 	override fun part1(input: Input): Int {
-		return part1(input, ResultType.Outcome)
+		return task(input, ResultType.Outcome)
 	}
 
 	override fun part2(input: Input): Int {
-		TODO()
+		var power = 4
+		while (true) {
+			val outcome = task(input, ResultType.Outcome, power, true)
+			if (outcome != 0) {
+				println("> Required elf attack power: $power")
+				return outcome
+			}
+			power++
+		}
 	}
 
 	class Tests {
@@ -314,7 +345,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 				""".trimIndent() expects 18468
 		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part1(input, ResultType.Outcome))
+			Assertions.assertEquals(expected, task.task(input, ResultType.Outcome))
 		}
 
 		@TestFactory
@@ -343,7 +374,25 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 				""".trimIndent() expects 34
 		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part1(input, ResultType.FullTurns))
+			Assertions.assertEquals(expected, task.task(input, ResultType.FullTurns))
+		}
+
+		@TestFactory
+		fun part1GoblinFirstMove(): Collection<DynamicTest> = createTestCases(
+				"""
+					#####
+					#.#E#
+					#.#.#
+					#.G.#
+					#...#
+					#E..#
+					#####
+				""".trimIndent() expects Vector(3, 3)
+		) { rawInput, expected ->
+			val input = task.parseInput(rawInput)
+			val goblin = input.units.first { it is Entity.Goblin }
+			goblin.advance(MutableArray2D(input.grid.width, input.grid.height) { x, y -> input.grid[x, y] }, input.units)
+			Assertions.assertEquals(expected, goblin.position)
 		}
 	}
 }

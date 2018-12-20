@@ -10,12 +10,14 @@ buildscript {
 	}
 	dependencies {
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+		classpath "com.github.jengelman.gradle.plugins:shadow:4.0.3"
 	}
 }
 
 apply plugin: "kotlin"
 apply plugin: "maven"
 apply plugin: "application"
+apply plugin: "com.github.johnrengelman.shadow"
 
 group = "com.github.Shockah"
 
@@ -68,5 +70,11 @@ mainClassName = "pl.shockah.aoc.AdventOfCode"
 tasks.withType(JavaExec) {
 	if (System.getProperty('DEBUG', 'false') == 'true') {
 		jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
+	}
+}
+
+jar {
+	manifest {
+		attributes('Main-Class': mainClassName)
 	}
 }
