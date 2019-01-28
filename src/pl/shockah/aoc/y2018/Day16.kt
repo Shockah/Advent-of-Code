@@ -100,7 +100,7 @@ class Day16: AdventTask<Day16.Input, Int, Int>(2018, 16) {
 		}
 
 		for (i in index until lines.size) {
-			instructions += parseInstruction(lines[index])
+			instructions += parseInstruction(lines[i])
 		}
 		return Input(examples, instructions)
 	}
@@ -123,27 +123,53 @@ class Day16: AdventTask<Day16.Input, Int, Int>(2018, 16) {
 				registers.contentEquals(example.after)
 			} >= 3
 		}
-
-//		val potentialOperationsMap = (0 until Operation.values().size).map { it to Operation.values().toSet().toSet() }.toMap().toMutableMap()
-//		outer@ for (example in input.examples) {
-//			potentialOperationsMap[example.instruction.opcode] = potentialOperationsMap[example.instruction.opcode]!!.filter {
-//				val registers = example.before.copyOf()
-//				it(example.instruction, registers)
-//				return@filter registers.contentEquals(example.after)
-//			}.toSet()
-//
-//			for ((opcode, potentialOperations) in potentialOperationsMap) {
-//				if (potentialOperations.isEmpty())
-//					throw IllegalStateException("No potential operations for opcode $opcode")
-//				else if (potentialOperations.size != 1)
-//					continue@outer
-//			}
-//			break
-//		}
 	}
 
 	override fun part2(input: Input): Int {
-		TODO()
+		val operations = mutableMapOf<Int, Operation>()
+		val potentialOperationsMap = (0 until Operation.values().size).map { it to Operation.values().toSet().toSet() }.toMap().toMutableMap()
+
+		fun truncateOperations() {
+			outer@ while (true) {
+				for ((opcode, potentialOperations) in potentialOperationsMap) {
+					if (potentialOperations.size == 1) {
+						val operation = potentialOperations.first()
+						operations[opcode] = operation
+						potentialOperationsMap.remove(opcode)
+
+						for ((opcode, potentialOperations) in potentialOperationsMap) {
+							potentialOperationsMap[opcode] = potentialOperations - operation
+						}
+
+						continue@outer
+					}
+				}
+				return
+			}
+		}
+
+		for (example in input.examples) {
+			val potentialOperations = potentialOperationsMap[example.instruction.opcode] ?: continue
+
+			potentialOperationsMap[example.instruction.opcode] = potentialOperations.filter {
+				val registers = example.before.copyOf()
+				it(example.instruction, registers)
+				return@filter registers.contentEquals(example.after)
+			}.toSet()
+
+			truncateOperations()
+		}
+
+		for ((opcode, potentialOperations) in potentialOperationsMap) {
+			if (potentialOperations.size != 1)
+				throw IllegalStateException("Too many potential operations ($potentialOperations) for opcode $opcode")
+		}
+
+		val registers = intArrayOf(0, 0, 0, 0)
+		for (instruction in input.instructions) {
+			operations[instruction.opcode]!!(instruction, registers)
+		}
+		return registers[0]
 	}
 
 	class Tests {
