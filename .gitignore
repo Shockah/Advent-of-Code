@@ -1,6 +1,7 @@
 build/
 */build/
 */out/
+/out/
 .gradle/
 local.properties
 *.iml
