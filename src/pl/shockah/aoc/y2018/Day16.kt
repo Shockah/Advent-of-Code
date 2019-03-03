@@ -94,7 +94,7 @@ class Day16: AdventTask<Day16.Input, Int, Int>(2018, 16) {
 				examples += Example(before, instruction, after)
 				index += 4
 			} catch (ignored: IllegalArgumentException) {
-				index += 6
+				index += 2
 				break
 			}
 		}
@@ -127,48 +127,48 @@ class Day16: AdventTask<Day16.Input, Int, Int>(2018, 16) {
 
 	override fun part2(input: Input): Int {
 		val operations = mutableMapOf<Int, Operation>()
-		val potentialOperationsMap = (0 until Operation.values().size).map { it to Operation.values().toSet().toSet() }.toMap().toMutableMap()
+		val possibleOperations = Operation.values().map { it to mutableSetOf<Int>() }.toMap().toMutableMap()
 
-		fun truncateOperations() {
-			outer@ while (true) {
-				for ((opcode, potentialOperations) in potentialOperationsMap) {
-					if (potentialOperations.size == 1) {
-						val operation = potentialOperations.first()
-						operations[opcode] = operation
-						potentialOperationsMap.remove(opcode)
-
-						for ((opcode, potentialOperations) in potentialOperationsMap) {
-							potentialOperationsMap[opcode] = potentialOperations - operation
-						}
-
-						continue@outer
-					}
-				}
-				return
+		input.examples.forEach { example ->
+			Operation.values().forEach {
+				val registers = example.before.copyOf()
+				it(example.instruction, registers)
+				if (registers.contentEquals(example.after))
+					possibleOperations[it]!! += example.instruction.opcode
 			}
 		}
 
-		for (example in input.examples) {
-			val potentialOperations = potentialOperationsMap[example.instruction.opcode] ?: continue
+		while (true) {
+			val oldSize = operations.size
 
-			potentialOperationsMap[example.instruction.opcode] = potentialOperations.filter {
-				val registers = example.before.copyOf()
-				it(example.instruction, registers)
-				return@filter registers.contentEquals(example.after)
-			}.toSet()
+			l@ for ((operation, opcodes) in possibleOperations) {
+				when (opcodes.size) {
+					0 -> throw IllegalStateException("No opcodes for operation ${operation.name}")
+					1 -> {
+						val opcode = opcodes.first()
+						operations[opcode] = operation
+						possibleOperations.remove(operation)
+						possibleOperations.values.forEach { it.remove(opcode) }
+						break@l
+					}
+					else -> { }
+				}
+			}
 
-			truncateOperations()
+			if (operations.size == oldSize)
+				throw IllegalStateException("Cannot figure out opcodes for operations ${(Operation.values().toList() - operations.values).joinToString(", ") { it.name }}")
+			if (possibleOperations.isEmpty())
+				break
 		}
 
-		for ((opcode, potentialOperations) in potentialOperationsMap) {
-			if (potentialOperations.size != 1)
-				throw IllegalStateException("Too many potential operations ($potentialOperations) for opcode $opcode")
-		}
+		println("> Operations:")
+		println(operations.toSortedMap().map { "${it.key}: ${it.value}" }.joinToString("\n"))
 
 		val registers = intArrayOf(0, 0, 0, 0)
-		for (instruction in input.instructions) {
-			operations[instruction.opcode]!!(instruction, registers)
+		input.instructions.forEach {
+			operations[it.opcode]!!(it.inputA, it.inputB, it.output, registers)
 		}
+		println("> Final registers: ${registers.toList()}")
 		return registers[0]
 	}
 
