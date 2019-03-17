@@ -43,6 +43,14 @@ open class Array2D<T> @PublishedApi internal constructor(
 		}
 		return result
 	}
+
+	fun getRow(row: Int): List<T> {
+		return (0 until width).map { this[it, row] }
+	}
+
+	fun getColumn(column: Int): List<T> {
+		return (0 until height).map { this[column, it] }
+	}
 }
 
 class MutableArray2D<T> @PublishedApi internal constructor(
