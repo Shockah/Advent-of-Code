@@ -6,7 +6,7 @@ import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.expects
 
-private val alphabet = "abcdefghijklmnopqrstuvwxyz"
+private const val alphabet = "abcdefghijklmnopqrstuvwxyz"
 
 private val Char.next: Char
 	get() = alphabet[(alphabet.indexOf(this) + 1) % alphabet.length]
