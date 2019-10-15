@@ -21,7 +21,7 @@ class Day21 : AdventTask<Day21.Stats, Int, Int>(2015, 21) {
 		var health: Int = stats.health
 
 		fun attack(character: Character): Boolean {
-			val actualDamage = max(stats.damage - character.stats.armor, 0)
+			val actualDamage = max(stats.damage - character.stats.armor, 1)
 			character.health -= actualDamage
 			return character.health <= 0
 		}
