@@ -1,6 +1,8 @@
 package pl.shockah.aoc.y2015
 
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.nextInCycle
+import java.util.*
 import kotlin.math.max
 
 class Day22 : AdventTask<Day22.Stats, Int, Int>(2015, 22) {
@@ -20,7 +22,7 @@ class Day22 : AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 		var effectTimers = mutableMapOf<Effect, Int>()
 
 		fun attack(character: Character): Boolean {
-			val actualDamage = max(stats.damage - character.stats.armor, 1)
+			val actualDamage = max(stats.damage - character.armor, 1)
 			character.health -= actualDamage
 			return character.health <= 0
 		}
@@ -36,6 +38,8 @@ class Day22 : AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 
 				kvp.key.onTick?.invoke(this)
 				kvp.setValue(kvp.value - 1)
+				if (kvp.value <= 0)
+					kvp.key.onRemove?.invoke(this)
 			}
 		}
 
@@ -114,33 +118,84 @@ class Day22 : AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 	private sealed class Action {
 		data class CasterCast(
 				val spell: Spell
-		) : Action()
+		) : Action() {
+			override fun toString(): String {
+				return "Cast: ${spell.name}"
+			}
+		}
 
-		object EnemyAttack : Action()
+		object CasterNoSpellAvailable : Action() {
+			override fun toString(): String {
+				return "No Spell Available"
+			}
+		}
 
-		object EffectTick : Action()
+		object EnemyAttack : Action() {
+			override fun toString(): String {
+				return "Enemy Attack"
+			}
+		}
+
+		object EffectTick : Action() {
+			override fun toString(): String {
+				return "Effect Tick"
+			}
+		}
+	}
+
+	private enum class Turn {
+		HardDifficultyDamage, FirstTick, Caster, SecondTick, Enemy
 	}
 
 	private data class State(
+			val turn: Turn,
 			val caster: Character,
 			val enemy: Character,
 			val actions: List<Action>
 	) {
+		val spells: List<Spell>
+			get() = actions.filterIsInstance<Action.CasterCast>().map { it.spell }
+
+		val manaSpent: Int
+			get() = spells.sumBy { it.cost }
+
+		constructor(
+				caster: Character,
+				enemy: Character
+		) : this(Turn.FirstTick, caster, enemy, emptyList())
+
 		fun getResult(): Result {
 			return Result(
 					caster.health,
 					enemy.health,
 					actions.count { it != Action.EffectTick },
-					actions.filterIsInstance<Action.CasterCast>().sumBy { it.spell.cost }
+					actions.filterIsInstance<Action.CasterCast>().sumBy { it.spell.cost },
+					when {
+						caster.health <= 0 -> FightResult.Loss
+						enemy.health <= 0 -> FightResult.Win
+						actions.last() == Action.CasterNoSpellAvailable -> FightResult.NoSpellAvailable
+						else -> throw IllegalStateException()
+					}
 			)
 		}
+	}
+
+	private enum class FightResult {
+		Win, Loss, NoSpellAvailable
+	}
+
+	private enum class Difficulty(
+			val ignoreTurns: Set<Turn> = emptySet()
+	) {
+		Normal(setOf(Turn.HardDifficultyDamage)), Hard
 	}
 
 	private data class Result(
 			val playerHealth: Int,
 			val enemyHealth: Int,
 			val turns: Int,
-			val manaSpent: Int
+			val manaSpent: Int,
+			val fightResult: FightResult
 	) {
 		override fun toString(): String {
 			return if (playerHealth <= 0)
@@ -159,59 +214,74 @@ class Day22 : AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 		)
 	}
 
-	private fun simulate(caster: Character, enemy: Character): Set<State> {
-		return simulatePlayerTurn(State(caster, enemy, emptyList())).filter { it.caster.health <= 0 || it.enemy.health <= 0 }.toSet()
-	}
+	@Suppress("NAME_SHADOWING")
+	private fun task(caster: Character, enemy: Character, difficulty: Difficulty): State {
+		val games = LinkedList<State>()
+		games += State(caster, enemy)
 
-	private fun simulateEffectTick(state: State): State {
-		if (state.caster.health <= 0 || state.enemy.health <= 0)
-			return state
+		var bestGame: State? = null
 
-		val caster = state.caster.copy()
-		val enemy = state.enemy.copy()
+		while (!games.isEmpty()) {
+			val game = games.removeFirst()
+			if (bestGame != null && game.manaSpent >= bestGame.manaSpent)
+				continue
 
-		caster.tickEffects()
-		enemy.tickEffects()
-		return State(caster, enemy, state.actions + Action.EffectTick)
-	}
+			if (game.caster.health <= 0)
+				continue
 
-	private fun simulatePlayerTurn(state: State): Set<State> {
-		val newState = simulateEffectTick(state)
-		if (newState.caster.health <= 0 || newState.enemy.health <= 0)
-			return setOf(newState)
+			if (game.enemy.health <= 0) {
+				if (bestGame == null || game.manaSpent < bestGame.manaSpent)
+					bestGame = game
+				continue
+			}
 
-		val availableSpells = Spell.values().filter { it.isCastable(newState.caster, newState.enemy) }
-		if (availableSpells.isEmpty())
-			return emptySet()
-		return availableSpells.flatMap {
-			val caster = newState.caster.copy()
-			val enemy = newState.enemy.copy()
-			it.cast(caster, enemy)
-			return@flatMap simulateEnemyTurn(State(caster, enemy, newState.actions + Action.CasterCast(it)))
-		}.toSet()
-	}
+			if (game.turn in difficulty.ignoreTurns) {
+				games += State(game.turn.nextInCycle, game.caster, game.enemy, game.actions)
+				continue
+			}
 
-	private fun simulateEnemyTurn(state: State): Set<State> {
-		val newState = simulateEffectTick(state)
-		if (newState.caster.health <= 0 || newState.enemy.health <= 0)
-			return setOf(newState)
+			when (game.turn) {
+				Turn.HardDifficultyDamage -> {
+					val caster = game.caster.copy().apply { health-- }
+					games += State(game.turn.nextInCycle, caster, game.enemy, game.actions + Action.EffectTick)
+				}
+				Turn.FirstTick, Turn.SecondTick -> {
+					val caster = game.caster.copy().apply { tickEffects() }
+					val enemy = game.enemy.copy().apply { tickEffects() }
+					games += State(game.turn.nextInCycle, caster, enemy, game.actions + Action.EffectTick)
+				}
+				Turn.Caster -> {
+					val availableSpells = Spell.values().filter { it.isCastable(game.caster, game.enemy) }
+					games += availableSpells.map {
+						val caster = game.caster.copy()
+						val enemy = game.enemy.copy()
+						it.cast(caster, enemy)
+						return@map State(game.turn.nextInCycle, caster, enemy, game.actions + Action.CasterCast(it))
+					}
+				}
+				Turn.Enemy -> {
+					val caster = game.caster.copy()
+					val enemy = game.enemy.copy()
+					enemy.attack(caster)
+					games += State(game.turn.nextInCycle, caster, enemy, game.actions + Action.EnemyAttack)
+				}
+			}
+		}
 
-		val caster = newState.caster.copy()
-		newState.enemy.attack(caster)
-		return simulatePlayerTurn(State(caster, newState.enemy, newState.actions + Action.EnemyAttack))
+		return bestGame ?: throw IllegalStateException()
 	}
 
 	override fun part1(input: Stats): Int {
-		val states = simulate(Character(Stats(50, 500)), Character(input))
-
-		for (result in states.map { it.getResult() }) {
-			println(result)
-		}
-
-		TODO()
+		val game = task(Character(Stats(50, 500)), Character(input), Difficulty.Normal)
+		println(game.spells.joinToString())
+		println("\t${game.getResult()}")
+		return game.manaSpent
 	}
 
 	override fun part2(input: Stats): Int {
-		TODO()
+		val game = task(Character(Stats(50, 500)), Character(input), Difficulty.Hard)
+		println(game.spells.joinToString())
+		println("\t${game.getResult()}")
+		return game.manaSpent
 	}
 }
