@@ -1,16 +1,19 @@
 package pl.shockah.aoc
 
 import java.io.File
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 import kotlin.reflect.full.createInstance
 
+@ExperimentalContracts
 class AdventOfCode {
 	companion object {
 		@Suppress("UNCHECKED_CAST")
 		@JvmStatic
 		fun main(args: Array<String>) {
 			try {
-				if (args.size !in 2..3)
-					return
+				require(args.size in 2..3)
 
 				val year = args[0].toInt()
 				val day = args[1].toInt()
@@ -21,23 +24,12 @@ class AdventOfCode {
 					val fileName = "${task.year}/Day${task.day}"
 					val fullFileName = if (modifier == null) "input/$fileName.txt" else "input/$fileName-$modifier.txt"
 
-					var parsedInput: Any? = null
+					var parsedInput: Any
 					measure("Parsing") { parsedInput = task.parseInput(File(fullFileName).readText().trimEnd()) }
 
-					runTask("A") { task.part1(parsedInput!!) }
-					runTask("B") { task.part2(parsedInput!!) }
+					runTask("A") { task.part1(parsedInput) }
+					runTask("B") { task.part2(parsedInput) }
 				}
-			} catch (e: Throwable) {
-				e.printStackTrace()
-			}
-		}
-
-		private fun measure(name: String, task: () -> Unit) {
-			try {
-				val before = System.currentTimeMillis()
-				task()
-				val after = System.currentTimeMillis()
-				println("Time $name: ${(after - before) / 1000.0}s")
 			} catch (e: Throwable) {
 				e.printStackTrace()
 			}
@@ -48,5 +40,21 @@ class AdventOfCode {
 				println("Result $name: ${task()}")
 			}
 		}
+	}
+}
+
+@ExperimentalContracts
+private fun measure(name: String, task: () -> Unit) {
+	contract {
+		callsInPlace(task, InvocationKind.EXACTLY_ONCE)
+	}
+
+	try {
+		val before = System.currentTimeMillis()
+		task()
+		val after = System.currentTimeMillis()
+		println("Time $name: ${(after - before) / 1000.0}s")
+	} catch (e: Throwable) {
+		e.printStackTrace()
 	}
 }
