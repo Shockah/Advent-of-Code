@@ -47,6 +47,7 @@ class Day16: AdventTask<Day16.Input, Int, Int>(2018, 16) {
 			val output: Int
 	)
 
+	@Suppress("EnumEntryName")
 	enum class Operation(
 			private val func: (a: Int, b: Int, out: Int, registers: IntArray) -> Unit
 	) {
@@ -155,8 +156,7 @@ class Day16: AdventTask<Day16.Input, Int, Int>(2018, 16) {
 				}
 			}
 
-			if (operations.size == oldSize)
-				throw IllegalStateException("Cannot figure out opcodes for operations ${(Operation.values().toList() - operations.values).joinToString(", ") { it.name }}")
+			check(operations.size != oldSize) { "Cannot figure out opcodes for operations ${(Operation.values().toList() - operations.values).joinToString(", ") { it.name }}" }
 			if (possibleOperations.isEmpty())
 				break
 		}

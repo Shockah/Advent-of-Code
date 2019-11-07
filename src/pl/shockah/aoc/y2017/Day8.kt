@@ -40,8 +40,7 @@ class Day8: AdventTask<List<Day8.Instruction>, Int, Int>(2017, 8) {
 	override fun parseInput(rawInput: String): List<Instruction> {
 		return rawInput.lines().map {
 			val matcher = inputPattern.matcher(it)
-			if (!matcher.find())
-				throw IllegalArgumentException()
+			require(matcher.find())
 
 			val register = matcher.group(1)
 			val adding = matcher.group(3).toInt() * (if (matcher.group(2) == "dec") -1 else 1)

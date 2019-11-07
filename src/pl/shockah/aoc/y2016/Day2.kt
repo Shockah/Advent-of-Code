@@ -21,11 +21,11 @@ class Day2 : AdventTask<List<List<Day2.Direction>>, String, String>(2016, 2) {
 		}
 	}
 
-	override fun parseInput(rawInput: String): List<List<Day2.Direction>> {
+	override fun parseInput(rawInput: String): List<List<Direction>> {
 		return rawInput.lines().map { it.toCharArray().map { Direction.bySymbol[it]!! } }
 	}
 
-	private fun task(input: List<List<Day2.Direction>>, keypad: Array2D<Char?>, initialX: Int, initialY: Int): String {
+	private fun task(input: List<List<Direction>>, keypad: Array2D<Char?>, initialX: Int, initialY: Int): String {
 		val builder = StringBuilder()
 		var x = initialX
 		var y = initialY
@@ -46,12 +46,12 @@ class Day2 : AdventTask<List<List<Day2.Direction>>, String, String>(2016, 2) {
 		return builder.toString()
 	}
 
-	override fun part1(input: List<List<Day2.Direction>>): String {
+	override fun part1(input: List<List<Direction>>): String {
 		val keypad = Array2D<Char?>(3, 3) { x, y -> '0' + (y * 3 + x + 1) }
 		return task(input, keypad, 1, 1)
 	}
 
-	override fun part2(input: List<List<Day2.Direction>>): String {
+	override fun part2(input: List<List<Direction>>): String {
 		val keypad = Array2D(5, 5) { x, y ->
 			return@Array2D when (y) {
 				0 -> if (x == 2) '1' else null

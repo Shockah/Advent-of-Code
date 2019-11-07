@@ -221,8 +221,7 @@ class MutableCircularListImpl<E> : CircularListImpl<E>(), MutableCircularList<E>
 		private var removed = true
 
 		override fun remove() {
-			if (removed)
-				throw IllegalStateException()
+			check(!removed)
 
 			if (size == 1) {
 				root = null

@@ -61,8 +61,7 @@ class Day6 : AdventTask<List<Day6.Point>, Int, Int>(2018, 6) {
 			if (point.x < 0 || point.y < 0 || point.x >= grid.width || point.y >= grid.height)
 				continue
 
-			val existing = grid[point.x, point.y]
-			when (existing) {
+			when (val existing = grid[point.x, point.y]) {
 				GridPoint.Empty -> {
 					grid[point.x, point.y] = GridPoint.Closest(initial, distance)
 					toProcess += point.neighbors.map { Triple(initial, it, distance + 1) }

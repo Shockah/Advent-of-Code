@@ -129,7 +129,7 @@ class Day7 : AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 		}
 	}
 
-	private fun parseInput(preInput: List<InputTemplate>): Map<String, Day7.Input> {
+	private fun parseInput(preInput: List<InputTemplate>): Map<String, Input> {
 		val map = mutableMapOf<String, Input>()
 		val list = LinkedList(preInput)
 
@@ -171,23 +171,22 @@ class Day7 : AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 				}
 			}
 
-			if (oldCount == list.size)
-				throw IllegalArgumentException("Found a cycle.")
+			require(oldCount != list.size) { "Found a cycle." }
 		}
 
 		return map
 	}
 
-	override fun parseInput(rawInput: String): Map<String, Day7.Input> {
+	override fun parseInput(rawInput: String): Map<String, Input> {
 		return parseInput(preParseInput(rawInput))
 	}
 
-	override fun part1(input: Map<String, Day7.Input>): Int {
+	override fun part1(input: Map<String, Input>): Int {
 		val inputCopy = input.toMap()
 		return inputCopy["a"]!!.getValue(inputCopy)
 	}
 
-	override fun part2(input: Map<String, Day7.Input>): Int {
+	override fun part2(input: Map<String, Input>): Int {
 		val inputCopy = input.toMutableMap()
 		inputCopy["b"] = Signal(inputCopy["a"]!!.getValue(inputCopy))
 		inputCopy.values.filterIsInstance<Input.Cacheable>().forEach { it.clearCache() }

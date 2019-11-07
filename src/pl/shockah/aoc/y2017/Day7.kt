@@ -30,8 +30,7 @@ class Day7: AdventTask<List<Day7.Program>, String, Int>(2017, 7) {
 	override fun parseInput(rawInput: String): List<Program> {
 		val entries = LinkedList(rawInput.lines().map {
 			val matcher = inputPattern.matcher(it)
-			if (!matcher.find())
-				throw IllegalArgumentException()
+			require(matcher.find())
 
 			val name = matcher.group(1)
 			val weight = matcher.group(2).toInt()
@@ -64,8 +63,7 @@ class Day7: AdventTask<List<Day7.Program>, String, Int>(2017, 7) {
 				}
 			}
 
-			if (oldCount == entries.size)
-				throw IllegalArgumentException("Cycle between programs.")
+			require(oldCount != entries.size) { "Cycle between programs." }
 		}
 
 		return programs.values.toList()

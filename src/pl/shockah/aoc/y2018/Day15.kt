@@ -8,7 +8,6 @@ import pl.shockah.aoc.Array2D
 import pl.shockah.aoc.MutableArray2D
 import pl.shockah.aoc.expects
 import java.util.*
-import kotlin.Comparator
 
 private const val elfSymbol = 'E'
 private const val goblinSymbol = 'G'
@@ -142,12 +141,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 			private fun pathToClosestPoint(grid: Array2D<Entity>, to: Set<Vector>): List<Vector>? {
 				val astar = AStar(grid, position, to).execute()
-				return to.mapNotNull { astar.paths[it] }.sortedWith(Comparator { o1, o2 ->
-					return@Comparator if (o1.size != o2.size)
-						Integer.compare(o1.size, o2.size)
-					else
-						Integer.compare(o1.last().getXY(grid), o2.last().getXY(grid))
-				}).firstOrNull()
+				return to.mapNotNull { astar.paths[it] }.sortedWith(compareBy({ it.size }, { it.last().getXY(grid) })).firstOrNull()
 			}
 
 			private fun move(grid: MutableArray2D<Entity>, enemies: List<Unit>) {
@@ -161,12 +155,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 			private fun attack(grid: MutableArray2D<Entity>, elfPower: Int) {
 				val attackableUnits = position.neighbors.filter { canAttack(grid, it) }.map { grid[it] }.filterIsInstance<Unit>()
-				attackableUnits.sortedWith(Comparator { o1, o2 ->
-					return@Comparator if (o1.health != o2.health)
-						Integer.compare(o1.health, o2.health)
-					else
-						Integer.compare(o1.position.getXY(grid), o2.position.getXY(grid))
-				}).firstOrNull()?.let { attack(grid, it, elfPower) }
+				attackableUnits.sortedWith(compareBy(Unit::health, { it.position.getXY(grid) })).firstOrNull()?.let { attack(grid, it, elfPower) }
 			}
 
 			private fun canAttack(grid: MutableArray2D<Entity>, vector: Vector): Boolean {
@@ -249,8 +238,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 		val units = mutableListOf<Entity.Unit>()
 		val grid = MutableArray2D(input.grid.width, input.grid.height) { x, y ->
-			val entity = input.grid[x, y]
-			when (entity) {
+			when (val entity = input.grid[x, y]) {
 				is Entity.Elf -> {
 					val newEntity = Entity.Elf(entity.position)
 					units += newEntity

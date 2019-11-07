@@ -53,8 +53,8 @@ class Day10 : AdventTask<List<Day10.Point>, String, Int>(2018, 10) {
 		}
 
 		fun isPotentiallyValid(setup: List<Point>): Boolean {
-			outer@ for (i in 0 until setup.size) {
-				for (j in 0 until setup.size) {
+			outer@ for (i in setup.indices) {
+				for (j in setup.indices) {
 					if (i == j)
 						continue
 					if ((setup[j].position - setup[i].position).manhattanLength <= 2)
@@ -86,11 +86,12 @@ class Day10 : AdventTask<List<Day10.Point>, String, Int>(2018, 10) {
 			}
 
 			val readableOutput = (0 until grid.height).joinToString("\n") { y ->
-				(0 until grid.width).map { x ->
+				(0 until grid.width).joinToString("") { x ->
 					if (grid[x, y]) "#" else "."
-				}.joinToString("")
+				}
 			}
 
+			@Suppress("ConstantConditionIf")
 			if (askForValidity) {
 				println(readableOutput)
 				println("> Is this valid?")

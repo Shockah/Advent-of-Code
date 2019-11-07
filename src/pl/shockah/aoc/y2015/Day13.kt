@@ -18,7 +18,7 @@ class Day13 : AdventTask<Map<Pair<String, String>, Int>, Int, Int>(2015, 13) {
 
 	private fun getTotalHappiness(values: Map<Pair<String, String>, Int>, table: List<String>): Int {
 		var happiness = 0
-		for (i in 0 until table.size) {
+		for (i in table.indices) {
 			happiness += values[Pair(table[i], table[(i + 1) % table.size])] ?: 0
 			happiness += values[Pair(table[(i + 1) % table.size], table[i])] ?: 0
 		}

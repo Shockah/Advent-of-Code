@@ -11,6 +11,7 @@ import java.util.regex.Pattern
 class Day23 : AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 23) {
 	private val inputPattern: Pattern = Pattern.compile("(.+?) (.+)")
 
+	@Suppress("EnumEntryName")
 	enum class Register {
 		a, b
 	}
@@ -102,7 +103,7 @@ class Day23 : AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 
 		}
 	}
 
-	private fun task(instructions: List<Instruction>, registers: Array<BigInteger>, result: Register): BigInteger {
+	private fun task(instructions: List<Instruction>, registers: Array<BigInteger>): BigInteger {
 		require(registers.size == Register.values().size)
 		val counter = Box(0)
 
@@ -110,11 +111,11 @@ class Day23 : AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 
 			val instruction = instructions[counter.value]
 			instruction.execute(registers, counter)
 		}
-		return registers[result.ordinal]
+		return registers[Register.b.ordinal]
 	}
 
 	override fun part1(input: List<Instruction>): BigInteger {
-		return task(input, Array(Register.values().size) { BigInteger.ZERO }, Register.b)
+		return task(input, Array(Register.values().size) { BigInteger.ZERO })
 	}
 
 	override fun part2(input: List<Instruction>): BigInteger {
@@ -123,7 +124,7 @@ class Day23 : AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 
 				Register.a.ordinal -> BigInteger.ONE
 				else -> BigInteger.ZERO
 			}
-		}, Register.b)
+		})
 	}
 
 	class Tests {

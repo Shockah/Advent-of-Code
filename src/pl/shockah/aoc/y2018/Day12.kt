@@ -59,11 +59,7 @@ class Day12 : AdventTask<Day12.Input, Long, Long>(2018, 12) {
 			val minX = input.min()!!
 			val maxX = input.max()!!
 			val joined = (minX..maxX).map { if (it in input) '#' else '.' }.joinToString("")
-
-			if (withMinMax)
-				return "[$minX] $joined [$maxX]"
-			else
-				return joined
+			return if (withMinMax) "[$minX] $joined [$maxX]" else joined
 		}
 
 		var current = input.state

@@ -20,11 +20,10 @@ class Day2: AdventTask<List<String>, Int, String>(2018, 2) {
 		input.forEachIndexed { i, id1 ->
 			outer@ for (j in (i + 1) until input.size) {
 				val id2 = input[j]
-				if (id1.length != id2.length)
-					throw IllegalArgumentException()
+				require(id1.length == id2.length)
 
 				var differenceIndex: Int? = null
-				for (k in 0 until id1.length) {
+				for (k in id1.indices) {
 					if (id1[k] != id2[k]) {
 						if (differenceIndex != null)
 							continue@outer

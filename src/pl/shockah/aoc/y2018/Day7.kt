@@ -44,8 +44,7 @@ class Day7 : AdventTask<Map<String, Day7.Step>, String, Int>(2018, 7) {
 				iterator.remove()
 			}
 
-			if (oldCount == entries.size)
-				throw IllegalArgumentException("Cycle between steps $steps $entries.")
+			require(oldCount != entries.size) { "Cycle between steps $steps $entries." }
 		}
 
 		for (step in steps.values) {
@@ -61,7 +60,7 @@ class Day7 : AdventTask<Map<String, Day7.Step>, String, Int>(2018, 7) {
 		val left = input.values.toMutableList()
 
 		while (!left.isEmpty()) {
-			val availableNow = left.filter { completed.containsAll(it.requires) }.sortedBy { it.name }.first()
+			val availableNow = left.filter { completed.containsAll(it.requires) }.minBy { it.name }!!
 			completed += availableNow
 			left -= availableNow
 		}
@@ -93,7 +92,7 @@ class Day7 : AdventTask<Map<String, Day7.Step>, String, Int>(2018, 7) {
 				}
 			}
 
-			val currentWorkerSteps = workers.map { it.currentStep }.filterNotNull()
+			val currentWorkerSteps = workers.mapNotNull { it.currentStep }
 			val availableNow = LinkedList(left.filter { completed.containsAll(it.requires) }.filter { it !in currentWorkerSteps }.sortedBy { it.name })
 
 			for (worker in workers) {

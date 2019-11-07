@@ -20,7 +20,7 @@ class Day14: AdventTask<String, String, Int>(2018, 14) {
 			val sum = elves.map { scores[it] }.sum()
 			scores += "$sum".toCharArray().map { it - '0' }
 
-			for (elfIndex in 0 until elves.size) {
+			for (elfIndex in elves.indices) {
 				elves[elfIndex] = (elves[elfIndex] + 1 + scores[elves[elfIndex]]) % scores.size
 			}
 		}
@@ -38,7 +38,7 @@ class Day14: AdventTask<String, String, Int>(2018, 14) {
 			val sum = elves.map { scores[it] - '0' }.sum()
 			scores.append("$sum")
 
-			for (elfIndex in 0 until elves.size) {
+			for (elfIndex in elves.indices) {
 				elves[elfIndex] = (elves[elfIndex] + 1 + (scores[elves[elfIndex]] - '0')) % scores.length
 			}
 

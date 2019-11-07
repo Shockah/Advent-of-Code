@@ -4,6 +4,8 @@ import pl.shockah.aoc.AdventTask
 import kotlin.math.max
 
 class Day21 : AdventTask<Day21.Stats, Int, Int>(2015, 21) {
+	private val playerHealth = 100
+
 	data class Stats(
 			val health: Int,
 			val damage: Int,
@@ -135,7 +137,7 @@ class Day21 : AdventTask<Day21.Stats, Int, Int>(2015, 21) {
 		CheapWin, ExpensiveLoss
 	}
 
-	private fun task(playerHealth: Int, enemyStats: Stats, expectedResult: ExpectedResult): Int {
+	private fun task(enemyStats: Stats, expectedResult: ExpectedResult): Int {
 		var sets = generateEquipmentSets().toList()
 		sets = when (expectedResult) {
 			ExpectedResult.CheapWin -> sets.sortedBy { it.sumBy { it.cost } }
@@ -164,10 +166,10 @@ class Day21 : AdventTask<Day21.Stats, Int, Int>(2015, 21) {
 	}
 
 	override fun part1(input: Stats): Int {
-		return task(100, input, ExpectedResult.CheapWin)
+		return task(input, ExpectedResult.CheapWin)
 	}
 
 	override fun part2(input: Stats): Int {
-		return task(100, input, ExpectedResult.ExpensiveLoss)
+		return task(input, ExpectedResult.ExpensiveLoss)
 	}
 }

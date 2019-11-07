@@ -119,9 +119,9 @@ class Day4: AdventTask<Map<Int, List<ClosedRange<Day4.Date>>>, Int, Int>(2018, 4
 	override fun part1(input: Map<Int, List<ClosedRange<Date>>>): Int {
 		val guardId = input.map { (guardId, periods) ->
 			guardId to periods.map { it.endInclusive.minute - it.start.minute }.sum()
-		}.sortedByDescending { it.second }.first().first
+		}.maxBy { it.second }!!.first
 
-		val (mostSleptMinute, times) = countMinuteOccurences(input[guardId]!!).mapIndexed { index: Int, i: Int -> index to i }.sortedByDescending { it.second }.first()
+		val (mostSleptMinute, times) = countMinuteOccurences(input[guardId]!!).mapIndexed { index: Int, i: Int -> index to i }.maxBy { it.second }!!
 		println("> Guard ID: $guardId")
 		println("> Most slept hour: 00:$mostSleptMinute")
 		println("> Times: $times")
@@ -130,9 +130,9 @@ class Day4: AdventTask<Map<Int, List<ClosedRange<Day4.Date>>>, Int, Int>(2018, 4
 
 	override fun part2(input: Map<Int, List<ClosedRange<Date>>>): Int {
 		val (guardId, minuteIndex, times) = input.map { (guardId, periods) ->
-			val (minuteIndex, totalTimes) = countMinuteOccurences(periods).mapIndexed { index: Int, i: Int -> index to i }.sortedByDescending { it.second }.first()
+			val (minuteIndex, totalTimes) = countMinuteOccurences(periods).mapIndexed { index: Int, i: Int -> index to i }.maxBy { it.second }!!
 			return@map Triple(guardId, minuteIndex, totalTimes)
-		}.sortedByDescending { it.third }.first()
+		}.maxBy { it.third }!!
 		println("> Guard ID: $guardId")
 		println("> Most slept hour: 00:$minuteIndex")
 		println("> Times: $times")

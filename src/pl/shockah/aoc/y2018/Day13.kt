@@ -23,9 +23,8 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 		fun advance(grid: Array2D<Rail?>) {
 			x += direction.x
 			y += direction.y
-			val rail = grid[x, y]
 
-			when (rail) {
+			when (grid[x, y]) {
 				Rail.Slash -> {
 					direction = if (direction == Direction.Up || direction == Direction.Down)
 						direction.nextInCycle
@@ -84,7 +83,7 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 		}
 	}
 
-	override fun parseInput(rawInput: String): Day13.Input {
+	override fun parseInput(rawInput: String): Input {
 		val lines = rawInput.lines()
 
 		val carts = mutableListOf<Cart>()
@@ -109,7 +108,7 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 		FirstCollision, LastStanding
 	}
 
-	private fun task(input: Day13.Input, mode: Mode): String {
+	private fun task(input: Input, mode: Mode): String {
 		fun advance(grid: Array2D<Rail?>, carts: List<Cart>): Pair<Int, Int>? {
 			for (cart in carts.sortedBy { it.y * grid.width + it.x }) {
 				if (cart.collided)
@@ -130,8 +129,7 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 
 			if (mode == Mode.LastStanding) {
 				val activeCarts = carts.filter { !it.collided }
-				if (activeCarts.isEmpty())
-					throw IllegalStateException()
+				check(!activeCarts.isEmpty())
 				if (activeCarts.size == 1)
 					return activeCarts[0].x to activeCarts[0].y
 			}
@@ -147,11 +145,11 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 		}
 	}
 
-	override fun part1(input: Day13.Input): String {
+	override fun part1(input: Input): String {
 		return task(input, Mode.FirstCollision)
 	}
 
-	override fun part2(input: Day13.Input): String {
+	override fun part2(input: Input): String {
 		return task(input, Mode.LastStanding)
 	}
 
