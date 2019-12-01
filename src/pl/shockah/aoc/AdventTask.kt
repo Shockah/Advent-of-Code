@@ -16,26 +16,26 @@ abstract class AdventTask<ParsedInput, A, B>(
 
 	abstract fun part2(input: ParsedInput): B
 
-	data class Case<R>(
-			val rawInput: String,
-			val expected: R
+	data class Case<Input, Output>(
+			val input: Input,
+			val expected: Output
 	)
 
 	companion object {
-		fun <R> createTestCases(vararg cases: Case<R>, executable: (rawInput: String, expected: R) -> Unit): Collection<DynamicTest> {
+		fun <Input, Output> createTestCases(vararg cases: Case<Input, Output>, executable: (input: Input, expected: Output) -> Unit): Collection<DynamicTest> {
 			return createTestCases(cases.toList(), executable)
 		}
 
-		fun <R> createTestCases(cases: List<Case<R>>, executable: (rawInput: String, expected: R) -> Unit): Collection<DynamicTest> {
-			return cases.mapIndexed { index: Int, case: Case<R> ->
-				DynamicTest.dynamicTest("#${index + 1} - input: ${case.rawInput.lines().joinToString("; ")}") {
-					executable(case.rawInput, case.expected)
+		fun <Input, Output> createTestCases(cases: List<Case<Input, Output>>, executable: (input: Input, expected: Output) -> Unit): Collection<DynamicTest> {
+			return cases.mapIndexed { index: Int, case: Case<Input, Output> ->
+				DynamicTest.dynamicTest("#${index + 1} - input: ${case.input}") {
+					executable(case.input, case.expected)
 				}
 			}
 		}
 	}
 }
 
-infix fun <R> String.expects(expected: R): AdventTask.Case<R> {
+infix fun <Input, Output> Input.expects(expected: Output): AdventTask.Case<Input, Output> {
 	return AdventTask.Case(this, expected)
 }
