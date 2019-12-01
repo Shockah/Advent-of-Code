@@ -7,7 +7,7 @@ import pl.shockah.aoc.parse6
 import java.util.regex.Pattern
 import kotlin.math.max
 
-class Day15 : AdventTask<List<Day15.Ingredient>, Int, Int>(2015, 15) {
+class Day15: AdventTask<List<Day15.Ingredient>, Int, Int>(2015, 15) {
 	private val inputPattern: Pattern = Pattern.compile("(.*): capacity (-?\\d+), durability (-?\\d+), flavor (-?\\d+), texture (-?\\d+), calories (-?\\d+)")
 
 	data class Ingredient(

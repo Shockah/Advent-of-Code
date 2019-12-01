@@ -6,7 +6,7 @@ import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.parse4
 import java.util.regex.Pattern
 
-class Day14 : AdventTask<List<Day14.ReindeerStats>, Int, Int>(2015, 14) {
+class Day14: AdventTask<List<Day14.ReindeerStats>, Int, Int>(2015, 14) {
 	private val inputPattern: Pattern = Pattern.compile("(\\w+) can fly (\\d+) km/s for (\\d+) seconds, but then must rest for (\\d+) seconds.")
 
 	data class ReindeerStats(

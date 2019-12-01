@@ -5,10 +5,10 @@ import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
-import pl.shockah.aoc.Array2D
 import pl.shockah.aoc.expects
+import pl.shockah.unikorn.collection.Array2D
 
-class Day11 : AdventTask<Array2D<Int>, String, String>(2018, 11) {
+class Day11: AdventTask<Array2D<Int>, String, String>(2018, 11) {
 	override fun parseInput(rawInput: String): Array2D<Int> {
 		val gridSerialNumber = rawInput.toInt()
 		return Array2D(300, 300) { x, y ->

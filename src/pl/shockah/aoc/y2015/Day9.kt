@@ -6,7 +6,7 @@ import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.parse3
 import java.util.regex.Pattern
 
-class Day9 : AdventTask<Map<Day9.UnorderedPair<String>, Int>, Int, Int>(2015, 9) {
+class Day9: AdventTask<Map<Day9.UnorderedPair<String>, Int>, Int, Int>(2015, 9) {
 	private val inputPattern: Pattern = Pattern.compile("(.*) to (.*) = (\\d+)")
 
 	data class UnorderedPair<T>(

@@ -10,7 +10,7 @@ import java.util.*
 import java.util.regex.Pattern
 
 @ExperimentalUnsignedTypes
-class Day7 : AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
+class Day7: AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 	private val baseInputPattern: Pattern = Pattern.compile("(.*) -> (\\w+)")
 	private val notInputPattern: Pattern = Pattern.compile("NOT (\\w+)")
 	private val twoArgumentInputPattern: Pattern = Pattern.compile("(\\w+) ((?:AND)|(?:OR)|(?:LSHIFT)|(?:RSHIFT)) (\\w+)")
@@ -24,7 +24,7 @@ class Day7 : AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 	interface Input {
 		fun getValue(map: Map<String, Input>): Int
 
-		abstract class Cacheable : Input {
+		abstract class Cacheable: Input {
 			protected var cached: Int? = null
 
 			fun clearCache() {
@@ -35,7 +35,7 @@ class Day7 : AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 
 	data class Signal(
 			val value: Int
-	) : Input {
+	): Input {
 		override fun getValue(map: Map<String, Input>): Int {
 			return value
 		}
@@ -43,7 +43,7 @@ class Day7 : AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 
 	data class AnotherInput(
 			val name: String
-	) : Input {
+	): Input {
 		override fun getValue(map: Map<String, Input>): Int {
 			return map[name]!!.getValue(map)
 		}
@@ -51,7 +51,7 @@ class Day7 : AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 
 	data class Not(
 			val input: Input
-	) : Input.Cacheable() {
+	): Input.Cacheable() {
 		override fun getValue(map: Map<String, Input>): Int {
 			if (cached == null)
 				cached = input.getValue(map).toUShort().inv().toInt()
@@ -62,7 +62,7 @@ class Day7 : AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 	data class And(
 			val input1: Input,
 			val input2: Input
-	) : Input.Cacheable() {
+	): Input.Cacheable() {
 		override fun getValue(map: Map<String, Input>): Int {
 			if (cached == null)
 				cached = (input1.getValue(map).toUShort() and input2.getValue(map).toUShort()).toInt()
@@ -73,7 +73,7 @@ class Day7 : AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 	data class Or(
 			val input1: Input,
 			val input2: Input
-	) : Input.Cacheable() {
+	): Input.Cacheable() {
 		override fun getValue(map: Map<String, Input>): Int {
 			if (cached == null)
 				cached = (input1.getValue(map).toUShort() or input2.getValue(map).toUShort()).toInt()
@@ -84,7 +84,7 @@ class Day7 : AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 	data class LeftShift(
 			val input1: Input,
 			val input2: Input
-	) : Input.Cacheable() {
+	): Input.Cacheable() {
 		override fun getValue(map: Map<String, Input>): Int {
 			if (cached == null)
 				cached = (input1.getValue(map) shl input2.getValue(map)).toUShort().toInt()
@@ -95,7 +95,7 @@ class Day7 : AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 	data class RightShift(
 			val input1: Input,
 			val input2: Input
-	) : Input.Cacheable() {
+	): Input.Cacheable() {
 		override fun getValue(map: Map<String, Input>): Int {
 			if (cached == null)
 				cached = (input1.getValue(map) shr input2.getValue(map)).toUShort().toInt()

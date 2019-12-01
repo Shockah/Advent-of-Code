@@ -3,11 +3,11 @@ package pl.shockah.aoc.y2018
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
-import pl.shockah.aoc.MutableArray2D
+import pl.shockah.unikorn.collection.MutableArray2D
 import java.util.*
 import kotlin.math.absoluteValue
 
-class Day6 : AdventTask<List<Day6.Point>, Int, Int>(2018, 6) {
+class Day6: AdventTask<List<Day6.Point>, Int, Int>(2018, 6) {
 	data class Point(
 			val x: Int,
 			val y: Int
@@ -26,18 +26,18 @@ class Day6 : AdventTask<List<Day6.Point>, Int, Int>(2018, 6) {
 	private sealed class GridPoint {
 		data class Initial(
 				val point: Point
-		) : GridPoint()
+		): GridPoint()
 
 		data class Closest(
 				val initial: Initial,
 				val distance: Int
-		) : GridPoint()
+		): GridPoint()
 
 		data class Ambiguous(
 				val distance: Int
-		) : GridPoint()
+		): GridPoint()
 
-		object Empty : GridPoint()
+		object Empty: GridPoint()
 	}
 
 	override fun part1(input: List<Point>): Int {

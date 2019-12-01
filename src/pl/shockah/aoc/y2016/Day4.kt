@@ -9,7 +9,7 @@ import pl.shockah.aoc.expects
 import pl.shockah.aoc.parse3
 import java.util.regex.Pattern
 
-class Day4 : AdventTask<List<Day4.Entry>, Int, Int>(2016, 4) {
+class Day4: AdventTask<List<Day4.Entry>, Int, Int>(2016, 4) {
 	private val inputPattern = Pattern.compile("([a-z\\-]+)-(\\d+)\\[([a-z]+)]")
 
 	data class Entry(

@@ -75,10 +75,6 @@ class Day16: AdventTask<Day16.Input, Int, Int>(2018, 16) {
 		operator fun invoke(instruction: Instruction, registers: IntArray) {
 			func(instruction.inputA, instruction.inputB, instruction.output, registers)
 		}
-
-		companion object {
-			val byName = values().map { it.name to it }.toMap()
-		}
 	}
 
 	override fun parseInput(rawInput: String): Input {

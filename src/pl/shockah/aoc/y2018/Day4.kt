@@ -20,7 +20,7 @@ class Day4: AdventTask<Map<Int, List<ClosedRange<Day4.Date>>>, Int, Int>(2018, 4
 			val day: Int,
 			val hour: Int,
 			val minute: Int
-	) : Comparable<Date> {
+	): Comparable<Date> {
 		override fun compareTo(other: Date): Int {
 			if (year != other.year)
 				return year.compareTo(other.year)
@@ -39,7 +39,7 @@ class Day4: AdventTask<Map<Int, List<ClosedRange<Day4.Date>>>, Int, Int>(2018, 4
 	data class LogEntry(
 			val date: Date,
 			val type: LogType
-	) : Comparable<LogEntry> {
+	): Comparable<LogEntry> {
 		override fun compareTo(other: LogEntry): Int {
 			return date.compareTo(other.date)
 		}
@@ -48,11 +48,11 @@ class Day4: AdventTask<Map<Int, List<ClosedRange<Day4.Date>>>, Int, Int>(2018, 4
 	sealed class LogType {
 		data class Shift(
 				val guardId: Int
-		) : LogType()
+		): LogType()
 
-		object WakeUp : LogType()
+		object WakeUp: LogType()
 
-		object FallAsleep : LogType()
+		object FallAsleep: LogType()
 	}
 
 	private fun preParseInput(rawInput: String, sorting: Boolean): List<LogEntry> {

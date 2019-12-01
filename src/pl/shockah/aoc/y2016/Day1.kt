@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.expects
-import pl.shockah.aoc.nextInCycle
-import pl.shockah.aoc.previousInCycle
+import pl.shockah.unikorn.nextInCycle
+import pl.shockah.unikorn.previousInCycle
 import kotlin.math.absoluteValue
 
-class Day1 : AdventTask<List<Day1.Instruction>, Int, Int>(2016, 1) {
+class Day1: AdventTask<List<Day1.Instruction>, Int, Int>(2016, 1) {
 	enum class Turn {
 		Left, Right
 	}

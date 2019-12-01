@@ -3,7 +3,7 @@ package pl.shockah.aoc.y2017
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
-import pl.shockah.aoc.maxIndex
+import pl.shockah.unikorn.collection.maxIndex
 
 class Day6: AdventTask<IntArray, Int, Int>(2017, 6) {
 	override fun parseInput(rawInput: String): IntArray {

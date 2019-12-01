@@ -4,12 +4,12 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
-import pl.shockah.aoc.MutableCircularListImpl
 import pl.shockah.aoc.expects
 import pl.shockah.aoc.parse2
+import pl.shockah.unikorn.collection.MutableCircularListImpl
 import java.util.regex.Pattern
 
-class Day9 : AdventTask<Day9.Input, Long, Long>(2018, 9) {
+class Day9: AdventTask<Day9.Input, Long, Long>(2018, 9) {
 	private val inputPattern: Pattern = Pattern.compile("(\\d+) players; last marble is worth (\\d+) points")
 
 	data class Input(
@@ -35,7 +35,7 @@ class Day9 : AdventTask<Day9.Input, Long, Long>(2018, 9) {
 		var nextMarbleToPush = 1
 
 		while (nextMarbleToPush <= input.lastMarble) {
-			for (i in 0 until players.size) {
+			for (i in players.indices) {
 				if (nextMarbleToPush > input.lastMarble)
 					break
 

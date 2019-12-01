@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
 
-class Day17 : AdventTask<List<Day17.Container>, Int, Int>(2015, 17) {
+class Day17: AdventTask<List<Day17.Container>, Int, Int>(2015, 17) {
 	class Container(
 			val capacity: Int
 	) {

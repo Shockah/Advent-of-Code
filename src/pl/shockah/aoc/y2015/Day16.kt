@@ -4,7 +4,7 @@ import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.parse2
 import java.util.regex.Pattern
 
-class Day16 : AdventTask<List<Day16.Aunt>, Int, Int>(2015, 16) {
+class Day16: AdventTask<List<Day16.Aunt>, Int, Int>(2015, 16) {
 	private val baseInputPattern: Pattern = Pattern.compile("Sue (\\d+): (.*)")
 	private val thingPattern: Pattern = Pattern.compile("(\\w+): (\\d+)")
 

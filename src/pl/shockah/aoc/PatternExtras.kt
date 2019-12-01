@@ -161,7 +161,7 @@ inline fun <reified A, reified B, reified C, reified D, reified E, reified F> Pa
 	)
 }
 
-fun <Input : Any, Output : Any> ((Input) -> Output).orThrow(): (Input?) -> Output {
+fun <Input: Any, Output: Any> ((Input) -> Output).orThrow(): (Input?) -> Output {
 	return { arg -> if (arg == null) throw NullPointerException() else this(arg) }
 }
 

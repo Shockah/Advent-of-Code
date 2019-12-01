@@ -3,7 +3,7 @@ package pl.shockah.aoc.y2015
 import pl.shockah.aoc.AdventTask
 import kotlin.math.max
 
-class Day21 : AdventTask<Day21.Stats, Int, Int>(2015, 21) {
+class Day21: AdventTask<Day21.Stats, Int, Int>(2015, 21) {
 	private val playerHealth = 100
 
 	data class Stats(
@@ -14,7 +14,7 @@ class Day21 : AdventTask<Day21.Stats, Int, Int>(2015, 21) {
 		constructor(
 				health: Int,
 				equipment: Set<Item>
-		) : this(health, equipment.sumBy { it.damage }, equipment.sumBy { it.armor })
+		): this(health, equipment.sumBy { it.damage }, equipment.sumBy { it.armor })
 	}
 
 	private class Character(

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
 
-class Day8 : AdventTask<Day8.Node, Int, Int>(2018, 8) {
+class Day8: AdventTask<Day8.Node, Int, Int>(2018, 8) {
 	data class Node(
 			val children: List<Node>,
 			val metadata: List<Int>

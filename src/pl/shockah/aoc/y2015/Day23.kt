@@ -8,7 +8,7 @@ import pl.shockah.util.Box
 import java.math.BigInteger
 import java.util.regex.Pattern
 
-class Day23 : AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 23) {
+class Day23: AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 23) {
 	private val inputPattern: Pattern = Pattern.compile("(.+?) (.+)")
 
 	@Suppress("EnumEntryName")
@@ -21,7 +21,7 @@ class Day23 : AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 
 
 		data class Half(
 				val register: Register
-		) : Instruction() {
+		): Instruction() {
 			override fun execute(registers: Array<BigInteger>, counter: Box<Int>) {
 				registers[register.ordinal] /= 2.toBigInteger()
 				counter.value++
@@ -30,7 +30,7 @@ class Day23 : AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 
 
 		data class Triple(
 				val register: Register
-		) : Instruction() {
+		): Instruction() {
 			override fun execute(registers: Array<BigInteger>, counter: Box<Int>) {
 				registers[register.ordinal] *= 3.toBigInteger()
 				counter.value++
@@ -39,7 +39,7 @@ class Day23 : AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 
 
 		data class Increment(
 				val register: Register
-		) : Instruction() {
+		): Instruction() {
 			override fun execute(registers: Array<BigInteger>, counter: Box<Int>) {
 				registers[register.ordinal]++
 				counter.value++
@@ -48,7 +48,7 @@ class Day23 : AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 
 
 		data class Jump(
 				val offset: Int
-		) : Instruction() {
+		): Instruction() {
 			override fun execute(registers: Array<BigInteger>, counter: Box<Int>) {
 				counter.value += offset
 			}
@@ -57,7 +57,7 @@ class Day23 : AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 
 		data class JumpIfEven(
 				val register: Register,
 				val offset: Int
-		) : Instruction() {
+		): Instruction() {
 			override fun execute(registers: Array<BigInteger>, counter: Box<Int>) {
 				if (registers[register.ordinal] % 2.toBigInteger() == BigInteger.ZERO)
 					counter.value += offset
@@ -69,7 +69,7 @@ class Day23 : AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 
 		data class JumpIfOne(
 				val register: Register,
 				val offset: Int
-		) : Instruction() {
+		): Instruction() {
 			override fun execute(registers: Array<BigInteger>, counter: Box<Int>) {
 				if (registers[register.ordinal] == BigInteger.ONE)
 					counter.value += offset

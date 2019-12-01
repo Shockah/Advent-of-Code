@@ -1,11 +1,11 @@
 package pl.shockah.aoc.y2015
 
 import pl.shockah.aoc.AdventTask
-import pl.shockah.aoc.nextInCycle
+import pl.shockah.unikorn.nextInCycle
 import java.util.*
 import kotlin.math.max
 
-class Day22 : AdventTask<Day22.Stats, Int, Int>(2015, 22) {
+class Day22: AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 	data class Stats(
 			val health: Int,
 			val mana: Int,
@@ -118,25 +118,25 @@ class Day22 : AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 	private sealed class Action {
 		data class CasterCast(
 				val spell: Spell
-		) : Action() {
+		): Action() {
 			override fun toString(): String {
 				return "Cast: ${spell.name}"
 			}
 		}
 
-		object CasterNoSpellAvailable : Action() {
+		object CasterNoSpellAvailable: Action() {
 			override fun toString(): String {
 				return "No Spell Available"
 			}
 		}
 
-		object EnemyAttack : Action() {
+		object EnemyAttack: Action() {
 			override fun toString(): String {
 				return "Enemy Attack"
 			}
 		}
 
-		object EffectTick : Action() {
+		object EffectTick: Action() {
 			override fun toString(): String {
 				return "Effect Tick"
 			}
@@ -162,7 +162,7 @@ class Day22 : AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 		constructor(
 				caster: Character,
 				enemy: Character
-		) : this(Turn.FirstTick, caster, enemy, emptyList())
+		): this(Turn.FirstTick, caster, enemy, emptyList())
 
 		fun getResult(): Result {
 			return Result(

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.expects
 
-class Day2 : AdventTask<List<Day2.Dimensions>, Int, Int>(2015, 2) {
+class Day2: AdventTask<List<Day2.Dimensions>, Int, Int>(2015, 2) {
 	data class Dimensions(
 			val length: Int,
 			val width: Int,

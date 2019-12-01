@@ -57,7 +57,7 @@ private val String.next: String
 		throw IllegalArgumentException("Reached last password.")
 	}
 
-class Day11 : AdventTask<String, String, String>(2015, 11) {
+class Day11: AdventTask<String, String, String>(2015, 11) {
 	override fun parseInput(rawInput: String): String {
 		return rawInput
 	}

@@ -8,7 +8,7 @@ import pl.shockah.aoc.expects
 import java.math.BigInteger
 import java.security.MessageDigest
 
-class Day4 : AdventTask<String, Int, Int>(2015, 4) {
+class Day4: AdventTask<String, Int, Int>(2015, 4) {
 	private val digest = MessageDigest.getInstance("MD5")
 
 	override fun parseInput(rawInput: String): String {

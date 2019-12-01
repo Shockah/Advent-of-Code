@@ -5,9 +5,9 @@ import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.expects
-import pl.shockah.aoc.sumByLong
+import pl.shockah.unikorn.collection.sumByLong
 
-class Day1 : AdventTask<List<Long>, Long, Long>(2019, 1) {
+class Day1: AdventTask<List<Long>, Long, Long>(2019, 1) {
 	override fun parseInput(rawInput: String): List<Long> {
 		return rawInput.lines().filter { !it.isEmpty() }.map { it.toLong() }
 	}

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.expects
 
-class Day5 : AdventTask<String, Int, Int>(2018, 5) {
+class Day5: AdventTask<String, Int, Int>(2018, 5) {
 	override fun parseInput(rawInput: String): String {
 		return rawInput
 	}

@@ -3,9 +3,9 @@ package pl.shockah.aoc.y2016
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
-import pl.shockah.aoc.Array2D
+import pl.shockah.unikorn.collection.Array2D
 
-class Day2 : AdventTask<List<List<Day2.Direction>>, String, String>(2016, 2) {
+class Day2: AdventTask<List<List<Day2.Direction>>, String, String>(2016, 2) {
 	enum class Direction(
 			val x: Int,
 			val y: Int,

@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
-import pl.shockah.aoc.Array2D
-import pl.shockah.aoc.MutableArray2D
 import pl.shockah.aoc.expects
+import pl.shockah.unikorn.collection.Array2D
+import pl.shockah.unikorn.collection.MutableArray2D
 import java.util.*
 
 private const val elfSymbol = 'E'
@@ -114,7 +114,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 		abstract class Unit(
 				symbol: Char,
 				var position: Vector
-		) : Entity(symbol) {
+		): Entity(symbol) {
 			var health: Int = 200
 
 			val isDead: Boolean
@@ -172,7 +172,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 		class Elf(
 				position: Vector
-		) : Unit(elfSymbol, position) {
+		): Unit(elfSymbol, position) {
 			override fun isEnemy(unit: Unit): Boolean {
 				return unit is Goblin
 			}
@@ -180,15 +180,15 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 		class Goblin(
 				position: Vector
-		) : Unit(goblinSymbol, position) {
+		): Unit(goblinSymbol, position) {
 			override fun isEnemy(unit: Unit): Boolean {
 				return unit is Elf
 			}
 		}
 
-		object Wall : Entity(wallSymbol)
+		object Wall: Entity(wallSymbol)
 
-		object Empty : Entity(emptySymbol)
+		object Empty: Entity(emptySymbol)
 	}
 
 	override fun parseInput(rawInput: String): Input {

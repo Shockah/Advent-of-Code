@@ -3,9 +3,9 @@ package pl.shockah.aoc.y2015
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
-import pl.shockah.aoc.Array2D
+import pl.shockah.unikorn.collection.Array2D
 
-class Day18 : AdventTask<Array2D<Boolean>, Int, Int>(2015, 18) {
+class Day18: AdventTask<Array2D<Boolean>, Int, Int>(2015, 18) {
 	override fun parseInput(rawInput: String): Array2D<Boolean> {
 		val lines = rawInput.lines()
 		return Array2D(lines[0].length, lines.size) { x, y -> lines[y][x] == '#' }

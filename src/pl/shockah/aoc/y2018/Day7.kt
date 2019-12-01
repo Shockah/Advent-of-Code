@@ -7,7 +7,7 @@ import pl.shockah.aoc.parse2
 import java.util.*
 import java.util.regex.Pattern
 
-class Day7 : AdventTask<Map<String, Day7.Step>, String, Int>(2018, 7) {
+class Day7: AdventTask<Map<String, Day7.Step>, String, Int>(2018, 7) {
 	private val inputPattern: Pattern = Pattern.compile("Step (\\w+) must be finished before step (\\w+) can begin.")
 
 	data class Step(

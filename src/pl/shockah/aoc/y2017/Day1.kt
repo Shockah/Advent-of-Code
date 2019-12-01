@@ -7,7 +7,7 @@ import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.expects
 import kotlin.streams.toList
 
-class Day1 : AdventTask<List<Int>, Int, Int>(2017, 1) {
+class Day1: AdventTask<List<Int>, Int, Int>(2017, 1) {
 	override fun parseInput(rawInput: String): List<Int> {
 		return rawInput.chars().map { it - zeroAscii }.toList()
 	}

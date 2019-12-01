@@ -32,7 +32,7 @@ private fun String.allIndexesOf(find: String): List<Int> {
 	}
 }
 
-class Day19 : AdventTask<Day19.Input, Int, Int>(2015, 19) {
+class Day19: AdventTask<Day19.Input, Int, Int>(2015, 19) {
 	private val replacementInputPattern: Pattern = Pattern.compile("(\\w+) => (\\w+)")
 
 	data class Input(

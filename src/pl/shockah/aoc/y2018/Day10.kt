@@ -3,14 +3,14 @@ package pl.shockah.aoc.y2018
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
-import pl.shockah.aoc.MutableArray2D
 import pl.shockah.aoc.parse4
+import pl.shockah.unikorn.collection.MutableArray2D
 import java.util.regex.Pattern
 import kotlin.math.absoluteValue
 
 private const val askForValidity = false
 
-class Day10 : AdventTask<List<Day10.Point>, String, Int>(2018, 10) {
+class Day10: AdventTask<List<Day10.Point>, String, Int>(2018, 10) {
 	private val inputPattern: Pattern = Pattern.compile("position=<\\s*(-?\\d+)\\s*,\\s*(-?\\d+)\\s*> velocity=<\\s*(-?\\d+)\\s*,\\s*(-?\\d+)\\s*>")
 
 	data class Vector(

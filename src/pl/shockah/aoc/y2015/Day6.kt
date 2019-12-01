@@ -3,11 +3,15 @@ package pl.shockah.aoc.y2015
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
-import pl.shockah.aoc.*
+import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.IntPatternParser
+import pl.shockah.aoc.expects
+import pl.shockah.aoc.parse
+import pl.shockah.unikorn.collection.MutableArray2D
 import java.util.regex.Pattern
 import kotlin.math.max
 
-class Day6 : AdventTask<List<Day6.Instruction>, Int, Int>(2015, 6) {
+class Day6: AdventTask<List<Day6.Instruction>, Int, Int>(2015, 6) {
 	private val inputPattern: Pattern = Pattern.compile("((?:turn on)|(?:turn off)|(?:toggle)) (\\d+),(\\d+) through (\\d+),(\\d+)")
 
 	enum class Operation(

@@ -11,7 +11,7 @@ import pl.shockah.jay.JSONParseException
 import pl.shockah.jay.JSONParser
 import java.math.BigInteger
 
-class Day12 : AdventTask<Any, Int, Int>(2015, 12) {
+class Day12: AdventTask<Any, Int, Int>(2015, 12) {
 	override fun parseInput(rawInput: String): Any {
 		return try {
 			JSONParser().parseObject(rawInput)

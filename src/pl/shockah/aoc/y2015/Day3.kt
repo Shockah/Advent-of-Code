@@ -6,7 +6,7 @@ import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.expects
 
-class Day3 : AdventTask<List<Day3.Direction>, Int, Int>(2015, 3) {
+class Day3: AdventTask<List<Day3.Direction>, Int, Int>(2015, 3) {
 	enum class Direction(
 			val symbol: Char,
 			val x: Int,

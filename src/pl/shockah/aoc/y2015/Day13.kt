@@ -6,7 +6,7 @@ import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.parse4
 import java.util.regex.Pattern
 
-class Day13 : AdventTask<Map<Pair<String, String>, Int>, Int, Int>(2015, 13) {
+class Day13: AdventTask<Map<Pair<String, String>, Int>, Int, Int>(2015, 13) {
 	private val inputPattern: Pattern = Pattern.compile("(\\w+) would ((?:gain)|(?:lose)) (\\d+) happiness units by sitting next to (\\w+).")
 
 	override fun parseInput(rawInput: String): Map<Pair<String, String>, Int> {

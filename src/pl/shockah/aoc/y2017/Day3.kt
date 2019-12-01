@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.expects
-import pl.shockah.aoc.nextInCycle
+import pl.shockah.unikorn.nextInCycle
 import kotlin.math.absoluteValue
 
 class Day3: AdventTask<Int, Int, Int>(2017, 3) {

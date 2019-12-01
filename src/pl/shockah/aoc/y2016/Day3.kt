@@ -3,9 +3,9 @@ package pl.shockah.aoc.y2016
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
-import pl.shockah.aoc.Array2D
+import pl.shockah.unikorn.collection.Array2D
 
-class Day3 : AdventTask<Array2D<Int>, Int, Int>(2016, 3) {
+class Day3: AdventTask<Array2D<Int>, Int, Int>(2016, 3) {
 	override fun parseInput(rawInput: String): Array2D<Int> {
 		val lines = rawInput.lines().map { it.trim() }.filter { !it.isEmpty() }.map { it.split(Regex("\\s+")).map { it.trim().toInt() }}
 		return Array2D(3, lines.size) { x, y -> lines[y][x] }

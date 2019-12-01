@@ -4,7 +4,11 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
-import pl.shockah.aoc.*
+import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.expects
+import pl.shockah.unikorn.collection.Array2D
+import pl.shockah.unikorn.nextInCycle
+import pl.shockah.unikorn.previousInCycle
 
 class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 	data class Input(
