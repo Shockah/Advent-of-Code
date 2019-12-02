@@ -1,6 +1,5 @@
 package pl.shockah.aoc.y2015
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
@@ -29,7 +28,7 @@ class Day1: AdventTask<String, Int, Int>(2015, 1) {
 		private val task = Day1()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(
+		fun part1(): Collection<DynamicTest> = createSimpleTestCases(
 				"(())" expects 0,
 				"()()" expects 0,
 				"(((" expects 3,
@@ -39,18 +38,12 @@ class Day1: AdventTask<String, Int, Int>(2015, 1) {
 				"))(" expects -1,
 				")))" expects -3,
 				")())())" expects -3
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part1(input))
-		}
+		) { task.part1(task.parseInput(it)) }
 
 		@TestFactory
-		fun part2(): Collection<DynamicTest> = createTestCases(
+		fun part2(): Collection<DynamicTest> = createSimpleTestCases(
 				")" expects 1,
 				"()())" expects 5
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part2(input))
-		}
+		) { task.part2(task.parseInput(it)) }
 	}
 }

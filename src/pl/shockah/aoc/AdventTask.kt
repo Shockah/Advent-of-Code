@@ -1,5 +1,6 @@
 package pl.shockah.aoc
 
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import java.util.regex.Pattern
 
@@ -22,8 +23,16 @@ abstract class AdventTask<ParsedInput, A, B>(
 	)
 
 	companion object {
+		fun <Input, Output> createSimpleTestCases(vararg cases: Case<Input, Output>, executable: (input: Input) -> Output): Collection<DynamicTest> {
+			return createSimpleTestCases(cases.toList(), executable)
+		}
+
 		fun <Input, Output> createTestCases(vararg cases: Case<Input, Output>, executable: (input: Input, expected: Output) -> Unit): Collection<DynamicTest> {
 			return createTestCases(cases.toList(), executable)
+		}
+
+		fun <Input, Output> createSimpleTestCases(cases: List<Case<Input, Output>>, executable: (input: Input) -> Output): Collection<DynamicTest> {
+			return createTestCases(cases) { input, expected -> Assertions.assertEquals(expected, executable(input)) }
 		}
 
 		fun <Input, Output> createTestCases(cases: List<Case<Input, Output>>, executable: (input: Input, expected: Output) -> Unit): Collection<DynamicTest> {

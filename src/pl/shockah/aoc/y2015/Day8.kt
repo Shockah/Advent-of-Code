@@ -68,10 +68,7 @@ class Day8: AdventTask<List<String>, Int, Int>(2015, 8) {
 				"\"abc\"" expects 2,
 				"\"aaa\\\"aaa\"" expects 3,
 				"\"\\x27\"" expects 5
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part1(input))
-		}
+		) { rawInput, expected -> Assertions.assertEquals(expected, task.part1(task.parseInput(rawInput))) }
 
 		@TestFactory
 		fun part2(): Collection<DynamicTest> = createTestCases(
@@ -79,9 +76,6 @@ class Day8: AdventTask<List<String>, Int, Int>(2015, 8) {
 				"\"abc\"" expects 4,
 				"\"aaa\\\"aaa\"" expects 6,
 				"\"\\x27\"" expects 5
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part2(input))
-		}
+		) { rawInput, expected -> Assertions.assertEquals(expected, task.part2(task.parseInput(rawInput))) }
 	}
 }

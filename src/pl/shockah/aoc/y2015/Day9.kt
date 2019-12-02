@@ -1,8 +1,11 @@
 package pl.shockah.aoc.y2015
 
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.expects
 import pl.shockah.aoc.parse3
 import java.util.regex.Pattern
 
@@ -69,6 +72,13 @@ class Day9: AdventTask<Map<Day9.UnorderedPair<String>, Int>, Int, Int>(2015, 9) 
 			London to Belfast = 518
 			Dublin to Belfast = 141
 		""".trimIndent()
+
+		@TestFactory
+		fun parseInput(): Collection<DynamicTest> = createTestCases(
+				"London to Dublin = 464" expects (UnorderedPair("London", "Dublin") to 464),
+				"London to Belfast = 518" expects (UnorderedPair("London", "Belfast") to 518),
+				"Dublin to Belfast = 141" expects (UnorderedPair("Dublin", "Belfast") to 141)
+		) { rawInput, expected -> Assertions.assertEquals(mapOf(expected), task.parseInput(rawInput)) }
 
 		@Test
 		fun part1() {

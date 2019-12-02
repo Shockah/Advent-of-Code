@@ -58,21 +58,21 @@ class Day2: AdventTask<List<Day2.Dimensions>, Int, Int>(2015, 2) {
 		private val task = Day2()
 
 		@TestFactory
+		fun parseInput(): Collection<DynamicTest> = createTestCases(
+				"2x3x4" expects Dimensions(2, 3, 4),
+				"1x1x10" expects Dimensions(1, 1, 10)
+		) { rawInput, expected -> Assertions.assertEquals(listOf(expected), task.parseInput(rawInput)) }
+
+		@TestFactory
 		fun part1(): Collection<DynamicTest> = createTestCases(
-				"2x3x4" expects 58,
-				"1x1x10" expects 43
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part1(input))
-		}
+				Dimensions(2, 3, 4) expects 58,
+				Dimensions(1, 1, 10) expects 43
+		) { input, expected -> Assertions.assertEquals(expected, task.part1(listOf(input))) }
 
 		@TestFactory
 		fun part2(): Collection<DynamicTest> = createTestCases(
-				"2x3x4" expects 34,
-				"1x1x10" expects 14
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part2(input))
-		}
+				Dimensions(2, 3, 4) expects 34,
+				Dimensions(1, 1, 10) expects 14
+		) { input, expected -> Assertions.assertEquals(expected, task.part2(listOf(input))) }
 	}
 }

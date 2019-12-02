@@ -1,6 +1,5 @@
 package pl.shockah.aoc.y2015
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
@@ -79,42 +78,30 @@ class Day11: AdventTask<String, String, String>(2015, 11) {
 		private val task = Day11()
 
 		@TestFactory
-		fun passwordNotAmbiguous(): Collection<DynamicTest> = createTestCases(
+		fun passwordNotAmbiguous(): Collection<DynamicTest> = createSimpleTestCases(
 				"hijklmmn" expects false,
 				"abbceffg" expects true,
 				"abbcegjk" expects true
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, !input.isAmbiguous)
-		}
+		) { !it.isAmbiguous }
 
 		@TestFactory
-		fun passwordContrainsThreeStraight(): Collection<DynamicTest> = createTestCases(
+		fun passwordContrainsThreeStraight(): Collection<DynamicTest> = createSimpleTestCases(
 				"hijklmmn" expects true,
 				"abbceffg" expects false,
 				"abbcegjk" expects false
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, input.containsThreeStraight)
-		}
+		) { it.containsThreeStraight }
 
 		@TestFactory
-		fun passwordHasTwoPairs(): Collection<DynamicTest> = createTestCases(
+		fun passwordHasTwoPairs(): Collection<DynamicTest> = createSimpleTestCases(
 				"hijklmmn" expects false,
 				"abbceffg" expects true,
 				"abbcegjk" expects false
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, input.hasTwoPairs)
-		}
+		) { it.hasTwoPairs }
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(
+		fun part1(): Collection<DynamicTest> = createSimpleTestCases(
 				"abcdefgh" expects "abcdffaa",
 				"ghijklmn" expects "ghjaabcc"
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part1(input))
-		}
+		) { task.part1(task.parseInput(it)) }
 	}
 }

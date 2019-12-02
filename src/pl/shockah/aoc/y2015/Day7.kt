@@ -208,7 +208,7 @@ class Day7: AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 		""".trimIndent()
 
 		@TestFactory
-		fun parse(): Collection<DynamicTest> = createTestCases(
+		fun parseInput(): Collection<DynamicTest> = createTestCases(
 				"d" expects 72,
 				"e" expects 507,
 				"f" expects 492,

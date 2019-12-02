@@ -57,9 +57,6 @@ class Day10: AdventTask<String, Int, Int>(2015, 10) {
 				"21" expects "1211",
 				"1211" expects "111221",
 				"111221" expects "312211"
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.process(input))
-		}
+		) { rawInput, expected -> Assertions.assertEquals(expected, task.process(task.parseInput(rawInput))) }
 	}
 }

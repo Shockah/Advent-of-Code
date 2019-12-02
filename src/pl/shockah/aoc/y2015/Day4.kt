@@ -42,9 +42,6 @@ class Day4: AdventTask<String, Int, Int>(2015, 4) {
 		fun part1(): Collection<DynamicTest> = createTestCases(
 				"abcdef" expects 609043,
 				"pqrstuv" expects 1048970
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part1(input))
-		}
+		) { rawInput, expected -> Assertions.assertEquals(expected, task.part1(task.parseInput(rawInput))) }
 	}
 }
