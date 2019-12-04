@@ -27,8 +27,8 @@ class AdventOfCode {
 					var parsedInput: Any
 					measure("Parsing") { parsedInput = task.parseInput(File(fullFileName).readText().trimEnd()) }
 
-					runTask("A") { task.part1(parsedInput) }
-					runTask("B") { task.part2(parsedInput) }
+					runTask("Part 1") { task.part1(parsedInput) }
+					runTask("Part 2") { task.part2(parsedInput) }
 				}
 			} catch (e: Throwable) {
 				e.printStackTrace()
