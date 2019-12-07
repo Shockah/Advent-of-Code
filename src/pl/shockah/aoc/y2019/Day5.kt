@@ -10,13 +10,13 @@ import java.util.*
 
 class Day5: AdventTask<List<Int>, Int, Int>(2019, 5), Intcode.Provider {
 	companion object {
-		val pop = Intcode.Instruction(3) { pointer, parameters, memory, console ->
+		val pop = Intcode.Instruction(3) { pointer, _, memory, console ->
 			val value = console.pop()
 			val address = memory[pointer.value++]
 			memory[address] = value
 		}
 
-		val push = Intcode.Instruction(4) { pointer, parameters, memory, console ->
+		val push = Intcode.Instruction(4) { pointer, _, memory, console ->
 			val address = memory[pointer.value++]
 			console.push(memory[address])
 		}
