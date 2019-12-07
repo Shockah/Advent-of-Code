@@ -12,24 +12,24 @@ class Day7: Intcode.AdventTask<Long, Long>(2019, 7, instructions) {
 		val instructions = Day5.instructions
 	}
 
-	private fun getCombinations(): Set<List<Int>> {
-		return getCombinations(setOf(0, 1, 2, 3, 4), emptyList())
+	private fun getCombinations(range: LongRange): Set<List<Long>> {
+		return getCombinations(range.toSet(), emptyList())
 	}
 
-	private fun getCombinations(left: Set<Int>, current: List<Int>): Set<List<Int>> {
+	private fun getCombinations(left: Set<Long>, current: List<Long>): Set<List<Long>> {
 		if (left.isEmpty())
 			return setOf(current)
 		return left.flatMap { getCombinations(left - it, current + it) }.toSet()
 	}
 
 	override fun part1(input: List<Long>): Long {
-		fun getOutput(combination: List<Int>): Long {
+		fun getOutput(combination: List<Long>): Long {
 			val inputBuffer = LinkedList<Long>()
 			val outputBuffer = LinkedList<Long>()
 
 			outputBuffer.add(0)
 			for (phase in combination) {
-				inputBuffer.add(phase.toLong())
+				inputBuffer.add(phase)
 				inputBuffer.add(outputBuffer.removeFirst())
 				val intcode = getIntcode(input, inputBuffer, outputBuffer)
 				intcode.execute()
@@ -37,13 +37,13 @@ class Day7: Intcode.AdventTask<Long, Long>(2019, 7, instructions) {
 			return outputBuffer.removeFirst()
 		}
 
-		val combinations = getCombinations()
+		val combinations = getCombinations(0L..4L)
 		return combinations.map { getOutput(it) }.max()!!
 	}
 
 	override fun part2(input: List<Long>): Long {
-		fun getOutput(combination: List<Int>): Long {
-			val buffers = combination.map { LinkedList<Long>().apply { add(5L + it) } }
+		fun getOutput(combination: List<Long>): Long {
+			val buffers = combination.map { LinkedList<Long>().apply { add(it) } }
 			val intcodes = combination.mapIndexed { index, _ -> getIntcode(input, buffers[index], buffers[(index + 1) % combination.size]) }
 			buffers[0].add(0)
 
@@ -57,7 +57,7 @@ class Day7: Intcode.AdventTask<Long, Long>(2019, 7, instructions) {
 			return buffers[0][0]
 		}
 
-		val combinations = getCombinations()
+		val combinations = getCombinations(5L..9L)
 		return combinations.map { getOutput(it) }.max()!!
 	}
 
