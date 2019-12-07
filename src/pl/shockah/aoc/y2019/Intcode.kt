@@ -4,40 +4,52 @@ import pl.shockah.unikorn.Ref
 import java.util.*
 
 class Intcode(
-		initialMemory: List<Int>,
-		var input: LinkedList<Int>?,
-		var output: LinkedList<Int>?
+		initialMemory: List<Long>,
+		var input: LinkedList<Long>?,
+		var output: LinkedList<Long>?
 ) {
 	private val instructions = mutableMapOf<Int, Instruction>()
 	private val mutableMemory = initialMemory.toMutableList()
-	val memory: List<Int> = mutableMemory
+	val memory: List<Long> = mutableMemory
+
+	private val pointer = Ref(0)
+
+	var halted = false
+		private set
+
+	val awaiting: Boolean
+		get() = awaitFlag && input!!.isEmpty()
+
+	private var awaitFlag = false
 
 	fun register(instructions: List<Instruction>) {
 		instructions.forEach { this.instructions[it.opcode] = it }
 	}
 
 	fun execute() {
-		var shouldHalt = false
-		val pointer = Ref(0)
-
+		awaitFlag = false
 		val console = object: Console {
 			override fun halt() {
-				shouldHalt = true
+				halted = true
 			}
 
-			override fun push(value: Int) {
+			override fun push(value: Long) {
 				output!!.add(value)
 			}
 
-			override fun pop(): Int {
-				return input!!.removeFirst()
+			override fun pop(): Long? {
+				return if (input!!.isEmpty()) null else input!!.removeFirst()
+			}
+
+			override fun await() {
+				awaitFlag = true
 			}
 		}
 
-		while (!shouldHalt) {
+		while (!halted && !awaiting) {
 			val rawOpcode = memory[pointer.value++]
-			val parameters = Parameters(rawOpcode / 100)
-			val opcode = rawOpcode % 100
+			val parameters = Parameters((rawOpcode / 100L).toInt())
+			val opcode = (rawOpcode % 100L).toInt()
 			val instruction = instructions[opcode] ?: throw IllegalStateException("Unknown opcode `$opcode`")
 			instruction.execute(pointer, parameters, mutableMemory, console)
 		}
@@ -45,12 +57,13 @@ class Intcode(
 
 	interface Console {
 		fun halt()
-		fun push(value: Int)
-		fun pop(): Int
+		fun push(value: Long)
+		fun pop(): Long?
+		fun await()
 	}
 
 	interface Provider {
-		fun getIntcode(initialMemory: List<Int>, input: LinkedList<Int>? = null, output: LinkedList<Int>? = null): Intcode
+		fun getIntcode(initialMemory: List<Long>, input: LinkedList<Long>? = null, output: LinkedList<Long>? = null): Intcode
 	}
 
 	class Parameters(
@@ -62,9 +75,9 @@ class Intcode(
 			return mode
 		}
 
-		fun read(pointer: Ref<Int>, memory: List<Int>): Int {
+		fun read(pointer: Ref<Int>, memory: List<Long>): Long {
 			return when (val mode = nextMode()) {
-				0 -> memory[memory[pointer.value++]]
+				0 -> memory[memory[pointer.value++].toInt()]
 				1 -> memory[pointer.value++]
 				else -> throw IllegalStateException("Unknown parameter mode `$mode`")
 			}
@@ -73,19 +86,19 @@ class Intcode(
 
 	data class Instruction(
 			val opcode: Int,
-			val execute: (pointer: Ref<Int>, parameters: Parameters, memory: MutableList<Int>, console: Console) -> Unit
+			val execute: (pointer: Ref<Int>, parameters: Parameters, memory: MutableList<Long>, console: Console) -> Unit
 	)
 
 	abstract class AdventTask<A, B>(
 			year: Int,
 			day: Int,
 			val instructions: List<Instruction>
-	): pl.shockah.aoc.AdventTask<List<Int>, A, B>(year, day), Provider {
-		override fun parseInput(rawInput: String): List<Int> {
-			return rawInput.split(",").map { it.toInt() }
+	): pl.shockah.aoc.AdventTask<List<Long>, A, B>(year, day), Provider {
+		override fun parseInput(rawInput: String): List<Long> {
+			return rawInput.split(",").map { it.toLong() }
 		}
 
-		override fun getIntcode(initialMemory: List<Int>, input: LinkedList<Int>?, output: LinkedList<Int>?): Intcode {
+		override fun getIntcode(initialMemory: List<Long>, input: LinkedList<Long>?, output: LinkedList<Long>?): Intcode {
 			return Intcode(initialMemory, input, output).also { it.register(instructions) }
 		}
 	}

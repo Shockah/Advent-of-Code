@@ -6,19 +6,19 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.expects
 
-class Day2: Intcode.AdventTask<Int, Int>(2019, 2, instructions) {
+class Day2: Intcode.AdventTask<Long, Long>(2019, 2, instructions) {
 	companion object {
 		val add = Intcode.Instruction(1) { pointer, parameters, memory, _ ->
 			val a = parameters.read(pointer, memory)
 			val b = parameters.read(pointer, memory)
-			val output = memory[pointer.value++]
+			val output = memory[pointer.value++].toInt()
 			memory[output] = a + b
 		}
 
 		val multiply = Intcode.Instruction(2) { pointer, parameters, memory, _ ->
 			val a = parameters.read(pointer, memory)
 			val b = parameters.read(pointer, memory)
-			val output = memory[pointer.value++]
+			val output = memory[pointer.value++].toInt()
 			memory[output] = a * b
 		}
 
@@ -29,7 +29,7 @@ class Day2: Intcode.AdventTask<Int, Int>(2019, 2, instructions) {
 		val instructions = listOf(add, multiply, halt)
 	}
 
-	private fun task(input: List<Int>, noun: Int, verb: Int): Int {
+	private fun task(input: List<Long>, noun: Long, verb: Long): Long {
 		val data = input.toMutableList()
 		data[1] = noun
 		data[2] = verb
@@ -39,16 +39,16 @@ class Day2: Intcode.AdventTask<Int, Int>(2019, 2, instructions) {
 		return intcode.memory[0]
 	}
 
-	override fun part1(input: List<Int>): Int {
+	override fun part1(input: List<Long>): Long {
 		return task(input, 12, 2)
 	}
 
-	override fun part2(input: List<Int>): Int {
-		for (noun in 0..99) {
-			for (verb in 0..99) {
-				if (task(input, noun, verb) == 19690720) {
+	override fun part2(input: List<Long>): Long {
+		for (noun in 0L..99L) {
+			for (verb in 0L..99L) {
+				if (task(input, noun, verb) == 19690720L) {
 					println("Found combination: noun = $noun, verb = $verb")
-					return 100 * noun + verb
+					return 100L * noun + verb
 				}
 			}
 		}
@@ -63,6 +63,6 @@ class Day2: Intcode.AdventTask<Int, Int>(2019, 2, instructions) {
 				listOf(2, 3, 0, 3, 99) expects listOf(2, 3, 0, 6, 99),
 				listOf(2, 4, 4, 5, 99, 0) expects listOf(2, 4, 4, 5, 99, 9801),
 				listOf(1, 1, 1, 4, 99, 5, 6, 0, 99) expects listOf(30, 1, 1, 4, 2, 5, 6, 0, 99)
-		) { input, expected -> Assertions.assertEquals(expected, getIntcode(input).also { it.execute() }.memory) }
+		) { input, expected -> Assertions.assertEquals(expected.map { it.toLong() }, getIntcode(input.map { it.toLong() }).also { it.execute() }.memory) }
 	}
 }
