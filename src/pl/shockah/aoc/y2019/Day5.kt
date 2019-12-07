@@ -4,11 +4,10 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.TestFactory
-import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.expects
 import java.util.*
 
-class Day5: AdventTask<List<Int>, Int, Int>(2019, 5), Intcode.Provider {
+class Day5: Intcode.AdventTask<Int, Int>(2019, 5, instructions) {
 	companion object {
 		val pop = Intcode.Instruction(3) { pointer, _, memory, console ->
 			val value = console.pop()
@@ -50,16 +49,6 @@ class Day5: AdventTask<List<Int>, Int, Int>(2019, 5), Intcode.Provider {
 		}
 
 		val instructions = Day2.instructions + listOf(pop, push, jumpIfTrue, jumpIfFalse, lessThan, equals)
-	}
-
-	override fun getIntcode(initialMemory: List<Int>, input: LinkedList<Int>?, output: LinkedList<Int>?): Intcode {
-		return Intcode(initialMemory, input, output).apply {
-			register(instructions)
-		}
-	}
-
-	override fun parseInput(rawInput: String): List<Int> {
-		return rawInput.split(",").map { it.toInt() }
 	}
 
 	override fun part1(input: List<Int>): Int {

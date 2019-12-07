@@ -4,11 +4,9 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.TestFactory
-import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.expects
-import java.util.*
 
-class Day2: AdventTask<List<Int>, Int, Int>(2019, 2), Intcode.Provider {
+class Day2: Intcode.AdventTask<Int, Int>(2019, 2, instructions) {
 	companion object {
 		val add = Intcode.Instruction(1) { pointer, parameters, memory, _ ->
 			val a = parameters.read(pointer, memory)
@@ -29,16 +27,6 @@ class Day2: AdventTask<List<Int>, Int, Int>(2019, 2), Intcode.Provider {
 		}
 
 		val instructions = listOf(add, multiply, halt)
-	}
-
-	override fun getIntcode(initialMemory: List<Int>, input: LinkedList<Int>?, output: LinkedList<Int>?): Intcode {
-		return Intcode(initialMemory, input, output).apply {
-			register(instructions)
-		}
-	}
-
-	override fun parseInput(rawInput: String): List<Int> {
-		return rawInput.split(",").map { it.toInt() }
 	}
 
 	private fun task(input: List<Int>, noun: Int, verb: Int): Int {

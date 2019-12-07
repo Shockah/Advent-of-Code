@@ -12,10 +12,6 @@ class Intcode(
 	private val mutableMemory = initialMemory.toMutableList()
 	val memory: List<Int> = mutableMemory
 
-	fun register(vararg instructions: Instruction) {
-		register(instructions.toList())
-	}
-
 	fun register(instructions: List<Instruction>) {
 		instructions.forEach { this.instructions[it.opcode] = it }
 	}
@@ -78,7 +74,19 @@ class Intcode(
 	data class Instruction(
 			val opcode: Int,
 			val execute: (pointer: Ref<Int>, parameters: Parameters, memory: MutableList<Int>, console: Console) -> Unit
-	) {
+	)
 
+	abstract class AdventTask<A, B>(
+			year: Int,
+			day: Int,
+			val instructions: List<Instruction>
+	): pl.shockah.aoc.AdventTask<List<Int>, A, B>(year, day), Provider {
+		override fun parseInput(rawInput: String): List<Int> {
+			return rawInput.split(",").map { it.toInt() }
+		}
+
+		override fun getIntcode(initialMemory: List<Int>, input: LinkedList<Int>?, output: LinkedList<Int>?): Intcode {
+			return Intcode(initialMemory, input, output).also { it.register(instructions) }
+		}
 	}
 }
