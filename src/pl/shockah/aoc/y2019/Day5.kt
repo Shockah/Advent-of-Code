@@ -9,48 +9,48 @@ import java.util.*
 
 class Day5: Intcode.AdventTask<Long, Long>(2019, 5, instructions) {
 	companion object {
-		val pop = Intcode.Instruction(3) { pointer, parameters, memory, console ->
+		val pop = Intcode.Instruction(3) { pointer, relativeBase, parameters, memory, console ->
 			val backupPointer = pointer.value - 1
 			val value = console.pop()
 			if (value == null) {
 				pointer.value = backupPointer
 				console.await()
 			} else {
-				val address = parameters.getAddress(pointer, memory)
+				val address = parameters.getAddress(pointer, relativeBase, memory)
 				memory[address] = value
 			}
 		}
 
-		val push = Intcode.Instruction(4) { pointer, parameters, memory, console ->
-			val address = parameters.getAddress(pointer, memory)
+		val push = Intcode.Instruction(4) { pointer, relativeBase, parameters, memory, console ->
+			val address = parameters.getAddress(pointer, relativeBase, memory)
 			console.push(memory[address])
 		}
 
-		val jumpIfTrue = Intcode.Instruction(5) { pointer, parameters, memory, _ ->
-			val value = parameters.read(pointer, memory)
-			val jumpTo = parameters.read(pointer, memory).toInt()
+		val jumpIfTrue = Intcode.Instruction(5) { pointer, relativeBase, parameters, memory, _ ->
+			val value = parameters.read(pointer, relativeBase, memory)
+			val jumpTo = parameters.read(pointer, relativeBase, memory).toInt()
 			if (value != 0L)
 				pointer.value = jumpTo
 		}
 
-		val jumpIfFalse = Intcode.Instruction(6) { pointer, parameters, memory, _ ->
-			val value = parameters.read(pointer, memory)
-			val jumpTo = parameters.read(pointer, memory).toInt()
+		val jumpIfFalse = Intcode.Instruction(6) { pointer, relativeBase, parameters, memory, _ ->
+			val value = parameters.read(pointer, relativeBase, memory)
+			val jumpTo = parameters.read(pointer, relativeBase, memory).toInt()
 			if (value == 0L)
 				pointer.value = jumpTo
 		}
 
-		val lessThan = Intcode.Instruction(7) { pointer, parameters, memory, _ ->
-			val a = parameters.read(pointer, memory)
-			val b = parameters.read(pointer, memory)
-			val output = parameters.getAddress(pointer, memory)
+		val lessThan = Intcode.Instruction(7) { pointer, relativeBase, parameters, memory, _ ->
+			val a = parameters.read(pointer, relativeBase, memory)
+			val b = parameters.read(pointer, relativeBase, memory)
+			val output = parameters.getAddress(pointer, relativeBase, memory)
 			memory[output] = if (a < b) 1 else 0
 		}
 
-		val equals = Intcode.Instruction(8) { pointer, parameters, memory, _ ->
-			val a = parameters.read(pointer, memory)
-			val b = parameters.read(pointer, memory)
-			val output = parameters.getAddress(pointer, memory)
+		val equals = Intcode.Instruction(8) { pointer, relativeBase, parameters, memory, _ ->
+			val a = parameters.read(pointer, relativeBase, memory)
+			val b = parameters.read(pointer, relativeBase, memory)
+			val output = parameters.getAddress(pointer, relativeBase, memory)
 			memory[output] = if (a == b) 1 else 0
 		}
 
@@ -87,6 +87,6 @@ class Day5: Intcode.AdventTask<Long, Long>(2019, 5, instructions) {
 		@TestFactory
 		fun execute(): Collection<DynamicTest> = createTestCases(
 				listOf(1002, 4, 3, 4, 33) expects listOf(1002, 4, 3, 4, 99)
-		) { input, expected -> Assertions.assertEquals(expected.map { it.toLong() }, getIntcode(input.map { it.toLong() }).also { it.execute() }.memory) }
+		) { input, expected -> Assertions.assertEquals(expected.map { it.toLong() }, getIntcode(input.map { it.toLong() }).also { it.execute() }.memory.data.values.toList()) }
 	}
 }

@@ -9,10 +9,10 @@ class Intcode(
 		var output: LinkedList<Long>?
 ) {
 	private val instructions = mutableMapOf<Int, Instruction>()
-	private val mutableMemory = initialMemory.toMutableList()
-	val memory: List<Long> = mutableMemory
+	val memory = Memory(initialMemory)
 
 	private val pointer = Ref(0)
+	private val relativeBase = Ref(0)
 
 	var halted = false
 		private set
@@ -51,7 +51,7 @@ class Intcode(
 			val parameters = Parameters((rawOpcode / 100L).toInt())
 			val opcode = (rawOpcode % 100L).toInt()
 			val instruction = instructions[opcode] ?: throw IllegalStateException("Unknown opcode `$opcode`")
-			instruction.execute(pointer, parameters, mutableMemory, console)
+			instruction.execute(pointer, relativeBase, parameters, memory, console)
 		}
 	}
 
@@ -75,29 +75,46 @@ class Intcode(
 			return mode
 		}
 
-		fun read(pointer: Ref<Int>, memory: List<Long>): Long {
+		fun read(pointer: Ref<Int>, relativeBase: Ref<Int>, memory: Memory): Long {
 			return when (val mode = nextMode()) {
 				1 -> memory[pointer.value++]
-				else -> memory[getAddress(pointer, mode, memory)]
+				else -> memory[getAddress(pointer, relativeBase, mode, memory)]
 			}
 		}
 
-		fun getAddress(pointer: Ref<Int>, memory: List<Long>): Int {
-			return getAddress(pointer, nextMode(), memory)
+		fun getAddress(pointer: Ref<Int>, relativeBase: Ref<Int>, memory: Memory): Int {
+			return getAddress(pointer, relativeBase, nextMode(), memory)
 		}
 
-		private fun getAddress(pointer: Ref<Int>, mode: Int, memory: List<Long>): Int {
+		private fun getAddress(pointer: Ref<Int>, relativeBase: Ref<Int>, mode: Int, memory: Memory): Int {
 			return when (mode) {
 				0 -> memory[pointer.value++].toInt()
 				1 -> throw IllegalStateException("Unsupported parameter mode `$mode`")
+				2 -> memory[relativeBase.value].toInt()
 				else -> throw IllegalStateException("Unknown parameter mode `$mode`")
 			}
 		}
 	}
 
+	class Memory(
+			initialData: List<Long>
+	) {
+		val data = initialData.mapIndexed { index, value -> index to value }.toMap().toMutableMap()
+
+		operator fun get(index: Int): Long {
+			require(index >= 0)
+			return data[index] ?: 0
+		}
+
+		operator fun set(index: Int, value: Long) {
+			require(index >= 0)
+			data[index] = value
+		}
+	}
+
 	data class Instruction(
 			val opcode: Int,
-			val execute: (pointer: Ref<Int>, parameters: Parameters, memory: MutableList<Long>, console: Console) -> Unit
+			val execute: (pointer: Ref<Int>, relativeBase: Ref<Int>, parameters: Parameters, memory: Memory, console: Console) -> Unit
 	)
 
 	abstract class AdventTask<A, B>(

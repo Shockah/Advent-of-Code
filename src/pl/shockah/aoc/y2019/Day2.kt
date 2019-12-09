@@ -8,21 +8,21 @@ import pl.shockah.aoc.expects
 
 class Day2: Intcode.AdventTask<Long, Long>(2019, 2, instructions) {
 	companion object {
-		val add = Intcode.Instruction(1) { pointer, parameters, memory, _ ->
-			val a = parameters.read(pointer, memory)
-			val b = parameters.read(pointer, memory)
-			val output = parameters.getAddress(pointer, memory)
+		val add = Intcode.Instruction(1) { pointer, relativeBase, parameters, memory, _ ->
+			val a = parameters.read(pointer, relativeBase, memory)
+			val b = parameters.read(pointer, relativeBase, memory)
+			val output = parameters.getAddress(pointer, relativeBase, memory)
 			memory[output] = a + b
 		}
 
-		val multiply = Intcode.Instruction(2) { pointer, parameters, memory, _ ->
-			val a = parameters.read(pointer, memory)
-			val b = parameters.read(pointer, memory)
-			val output = parameters.getAddress(pointer, memory)
+		val multiply = Intcode.Instruction(2) { pointer, relativeBase, parameters, memory, _ ->
+			val a = parameters.read(pointer, relativeBase, memory)
+			val b = parameters.read(pointer, relativeBase, memory)
+			val output = parameters.getAddress(pointer, relativeBase, memory)
 			memory[output] = a * b
 		}
 
-		val halt = Intcode.Instruction(99) { _, _, _, console ->
+		val halt = Intcode.Instruction(99) { _, _, _, _, console ->
 			console.halt()
 		}
 
@@ -63,6 +63,6 @@ class Day2: Intcode.AdventTask<Long, Long>(2019, 2, instructions) {
 				listOf(2, 3, 0, 3, 99) expects listOf(2, 3, 0, 6, 99),
 				listOf(2, 4, 4, 5, 99, 0) expects listOf(2, 4, 4, 5, 99, 9801),
 				listOf(1, 1, 1, 4, 99, 5, 6, 0, 99) expects listOf(30, 1, 1, 4, 2, 5, 6, 0, 99)
-		) { input, expected -> Assertions.assertEquals(expected.map { it.toLong() }, getIntcode(input.map { it.toLong() }).also { it.execute() }.memory) }
+		) { input, expected -> Assertions.assertEquals(expected.map { it.toLong() }, getIntcode(input.map { it.toLong() }).also { it.execute() }.memory.data.values.toList()) }
 	}
 }
