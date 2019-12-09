@@ -77,8 +77,19 @@ class Intcode(
 
 		fun read(pointer: Ref<Int>, memory: List<Long>): Long {
 			return when (val mode = nextMode()) {
-				0 -> memory[memory[pointer.value++].toInt()]
 				1 -> memory[pointer.value++]
+				else -> memory[getAddress(pointer, mode, memory)]
+			}
+		}
+
+		fun getAddress(pointer: Ref<Int>, memory: List<Long>): Int {
+			return getAddress(pointer, nextMode(), memory)
+		}
+
+		private fun getAddress(pointer: Ref<Int>, mode: Int, memory: List<Long>): Int {
+			return when (mode) {
+				0 -> memory[pointer.value++].toInt()
+				1 -> throw IllegalStateException("Unsupported parameter mode `$mode`")
 				else -> throw IllegalStateException("Unknown parameter mode `$mode`")
 			}
 		}

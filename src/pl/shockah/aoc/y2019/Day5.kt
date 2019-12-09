@@ -9,20 +9,20 @@ import java.util.*
 
 class Day5: Intcode.AdventTask<Long, Long>(2019, 5, instructions) {
 	companion object {
-		val pop = Intcode.Instruction(3) { pointer, _, memory, console ->
+		val pop = Intcode.Instruction(3) { pointer, parameters, memory, console ->
 			val backupPointer = pointer.value - 1
 			val value = console.pop()
 			if (value == null) {
 				pointer.value = backupPointer
 				console.await()
 			} else {
-				val address = memory[pointer.value++].toInt()
+				val address = parameters.getAddress(pointer, memory)
 				memory[address] = value
 			}
 		}
 
-		val push = Intcode.Instruction(4) { pointer, _, memory, console ->
-			val address = memory[pointer.value++].toInt()
+		val push = Intcode.Instruction(4) { pointer, parameters, memory, console ->
+			val address = parameters.getAddress(pointer, memory)
 			console.push(memory[address])
 		}
 
@@ -43,14 +43,14 @@ class Day5: Intcode.AdventTask<Long, Long>(2019, 5, instructions) {
 		val lessThan = Intcode.Instruction(7) { pointer, parameters, memory, _ ->
 			val a = parameters.read(pointer, memory)
 			val b = parameters.read(pointer, memory)
-			val output = memory[pointer.value++].toInt()
+			val output = parameters.getAddress(pointer, memory)
 			memory[output] = if (a < b) 1 else 0
 		}
 
 		val equals = Intcode.Instruction(8) { pointer, parameters, memory, _ ->
 			val a = parameters.read(pointer, memory)
 			val b = parameters.read(pointer, memory)
-			val output = memory[pointer.value++].toInt()
+			val output = parameters.getAddress(pointer, memory)
 			memory[output] = if (a == b) 1 else 0
 		}
 

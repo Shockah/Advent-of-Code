@@ -11,14 +11,14 @@ class Day2: Intcode.AdventTask<Long, Long>(2019, 2, instructions) {
 		val add = Intcode.Instruction(1) { pointer, parameters, memory, _ ->
 			val a = parameters.read(pointer, memory)
 			val b = parameters.read(pointer, memory)
-			val output = memory[pointer.value++].toInt()
+			val output = parameters.getAddress(pointer, memory)
 			memory[output] = a + b
 		}
 
 		val multiply = Intcode.Instruction(2) { pointer, parameters, memory, _ ->
 			val a = parameters.read(pointer, memory)
 			val b = parameters.read(pointer, memory)
-			val output = memory[pointer.value++].toInt()
+			val output = parameters.getAddress(pointer, memory)
 			memory[output] = a * b
 		}
 
