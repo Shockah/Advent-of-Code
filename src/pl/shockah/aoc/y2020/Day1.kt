@@ -27,11 +27,11 @@ class Day1: AdventTask<List<Int>, Int, Int>(2020, 1) {
     }
 
     override fun part1(input: List<Int>): Int {
-        return task(input, toTake = 2, expectedSum = 2020) ?: throw IllegalArgumentException("No pair of numbers results in a sum of 2020")
+        return task(input, toTake = 2, expectedSum = 2020) ?: throw IllegalArgumentException("No set of numbers results in a sum of 2020")
     }
 
     override fun part2(input: List<Int>): Int {
-        return task(input, toTake = 3, expectedSum = 2020) ?: throw IllegalArgumentException("No pair of numbers results in a sum of 2020")
+        return task(input, toTake = 3, expectedSum = 2020) ?: throw IllegalArgumentException("No set of numbers results in a sum of 2020")
     }
 
     class Tests {
@@ -43,6 +43,14 @@ class Day1: AdventTask<List<Int>, Int, Int>(2020, 1) {
         ) { rawInput, expected ->
             val input = task.parseInput(rawInput)
             Assertions.assertEquals(expected, task.part1(input))
+        }
+
+        @TestFactory
+        fun part2(): Collection<DynamicTest> = createTestCases(
+                "1721\n979\n366\n299\n675\n1456" expects 241861950
+        ) { rawInput, expected ->
+            val input = task.parseInput(rawInput)
+            Assertions.assertEquals(expected, task.part2(input))
         }
     }
 }
