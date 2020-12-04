@@ -95,13 +95,29 @@ fun <A, B, C, D, E, F> Pattern.parse(
 }
 
 @PublishedApi
-internal inline fun <reified T> parseGroup(group: String?): T {
+internal inline fun <reified T> parseGroup(group: String): T {
 	return when (T::class) {
 		String::class -> group as T
-		Int::class -> group!!.toInt() as T
-		Char::class -> group!![0] as T
+		Int::class -> group.toInt() as T
+		Char::class -> group[0] as T
 		else -> throw IllegalArgumentException()
 	}
+}
+
+@PublishedApi
+internal inline fun <reified T> parseGroupOrNull(group: String): T? {
+	return when (T::class) {
+		String::class -> group as T?
+		Int::class -> group.toIntOrNull() as T?
+		Char::class -> group[0] as T?
+		else -> null
+	}
+}
+
+inline fun <reified A> Pattern.parse(input: String): A {
+	val matcher = matcher(input)
+	require(matcher.find())
+	return parseGroup(matcher.group(1))
 }
 
 inline fun <reified A, reified B> Pattern.parse2(input: String): Tuple2<A, B> {
@@ -159,6 +175,108 @@ inline fun <reified A, reified B, reified C, reified D, reified E, reified F> Pa
 			parseGroup(matcher.group(5)),
 			parseGroup(matcher.group(6))
 	)
+}
+
+inline fun <reified A> Pattern.parseOrNull(input: String): A? {
+	val matcher = matcher(input)
+	if (!matcher.find())
+		return null
+	return parseGroupOrNull(matcher.group(1))
+}
+
+inline fun <reified A, reified B> Pattern.parse2OrNull(input: String): Tuple2<A, B>? {
+	val matcher = matcher(input)
+	if (!matcher.find())
+		return null
+	return Tuple2(
+			parseGroupOrNull<A>(matcher.group(1)),
+			parseGroupOrNull<B>(matcher.group(2))
+	).takeIf { it.first != null && it.second != null }?.let {
+		Tuple2<A, B>(
+				it.first!!,
+				it.second!!
+		)
+	}
+}
+
+inline fun <reified A, reified B, reified C> Pattern.parse3OrNull(input: String): Tuple3<A, B, C>? {
+	val matcher = matcher(input)
+	if (!matcher.find())
+		return null
+	return Tuple3(
+			parseGroupOrNull<A>(matcher.group(1)),
+			parseGroupOrNull<B>(matcher.group(2)),
+			parseGroupOrNull<C>(matcher.group(3))
+	).takeIf { it.first != null && it.second != null && it.third != null }?.let {
+		Tuple3(
+				it.first!!,
+				it.second!!,
+				it.third!!
+		)
+	}
+}
+
+inline fun <reified A, reified B, reified C, reified D> Pattern.parse4OrNull(input: String): Tuple4<A, B, C, D>? {
+	val matcher = matcher(input)
+	if (!matcher.find())
+		return null
+	return Tuple4(
+			parseGroupOrNull<A>(matcher.group(1)),
+			parseGroupOrNull<B>(matcher.group(2)),
+			parseGroupOrNull<C>(matcher.group(3)),
+			parseGroupOrNull<D>(matcher.group(4))
+	).takeIf { it.first != null && it.second != null && it.third != null && it.fourth != null }?.let {
+		Tuple4(
+				it.first!!,
+				it.second!!,
+				it.third!!,
+				it.fourth!!
+		)
+	}
+}
+
+inline fun <reified A, reified B, reified C, reified D, reified E> Pattern.parse5OrNull(input: String): Tuple5<A, B, C, D, E>? {
+	val matcher = matcher(input)
+	if (!matcher.find())
+		return null
+	return Tuple5(
+			parseGroupOrNull<A>(matcher.group(1)),
+			parseGroupOrNull<B>(matcher.group(2)),
+			parseGroupOrNull<C>(matcher.group(3)),
+			parseGroupOrNull<D>(matcher.group(4)),
+			parseGroupOrNull<E>(matcher.group(5))
+	).takeIf { it.first != null && it.second != null && it.third != null && it.fourth != null && it.fifth != null }?.let {
+		Tuple5(
+				it.first!!,
+				it.second!!,
+				it.third!!,
+				it.fourth!!,
+				it.fifth!!
+		)
+	}
+}
+
+inline fun <reified A, reified B, reified C, reified D, reified E, reified F> Pattern.parse6OrNull(input: String): Tuple6<A, B, C, D, E, F>? {
+	val matcher = matcher(input)
+	if (!matcher.find())
+		return null
+	return Tuple6(
+			parseGroupOrNull<A>(matcher.group(1)),
+			parseGroupOrNull<B>(matcher.group(2)),
+			parseGroupOrNull<C>(matcher.group(3)),
+			parseGroupOrNull<D>(matcher.group(4)),
+			parseGroupOrNull<E>(matcher.group(5)),
+			parseGroupOrNull<F>(matcher.group(6))
+	).takeIf { it.first != null && it.second != null && it.third != null && it.fourth != null && it.fifth != null && it.sixth != null }?.let {
+		Tuple6(
+				it.first!!,
+				it.second!!,
+				it.third!!,
+				it.fourth!!,
+				it.fifth!!,
+				it.sixth!!
+		)
+	}
 }
 
 fun <Input: Any, Output: Any> ((Input) -> Output).orThrow(): (Input?) -> Output {
