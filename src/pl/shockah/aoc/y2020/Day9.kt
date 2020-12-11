@@ -7,7 +7,7 @@ import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.expects
 
-class Day9: AdventTask<List<Long>, Long, Unit>(2020, 9) {
+class Day9: AdventTask<List<Long>, Long, Long>(2020, 9) {
 	override fun parseInput(rawInput: String): List<Long> {
 		return rawInput.lines().filter { it.isNotEmpty() }.map { it.toLong() }
 	}
@@ -35,7 +35,30 @@ class Day9: AdventTask<List<Long>, Long, Unit>(2020, 9) {
 		return part1(input, 25)
 	}
 
-	override fun part2(input: List<Long>) {
+	fun part2(input: List<Long>, inputsToCheck: Int): Long {
+		val invalidNumber = part1(input, inputsToCheck)
+		for (i in input.indices) {
+			var sum = 0L
+			var min: Long? = null
+			var max: Long? = null
+			for (j in i until input.size) {
+				sum += input[j]
+				if (min == null || input[j] < min)
+					min = input[j]
+				if (max == null || input[j] > max)
+					max = input[j]
+
+				if (sum == invalidNumber)
+					return min + max
+				else if (sum > invalidNumber)
+					break
+			}
+		}
+		throw IllegalArgumentException("No contiguous set found")
+	}
+
+	override fun part2(input: List<Long>): Long {
+		return part2(input, 25)
 	}
 
 	class Tests {
@@ -85,6 +108,12 @@ class Day9: AdventTask<List<Long>, Long, Unit>(2020, 9) {
 		fun part1() {
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(127, task.part1(input, 5))
+		}
+
+		@Test
+		fun part2() {
+			val input = task.parseInput(rawInput)
+			Assertions.assertEquals(62, task.part2(input, 5))
 		}
 	}
 }
