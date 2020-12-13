@@ -1,10 +1,10 @@
 package pl.shockah.aoc.y2020
 
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.DynamicTest
+import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
-import kotlin.math.max
-import kotlin.math.min
+import pl.shockah.aoc.expects
 
 class Day13: AdventTask<Day13.Input, Int, Long>(2020, 13) {
 	data class Input(
@@ -26,50 +26,15 @@ class Day13: AdventTask<Day13.Input, Int, Long>(2020, 13) {
 	}
 
 	fun part2(input: Input, minimum: Long): Long {
-		fun factorize(value: Long): Map<Long, Int> {
-			val results = mutableListOf<Long>()
-			var divisor = 2L
-			var current = value
-			while (divisor <= value / 2) {
-				if (current % divisor == 0L) {
-					results += divisor
-					current /= divisor
-				} else {
-					divisor++
-				}
-			}
-			results += current
-			return results.groupBy { it }.mapValues { it.value.size }
-		}
-
-		val factors = mutableMapOf<Long, Int>()
-		for (bus in input.buses.filterNotNull()) {
-			for (entry in factorize(bus.toLong())) {
-				factors[entry.key] = max(factors[entry.key] ?: 0, entry.value)
-			}
-		}
-		val commonFactor = factors.map { it.key * it.value.toLong() }.reduce(Long::times)
-		println("Common factor: $commonFactor")
-		factors.clear()
-
-		val min = min(commonFactor, minimum)
-		println("Minimum: $min")
-
 		var offset: Int
 		var currentTotalFactor = 1L
 		var nextOffset = input.buses.indexOfFirst { it != null }
 		var nextFactor = input.buses[nextOffset]!!.toLong()
 		var current = minimum
 		while (true) {
-			if (current > min + commonFactor)
-				throw IllegalStateException()
 			if ((current + nextOffset) % nextFactor == 0L) {
-				for (entry in factorize(nextFactor)) {
-					factors[entry.key] = max(factors[entry.key] ?: 0, entry.value)
-				}
-				val newFactor = factors.map { it.key * it.value.toLong() }.reduce(Long::times)
-				println("Found value $current for factors $currentTotalFactor and $nextFactor, new factor $newFactor")
-				currentTotalFactor = newFactor
+				println("Found value $current for factors $currentTotalFactor and $nextFactor, new factor ${currentTotalFactor * nextFactor}")
+				currentTotalFactor *= nextFactor
 				offset = nextOffset
 
 				val nextOffsetIndex = input.buses.drop(offset + 1).indexOfFirst { it != null }
@@ -90,21 +55,25 @@ class Day13: AdventTask<Day13.Input, Int, Long>(2020, 13) {
 	class Tests {
 		private val task = Day13()
 
-		private val rawInput = """
-			939
-			7,13,x,x,59,x,31,19
-		""".trimIndent()
-
-		@Test
-		fun part1() {
+		@TestFactory
+		fun part1(): Collection<DynamicTest> = createTestCases(
+			"939\n7,13,x,x,59,x,31,19" expects 295
+		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(295, task.part1(input))
+			Assertions.assertEquals(expected, task.part1(input))
 		}
 
-		@Test
-		fun part2() {
+		@TestFactory
+		fun part2(): Collection<DynamicTest> = createTestCases(
+			"939\n7,13,x,x,59,x,31,19" expects 1068781L,
+			"0\n17,x,13,19" expects 3417L,
+			"0\n67,7,59,61" expects 754018L,
+			"0\n67,x,7,59,61" expects 779210L,
+			"0\n67,7,x,59,61" expects 1261476L,
+			"0\n1789,37,47,1889" expects 1202161486L
+		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(1068781L, task.part2(input, 1L))
+			Assertions.assertEquals(expected, task.part2(input, 1L))
 		}
 	}
 }
