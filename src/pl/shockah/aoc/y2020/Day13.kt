@@ -26,12 +26,12 @@ class Day13: AdventTask<Day13.Input, Int, Long>(2020, 13) {
 	}
 
 	fun part2(input: Input, minimum: Long): Long {
-		fun factorize(value: Int): Map<Int, Int> {
-			val results = mutableListOf<Int>()
-			var divisor = 2
+		fun factorize(value: Long): Map<Long, Int> {
+			val results = mutableListOf<Long>()
+			var divisor = 2L
 			var current = value
 			while (divisor <= value / 2) {
-				if (current % divisor == 0) {
+				if (current % divisor == 0L) {
 					results += divisor
 					current /= divisor
 				} else {
@@ -42,30 +42,34 @@ class Day13: AdventTask<Day13.Input, Int, Long>(2020, 13) {
 			return results.groupBy { it }.mapValues { it.value.size }
 		}
 
-		val factors = mutableMapOf<Int, Int>()
+		val factors = mutableMapOf<Long, Int>()
 		for (bus in input.buses.filterNotNull()) {
-			val busFactors = factorize(bus)
-			for (entry in busFactors) {
+			for (entry in factorize(bus.toLong())) {
 				factors[entry.key] = max(factors[entry.key] ?: 0, entry.value)
 			}
 		}
-		val commonFactor = factors.map { it.key.toLong() * it.value.toLong() }.reduce(Long::times)
+		val commonFactor = factors.map { it.key * it.value.toLong() }.reduce(Long::times)
 		println("Common factor: $commonFactor")
+		factors.clear()
 
 		val min = min(commonFactor, minimum)
 		println("Minimum: $min")
 
-		var offset = 0
+		var offset: Int
 		var currentTotalFactor = 1L
 		var nextOffset = input.buses.indexOfFirst { it != null }
 		var nextFactor = input.buses[nextOffset]!!.toLong()
-		var current = (min.toDouble() / currentTotalFactor.toDouble() + 1).toLong()
+		var current = minimum
 		while (true) {
 			if (current > min + commonFactor)
 				throw IllegalStateException()
 			if ((current + nextOffset) % nextFactor == 0L) {
-				println("Found value $current for factors $currentTotalFactor and $nextFactor, new factor ${currentTotalFactor * nextFactor}")
-				currentTotalFactor *= nextFactor
+				for (entry in factorize(nextFactor)) {
+					factors[entry.key] = max(factors[entry.key] ?: 0, entry.value)
+				}
+				val newFactor = factors.map { it.key * it.value.toLong() }.reduce(Long::times)
+				println("Found value $current for factors $currentTotalFactor and $nextFactor, new factor $newFactor")
+				currentTotalFactor = newFactor
 				offset = nextOffset
 
 				val nextOffsetIndex = input.buses.drop(offset + 1).indexOfFirst { it != null }
