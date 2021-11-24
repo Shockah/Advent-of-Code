@@ -17,13 +17,9 @@ class Day5: AdventTask<String, String, String>(2016, 5) {
 		return generateSequence(0) { it + 1 }
 			.map { Md5.of("$input$it") }
 			.filter { it.bytes[0] == 0x00.toByte() && it.bytes[1] == 0x00.toByte() && it.bytes[2] and 0xF0.toByte() == 0x00.toByte() }
-			.map { it.bytes.joinToString("") { "%02x".format(it) } }
-			.map { println("Hash: $it"); it }
-			.map { it[5] }
+			.map { (it.bytes[2] and 0x0F.toByte()).toString(16) }
 			.take(8)
-			.toList()
-			.toCharArray()
-			.let { String(it) }
+			.joinToString("") { it }
 	}
 
 	override fun part2(input: String): String {
