@@ -22,7 +22,7 @@ class Day8: AdventTask<List<Array2D<Int>>, Int, String>(2019, 8) {
 	override fun part2(input: List<Array2D<Int>>): String {
 		val width = input[0].width
 		val height = input[0].height
-		return "\n" + (0 until height).joinToString("\n") { y ->
+		return (0 until height).joinToString("\n") { y ->
 			(0 until width).joinToString("") inner@ { x ->
 				var color = Color.Transparent
 				for (layer in input) {

@@ -39,7 +39,11 @@ class AdventSolver {
 
 		private fun <R> runTask(name: String, task: () -> R) {
 			measure(name) {
-				println(">>> Result $name: ${task()}")
+				val result = task().toString()
+				if (result.contains('\n'))
+					println(">>> Result $name:\n${result.trim()}")
+				else
+					println(">>> Result $name: $result")
 			}
 		}
 	}
