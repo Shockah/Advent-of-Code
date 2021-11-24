@@ -41,10 +41,10 @@ class Day6: AdventTask<List<Day6.Point>, Int, Int>(2018, 6) {
 	}
 
 	override fun part1(input: List<Point>): Int {
-		val minX = input.map { it.x }.min()!!
-		val minY = input.map { it.y }.min()!!
-		val maxX = input.map { it.x }.max()!!
-		val maxY = input.map { it.y }.max()!!
+		val minX = input.minOf { it.x }
+		val minY = input.minOf { it.y }
+		val maxX = input.maxOf { it.x }
+		val maxY = input.maxOf { it.y }
 
 		val grid = MutableArray2D<GridPoint>(maxX - minX + 3, maxY - minY + 3, GridPoint.Empty)
 		val toProcess = LinkedList<Triple<GridPoint.Initial, Point, Int>>()
@@ -89,19 +89,19 @@ class Day6: AdventTask<List<Day6.Point>, Int, Int>(2018, 6) {
 
 		return grid.toMap().filterValues { it is GridPoint.Closest }.mapValues { it.value as GridPoint.Closest }.entries.groupBy { it.value.initial }.filter {
 			!it.value.any { it.key.first == 0 || it.key.second == 0 || it.key.first == grid.width - 1 || it.key.second == grid.height - 1 } // going into infinity
-		}.values.map { it.size }.max()!! + 1
+		}.values.maxOf { it.size } + 1
 	}
 
 	fun getLargestSafeRegionSize(input: List<Point>, maxExclusiveTotalDistance: Int): Int {
-		val minX = input.map { it.x }.min()!!
-		val minY = input.map { it.y }.min()!!
-		val maxX = input.map { it.x }.max()!!
-		val maxY = input.map { it.y }.max()!!
+		val minX = input.minOf { it.x }
+		val minY = input.minOf { it.y }
+		val maxX = input.maxOf { it.x }
+		val maxY = input.maxOf { it.y }
 
 		val grid = MutableArray2D<Int?>(maxX - minX + 1, maxY - minY + 1, null)
 		for (y in 0 until grid.height) {
 			for (x in 0 until grid.width) {
-				val sum = input.sumBy { (it.x - x).absoluteValue + (it.y - y).absoluteValue }
+				val sum = input.sumOf { (it.x - x).absoluteValue + (it.y - y).absoluteValue }
 				if (sum < maxExclusiveTotalDistance)
 					grid[x, y] = sum
 			}
@@ -130,7 +130,7 @@ class Day6: AdventTask<List<Day6.Point>, Int, Int>(2018, 6) {
 				}
 			}
 		}
-		return safeRegionSizes.max()!!
+		return safeRegionSizes.maxOrNull()!!
 	}
 
 	override fun part2(input: List<Point>): Int {

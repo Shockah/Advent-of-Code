@@ -102,7 +102,7 @@ class Day6: AdventTask<Pair<Day6.Celestial, Map<String, Day6.Celestial>>, Int, I
 	}
 
 	override fun part1(input: Pair<Celestial, Map<String, Celestial>>): Int {
-		return input.second.values.sumBy { it.rootPathWithoutSelf.size }
+		return input.second.values.sumOf { it.rootPathWithoutSelf.size }
 	}
 
 	override fun part2(input: Pair<Celestial, Map<String, Celestial>>): Int {

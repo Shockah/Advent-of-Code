@@ -124,7 +124,7 @@ class Day16: AdventTask<Day16.Input, Int, Int>(2018, 16) {
 
 	override fun part2(input: Input): Int {
 		val operations = mutableMapOf<Int, Operation>()
-		val possibleOperations = Operation.values().map { it to mutableSetOf<Int>() }.toMap().toMutableMap()
+		val possibleOperations = Operation.values().associateWith { mutableSetOf<Int>() }.toMutableMap()
 
 		input.examples.forEach { example ->
 			Operation.values().forEach {

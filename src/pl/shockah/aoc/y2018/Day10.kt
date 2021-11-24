@@ -75,10 +75,10 @@ class Day10: AdventTask<List<Day10.Point>, String, Int>(2018, 10) {
 		println("> Achieved potentially valid state in $steps steps")
 
 		while (true) {
-			val minX = setup.map { it.position.x }.min()!!
-			val minY = setup.map { it.position.y }.min()!!
-			val maxX = setup.map { it.position.x }.max()!!
-			val maxY = setup.map { it.position.y }.max()!!
+			val minX = setup.minOf { it.position.x }
+			val minY = setup.minOf { it.position.y }
+			val maxX = setup.maxOf { it.position.x }
+			val maxY = setup.maxOf { it.position.y }
 
 			val grid = MutableArray2D(maxX - minX + 1, maxY - minY + 1, false)
 			for (point in setup) {
@@ -96,7 +96,7 @@ class Day10: AdventTask<List<Day10.Point>, String, Int>(2018, 10) {
 				println(readableOutput)
 				println("> Is this valid?")
 				readLine()?.let {
-					if (it.toLowerCase() in arrayOf("true", "t", "yes", "y", "1"))
+					if (it.lowercase() in arrayOf("true", "t", "yes", "y", "1"))
 						return "\n$readableOutput" to steps
 				}
 			} else {

@@ -12,7 +12,7 @@ class Day2: AdventTask<List<List<Int>>, Int, Int>(2017, 2) {
 	}
 
 	override fun part1(input: List<List<Int>>): Int {
-		return input.map { it.max()!! - it.min()!! }.sum()
+		return input.sumOf { it.maxOrNull()!! - it.minOrNull()!! }
 	}
 
 	override fun part2(input: List<List<Int>>): Int {

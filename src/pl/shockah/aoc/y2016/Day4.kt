@@ -44,7 +44,7 @@ class Day4: AdventTask<List<Day4.Entry>, Int, Int>(2016, 4) {
 	}
 
 	override fun part1(input: List<Entry>): Int {
-		return input.filter { it.isReal }.sumBy { it.sectorId }
+		return input.filter { it.isReal }.sumOf { it.sectorId }
 	}
 
 	override fun part2(input: List<Entry>): Int {

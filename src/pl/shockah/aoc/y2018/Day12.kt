@@ -32,9 +32,9 @@ class Day12: AdventTask<Day12.Input, Long, Long>(2018, 12) {
 
 	private fun task(input: Input, iterations: Long): Long {
 		fun advance(input: Set<Int>, combinations: List<Pair<BooleanArray, Boolean>>): Set<Int> {
-			val minX = input.min()!!
-			val maxX = input.max()!!
-			val maxCombinationLength = combinations.map { it.first.size }.max()!!
+			val minX = input.minOrNull()!!
+			val maxX = input.maxOrNull()!!
+			val maxCombinationLength = combinations.maxOf { it.first.size }
 			val maxOffset = (maxCombinationLength - 1) / 2
 
 			val output = mutableSetOf<Int>()
@@ -56,8 +56,8 @@ class Day12: AdventTask<Day12.Input, Long, Long>(2018, 12) {
 		}
 
 		fun getStringState(input: Set<Int>, withMinMax: Boolean): String {
-			val minX = input.min()!!
-			val maxX = input.max()!!
+			val minX = input.minOrNull()!!
+			val maxX = input.maxOrNull()!!
 			val joined = (minX..maxX).map { if (it in input) '#' else '.' }.joinToString("")
 			return if (withMinMax) "[$minX] $joined [$maxX]" else joined
 		}

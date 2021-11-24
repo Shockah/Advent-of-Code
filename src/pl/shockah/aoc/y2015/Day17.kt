@@ -23,7 +23,7 @@ class Day17: AdventTask<List<Day17.Container>, Int, Int>(2015, 17) {
 		if (containers.isEmpty())
 			return setOf()
 
-		val filteredContainers = containers.filter { it.capacity <= toStore && it.capacity <= stored.lastOrNull()?.capacity ?: it.capacity }
+		val filteredContainers = containers.filter { it.capacity <= toStore && it.capacity <= (stored.lastOrNull()?.capacity ?: it.capacity) }
 		return filteredContainers.flatMap { getCombinations(filteredContainers - it, stored + it, toStore - it.capacity) }.toSet()
 	}
 
@@ -36,7 +36,7 @@ class Day17: AdventTask<List<Day17.Container>, Int, Int>(2015, 17) {
 	}
 
 	private fun part2(input: List<Container>, toStore: Int): Int {
-		return getCombinations(input, setOf(), toStore).groupBy { it.size }.values.minBy { it[0].size }!!.size
+		return getCombinations(input, setOf(), toStore).groupBy { it.size }.values.minByOrNull { it[0].size }!!.size
 	}
 
 	override fun part2(input: List<Container>): Int {

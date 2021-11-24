@@ -22,7 +22,7 @@ class Day13: AdventTask<Day13.Input, Int, Long>(2020, 13) {
 
 	override fun part1(input: Input): Int {
 		val buses = input.buses.filterNotNull()
-		return buses.map { it to it - (input.earliestPossibleDeparture % it) }.minBy { it.second }!!.let { it.first * it.second }
+		return buses.map { it to it - (input.earliestPossibleDeparture % it) }.minByOrNull { it.second }!!.let { it.first * it.second }
 	}
 
 	fun part2(input: Input, minimum: Long): Long {

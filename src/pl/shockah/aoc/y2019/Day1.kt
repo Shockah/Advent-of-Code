@@ -9,7 +9,7 @@ import pl.shockah.unikorn.collection.sumByLong
 
 class Day1: AdventTask<List<Long>, Long, Long>(2019, 1) {
 	override fun parseInput(rawInput: String): List<Long> {
-		return rawInput.lines().filter { !it.isEmpty() }.map { it.toLong() }
+		return rawInput.lines().filter { it.isNotEmpty() }.map { it.toLong() }
 	}
 
 	private fun getCost(mass: Long): Long {

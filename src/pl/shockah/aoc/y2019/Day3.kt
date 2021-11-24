@@ -18,7 +18,7 @@ class Day3: AdventTask<Pair<Polygon, Polygon>, Int, Int>(2019, 3) {
 		Down('D', 0, 1);
 
 		companion object {
-			val bySymbol = values().map { it.symbol to it }.toMap()
+			val bySymbol = values().associateBy { it.symbol }
 		}
 	}
 
@@ -68,8 +68,8 @@ class Day3: AdventTask<Pair<Polygon, Polygon>, Int, Int>(2019, 3) {
 		}
 
 		return when (mode) {
-			Mode.ManhattanDistance -> intersections.map { (abs(it.first.x) + abs(it.first.y)).toInt() }.min()!!
-			Mode.Delay -> intersections.map { it.second }.min()!!
+			Mode.ManhattanDistance -> intersections.minOf { (abs(it.first.x) + abs(it.first.y)).toInt() }
+			Mode.Delay -> intersections.minOf { it.second }
 		}
 	}
 

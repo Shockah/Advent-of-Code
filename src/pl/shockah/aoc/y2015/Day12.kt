@@ -26,9 +26,9 @@ class Day12: AdventTask<Any, Int, Int>(2015, 12) {
 				if (ignoredValue != null && json.values.contains(ignoredValue))
 					0
 				else
-					json.values.map { sum(it, ignoredValue) }.sum()
+					json.values.sumOf { sum(it, ignoredValue) }
 			}
-			is JSONList<*> -> json.map { sum(it, ignoredValue) }.sum()
+			is JSONList<*> -> json.sumOf { sum(it, ignoredValue) }
 			is BigInteger -> json.intValueExact()
 			else -> 0
 		}

@@ -51,7 +51,7 @@ class Day9: AdventTask<Day9.Input, Long, Long>(2018, 9) {
 				nextMarbleToPush++
 			}
 		}
-		return players.max()!!
+		return players.maxOrNull()!!
 	}
 
 	override fun part2(input: Input): Long {

@@ -14,7 +14,7 @@ class Day8: AdventTask<List<Array2D<Int>>, Int, String>(2019, 8) {
 	}
 
 	override fun part1(input: List<Array2D<Int>>): Int {
-		val layer = input.minBy { it.toList().count { it == 0 } }!!
+		val layer = input.minByOrNull { it.toList().count { it == 0 } }!!
 		val list = layer.toList()
 		return list.count { it == 1 } * list.count { it == 2 }
 	}
@@ -42,7 +42,7 @@ class Day8: AdventTask<List<Array2D<Int>>, Int, String>(2019, 8) {
 		Black(0, ' '), White(1, '#'), Transparent(2, '?');
 
 		companion object {
-			val byId = values().map { it.id to it }.toMap()
+			val byId = values().associateBy { it.id }
 		}
 	}
 }

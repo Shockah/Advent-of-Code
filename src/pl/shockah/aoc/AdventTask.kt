@@ -8,7 +8,7 @@ abstract class AdventTask<ParsedInput, A, B>(
 		val year: Int,
 		val day: Int
 ) {
-	protected val zeroAscii: Int = '0'.toInt()
+	protected val zeroAscii: Int = '0'.code
 	protected val inputSplitPattern: Pattern = Pattern.compile("\\s+")
 
 	abstract fun parseInput(rawInput: String): ParsedInput

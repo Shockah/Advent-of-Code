@@ -18,7 +18,7 @@ class Day5: AdventTask<List<Day5.BoardingPass>, Int, Int>(2020, 5) {
 	}
 
 	override fun part1(input: List<BoardingPass>): Int {
-		return input.map { it.seatId }.max()!!
+		return input.maxOf { it.seatId }
 	}
 
 	override fun part2(input: List<BoardingPass>): Int {

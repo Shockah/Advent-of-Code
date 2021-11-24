@@ -7,7 +7,7 @@ import pl.shockah.aoc.parse4
 import java.util.regex.Pattern
 
 class Day13: AdventTask<Map<Pair<String, String>, Int>, Int, Int>(2015, 13) {
-	private val inputPattern: Pattern = Pattern.compile("(\\w+) would ((?:gain)|(?:lose)) (\\d+) happiness units by sitting next to (\\w+).")
+	private val inputPattern: Pattern = Pattern.compile("(\\w+) would (gain|lose) (\\d+) happiness units by sitting next to (\\w+).")
 
 	override fun parseInput(rawInput: String): Map<Pair<String, String>, Int> {
 		return rawInput.lines().map {
@@ -36,7 +36,7 @@ class Day13: AdventTask<Map<Pair<String, String>, Int>, Int, Int>(2015, 13) {
 			return toDistribute.flatMap { getPermutations(table + it, toDistribute - it) }
 		}
 
-		return getTotalHappiness(input, getPermutations(listOf(), people).maxBy { getTotalHappiness(input, it) }!!)
+		return getTotalHappiness(input, getPermutations(listOf(), people).maxByOrNull { getTotalHappiness(input, it) }!!)
 	}
 
 	override fun part1(input: Map<Pair<String, String>, Int>): Int {

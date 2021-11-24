@@ -46,7 +46,7 @@ class Day9: AdventTask<Map<Day9.UnorderedPair<String>, Int>, Int, Int>(2015, 9) 
 		fun findShortestPath(distances: Map<UnorderedPair<String>, Int>, path: List<String>, available: Set<String>): List<String> {
 			if (available.isEmpty())
 				return path
-			return available.map { findShortestPath(distances, path + it, available - it) }.minBy { getDistance(distances, it) }!!
+			return available.map { findShortestPath(distances, path + it, available - it) }.minByOrNull { getDistance(distances, it) }!!
 		}
 
 		return getDistance(input, findShortestPath(input, listOf(), locations))
@@ -58,7 +58,7 @@ class Day9: AdventTask<Map<Day9.UnorderedPair<String>, Int>, Int, Int>(2015, 9) 
 		fun findLongestPath(distances: Map<UnorderedPair<String>, Int>, path: List<String>, available: Set<String>): List<String> {
 			if (available.isEmpty())
 				return path
-			return available.map { findLongestPath(distances, path + it, available - it) }.maxBy { getDistance(distances, it) }!!
+			return available.map { findLongestPath(distances, path + it, available - it) }.maxByOrNull { getDistance(distances, it) }!!
 		}
 
 		return getDistance(input, findLongestPath(input, listOf(), locations))

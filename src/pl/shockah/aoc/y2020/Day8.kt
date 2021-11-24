@@ -42,7 +42,7 @@ class Day8: AdventTask<List<Day8.Instruction>, Int, Int>(2020, 8) {
 	override fun parseInput(rawInput: String): List<Instruction> {
 		return rawInput.lines().map {
 			val (instruction, argument) = inputPattern.parse2<String, Int>(it)
-			when (instruction.toLowerCase()) {
+			when (instruction.lowercase()) {
 				"nop" -> Instruction.NoOperation(argument)
 				"acc" -> Instruction.Accumulate(argument)
 				"jmp" -> Instruction.Jump(argument)

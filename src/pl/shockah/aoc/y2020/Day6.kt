@@ -15,11 +15,11 @@ class Day6: AdventTask<List<Day6.Group>, Int, Int>(2020, 6) {
 	}
 
 	override fun part1(input: List<Group>): Int {
-		return input.sumBy { it.answerSets.flatten().toSet().size }
+		return input.sumOf { it.answerSets.flatten().toSet().size }
 	}
 
 	override fun part2(input: List<Group>): Int {
-		return input.sumBy { group -> group.answerSets.flatten().groupBy { it }.count { it.value.size == group.answerSets.size } }
+		return input.sumOf { group -> group.answerSets.flatten().groupBy { it }.count { it.value.size == group.answerSets.size } }
 	}
 
 	class Tests {

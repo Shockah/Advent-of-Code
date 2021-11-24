@@ -53,7 +53,7 @@ class Day3: AdventTask<List<Day3.Rectangle>, Int, Int>(2018, 3) {
 			for (yy in 0 until rectangle.h) {
 				for (xx in 0 until rectangle.w) {
 					val point = Pair(rectangle.x + xx, rectangle.y + yy)
-					if (map[point] ?: 0 != 1)
+					if (map[point] != 1)
 						continue@outer
 				}
 			}

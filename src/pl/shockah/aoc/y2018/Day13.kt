@@ -65,7 +65,7 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 		Down(0, 1, 'v', Rail.Vertical);
 
 		companion object {
-			val bySymbol = values().map { it.symbol to it }.toMap()
+			val bySymbol = values().associateBy { it.symbol }
 		}
 	}
 
@@ -75,7 +75,7 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 		Horizontal('-'), Vertical('|'), Slash('/'), Backslash('\\'), Crossroad('+');
 
 		companion object {
-			val bySymbol = values().map { it.symbol to it }.toMap()
+			val bySymbol = values().associateBy { it.symbol }
 		}
 	}
 
@@ -91,7 +91,7 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 		val lines = rawInput.lines()
 
 		val carts = mutableListOf<Cart>()
-		val grid = Array2D(lines.map { it.length }.max()!!, lines.size) { x, y ->
+		val grid = Array2D(lines.maxOf { it.length }, lines.size) { x, y ->
 			var c = if (x < lines[y].length) lines[y][x] else ' '
 			if (c == ' ')
 				return@Array2D null
@@ -133,7 +133,7 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 
 			if (mode == Mode.LastStanding) {
 				val activeCarts = carts.filter { !it.collided }
-				check(!activeCarts.isEmpty())
+				check(activeCarts.isNotEmpty())
 				if (activeCarts.size == 1)
 					return activeCarts[0].x to activeCarts[0].y
 			}

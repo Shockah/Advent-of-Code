@@ -1,6 +1,7 @@
 package pl.shockah.aoc
 
 import pl.shockah.aoc.swift.*
+import java.math.BigInteger
 import java.util.regex.Pattern
 
 fun <A> Pattern.parse(input: String, a: (String?) -> A): A {
@@ -99,6 +100,8 @@ internal inline fun <reified T> parseGroup(group: String): T {
 	return when (T::class) {
 		String::class -> group as T
 		Int::class -> group.toInt() as T
+		Long::class -> group.toLong() as T
+		BigInteger::class -> group.toBigInteger() as T
 		Char::class -> group[0] as T
 		else -> throw IllegalArgumentException()
 	}
@@ -109,6 +112,8 @@ internal inline fun <reified T> parseGroupOrNull(group: String): T? {
 	return when (T::class) {
 		String::class -> group as T?
 		Int::class -> group.toIntOrNull() as T?
+		Long::class -> group.toLongOrNull() as T?
+		BigInteger::class -> group.toBigIntegerOrNull() as T?
 		Char::class -> group[0] as T?
 		else -> null
 	}

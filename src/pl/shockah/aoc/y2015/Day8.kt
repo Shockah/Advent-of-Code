@@ -39,7 +39,7 @@ class Day8: AdventTask<List<String>, Int, Int>(2015, 8) {
 							builder.clear()
 						}
 					} else {
-						if (!builder.isEmpty()) {
+						if (builder.isNotEmpty()) {
 							stripped.append(builder)
 							builder.clear()
 						}

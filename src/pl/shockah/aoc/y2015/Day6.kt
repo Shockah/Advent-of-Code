@@ -13,7 +13,7 @@ import java.util.regex.Pattern
 import kotlin.math.max
 
 class Day6: AdventTask<List<Day6.Instruction>, Int, Int>(2015, 6) {
-	private val inputPattern: Pattern = Pattern.compile("((?:turn on)|(?:turn off)|(?:toggle)) (\\d+),(\\d+) through (\\d+),(\\d+)")
+	private val inputPattern: Pattern = Pattern.compile("(turn on|turn off|toggle) (\\d+),(\\d+) through (\\d+),(\\d+)")
 
 	enum class Operation(
 			val inputName: String,
@@ -40,7 +40,7 @@ class Day6: AdventTask<List<Day6.Instruction>, Int, Int>(2015, 6) {
 		});
 
 		companion object {
-			val byInputName = values().map { it.inputName to it }.toMap()
+			val byInputName = values().associateBy { it.inputName }
 		}
 	}
 

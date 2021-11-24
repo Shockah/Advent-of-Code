@@ -14,7 +14,7 @@ class Day21: AdventTask<Day21.Stats, Int, Int>(2015, 21) {
 		constructor(
 				health: Int,
 				equipment: Set<Item>
-		): this(health, equipment.sumBy { it.damage }, equipment.sumBy { it.armor })
+		): this(health, equipment.sumOf { it.damage }, equipment.sumOf { it.armor })
 	}
 
 	private class Character(
@@ -140,12 +140,12 @@ class Day21: AdventTask<Day21.Stats, Int, Int>(2015, 21) {
 	private fun task(enemyStats: Stats, expectedResult: ExpectedResult): Int {
 		var sets = generateEquipmentSets().toList()
 		sets = when (expectedResult) {
-			ExpectedResult.CheapWin -> sets.sortedBy { it.sumBy { it.cost } }
-			ExpectedResult.ExpensiveLoss -> sets.sortedByDescending { it.sumBy { it.cost } }
+			ExpectedResult.CheapWin -> sets.sortedBy { it.sumOf { it.cost } }
+			ExpectedResult.ExpensiveLoss -> sets.sortedByDescending { it.sumOf { it.cost } }
 		}
 
 		for (set in sets) {
-			println("${set.joinToString()} (cost: ${set.sumBy { it.cost }}, damage: ${set.sumBy { it.damage }}, armor: ${set.sumBy { it.armor }})")
+			println("${set.joinToString()} (cost: ${set.sumOf { it.cost }}, damage: ${set.sumOf { it.damage }}, armor: ${set.sumOf { it.armor }})")
 			val playerStats = Stats(playerHealth, set)
 			val result = simulate(playerStats, enemyStats)
 
@@ -153,11 +153,11 @@ class Day21: AdventTask<Day21.Stats, Int, Int>(2015, 21) {
 			when (expectedResult) {
 				ExpectedResult.CheapWin -> {
 					if (result.playerHealth > 0)
-						return set.sumBy { it.cost }
+						return set.sumOf { it.cost }
 				}
 				ExpectedResult.ExpensiveLoss -> {
 					if (result.enemyHealth > 0)
-						return set.sumBy { it.cost }
+						return set.sumOf { it.cost }
 				}
 			}
 		}

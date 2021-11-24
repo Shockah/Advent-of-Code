@@ -59,8 +59,8 @@ class Day14: AdventTask<List<Day14.ReindeerStats>, Int, Int>(2015, 14) {
 			}
 		}
 		return when (mode) {
-			Mode.Distance -> reindeers.map { it.distance }.max()!!
-			Mode.Score -> reindeers.map { it.score }.max()!!
+			Mode.Distance -> reindeers.maxOf { it.distance }
+			Mode.Score -> reindeers.maxOf { it.score }
 		}
 	}
 

@@ -27,16 +27,16 @@ class Day15: AdventTask<List<Day15.Ingredient>, Int, Int>(2015, 15) {
 	}
 
 	private fun getTotalCost(ingredients: Map<Ingredient, Int>): Int {
-		val capacity = ingredients.entries.sumBy { (ingredient, amount) -> ingredient.capacity * amount }
-		val durability = ingredients.entries.sumBy { (ingredient, amount) -> ingredient.durability * amount }
-		val flavor = ingredients.entries.sumBy { (ingredient, amount) -> ingredient.flavor * amount }
-		val texture = ingredients.entries.sumBy { (ingredient, amount) -> ingredient.texture * amount }
+		val capacity = ingredients.entries.sumOf { (ingredient, amount) -> ingredient.capacity * amount }
+		val durability = ingredients.entries.sumOf { (ingredient, amount) -> ingredient.durability * amount }
+		val flavor = ingredients.entries.sumOf { (ingredient, amount) -> ingredient.flavor * amount }
+		val texture = ingredients.entries.sumOf { (ingredient, amount) -> ingredient.texture * amount }
 
 		return max(capacity, 0) * max(durability, 0) * max(flavor, 0) * max(texture, 0)
 	}
 
 	private fun getCalories(ingredients: Map<Ingredient, Int>): Int {
-		return ingredients.entries.sumBy { (ingredient, amount) -> ingredient.calories * amount }
+		return ingredients.entries.sumOf { (ingredient, amount) -> ingredient.calories * amount }
 	}
 
 	private fun findBestIngredients(input: List<Ingredient>, current: Map<Ingredient, Int>, spoonsLeft: Int, calories: Int?): Map<Ingredient, Int>? {
@@ -50,7 +50,7 @@ class Day15: AdventTask<List<Day15.Ingredient>, Int, Int>(2015, 15) {
 		var results = range.mapNotNull { findBestIngredients(newInput, current + (ingredient to it), spoonsLeft - it, calories) }
 		if (calories != null)
 			results = results.filter { getCalories(it) == calories }
-		return results.maxBy { getTotalCost(it) }
+		return results.maxByOrNull { getTotalCost(it) }
 	}
 
 	override fun part1(input: List<Ingredient>): Int {

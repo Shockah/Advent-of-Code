@@ -5,26 +5,20 @@ buildscript {
 		maven {
 			url "https://oss.sonatype.org/content/repositories/snapshots/"
 		}
-		jcenter()
 		google()
 	}
 	dependencies {
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-		classpath "com.github.jengelman.gradle.plugins:shadow:4.0.3"
 	}
 }
 
 apply plugin: "kotlin"
-apply plugin: "maven"
-apply plugin: "application"
-apply plugin: "com.github.johnrengelman.shadow"
 
 group = "com.github.Shockah"
 
 repositories {
 	mavenLocal()
 	mavenCentral()
-	jcenter()
 	maven {
 		url "https://oss.sonatype.org/content/repositories/snapshots/"
 	}
@@ -37,13 +31,13 @@ repositories {
 }
 
 dependencies {
-	compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-	compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-	compile 'com.github.Shockah:Unikorn:e1ea1994c2ebd94c99805ae529297b39572a59e9'
-	compile 'com.github.Shockah:Jay:1.3'
+	api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+	api "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+	api 'com.github.Shockah:Unikorn:1c1f61e0f90b3c791b9d842fe69a999a9f5d0a6c'
+	api 'com.github.Shockah:Jay:1.3'
 
-	compile 'org.junit.jupiter:junit-jupiter-api:5.3.2'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.2'
+	api 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
 sourceSets.main {
@@ -52,7 +46,7 @@ sourceSets.main {
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
+	archiveClassifier = "sources"
 	from sourceSets.main.allSource
 }
 
@@ -67,16 +61,20 @@ compileKotlin {
 	}
 }
 
-mainClassName = "pl.shockah.aoc.AdventOfCode"
+task(solve, dependsOn: 'classes', type: JavaExec) {
+	group = 'run'
+	mainClass = 'pl.shockah.aoc.AdventSolver'
+	classpath = sourceSets.main.runtimeClasspath
+}
+
+task(validate, dependsOn: 'classes', type: JavaExec) {
+	group = 'run'
+	mainClass = 'pl.shockah.aoc.AdventValidator'
+	classpath = sourceSets.main.runtimeClasspath
+}
 
 tasks.withType(JavaExec) {
 	if (System.getProperty('DEBUG', 'false') == 'true') {
 		jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
-	}
-}
-
-jar {
-	manifest {
-		attributes('Main-Class': mainClassName)
 	}
 }

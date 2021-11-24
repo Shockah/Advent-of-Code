@@ -13,7 +13,7 @@ import java.util.regex.Pattern
 class Day7: AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 	private val baseInputPattern: Pattern = Pattern.compile("(.*) -> (\\w+)")
 	private val notInputPattern: Pattern = Pattern.compile("NOT (\\w+)")
-	private val twoArgumentInputPattern: Pattern = Pattern.compile("(\\w+) ((?:AND)|(?:OR)|(?:LSHIFT)|(?:RSHIFT)) (\\w+)")
+	private val twoArgumentInputPattern: Pattern = Pattern.compile("(\\w+) (AND|OR|LSHIFT|RSHIFT) (\\w+)")
 
 	data class InputTemplate(
 			val name: String,

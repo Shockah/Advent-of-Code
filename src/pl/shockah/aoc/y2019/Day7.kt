@@ -38,7 +38,7 @@ class Day7: Intcode.AdventTask<Long, Long>(2019, 7, instructions) {
 		}
 
 		val combinations = getCombinations(0L..4L)
-		return combinations.map { getOutput(it) }.max()!!
+		return combinations.maxOf { getOutput(it) }
 	}
 
 	override fun part2(input: List<Long>): Long {
@@ -58,7 +58,7 @@ class Day7: Intcode.AdventTask<Long, Long>(2019, 7, instructions) {
 		}
 
 		val combinations = getCombinations(5L..9L)
-		return combinations.map { getOutput(it) }.max()!!
+		return combinations.maxOf { getOutput(it) }
 	}
 
 	@Nested

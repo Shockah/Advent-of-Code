@@ -10,14 +10,14 @@ class Day8: AdventTask<Day8.Node, Int, Int>(2018, 8) {
 			val metadata: List<Int>
 	) {
 		val totalMetadataSum: Int by lazy {
-			metadata.sum() + children.map { it.totalMetadataSum }.sum()
+			metadata.sum() + children.sumOf { it.totalMetadataSum }
 		}
 
 		val value: Int by lazy {
 			if (children.isEmpty()) {
 				return@lazy metadata.sum()
 			} else {
-				return@lazy metadata.map { children.getOrNull(it - 1)?.value ?: 0 }.sum()
+				return@lazy metadata.sumOf { children.getOrNull(it - 1)?.value ?: 0 }
 			}
 		}
 	}

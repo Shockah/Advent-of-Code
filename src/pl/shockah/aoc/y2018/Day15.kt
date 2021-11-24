@@ -146,7 +146,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 			private fun move(grid: MutableArray2D<Entity>, enemies: List<Unit>) {
 				val pathToFollow = pathToClosestPoint(grid, enemies.flatMap { it.position.neighbors.filter { grid[it] == Empty }.toList() }.toSet()) ?: return
-				if (!pathToFollow.isEmpty()) {
+				if (pathToFollow.isNotEmpty()) {
 					grid[position] = Empty
 					position = pathToFollow[0]
 					grid[position] = this
@@ -196,7 +196,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 		val units = mutableListOf<Entity.Unit>()
 
-		val grid = Array2D(lines.map { it.length }.max()!!, lines.size) { x, y ->
+		val grid = Array2D(lines.maxOf { it.length }, lines.size) { x, y ->
 			val position = Vector(x, y)
 			when (lines[y][x]) {
 				elfSymbol -> {
@@ -273,7 +273,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 						println(grid)
 
 					return when (resultType) {
-						ResultType.Outcome -> turns * aliveUnits.map { it.health }.sum()
+						ResultType.Outcome -> turns * aliveUnits.sumOf { it.health }
 						ResultType.FullTurns -> turns
 					}
 				}

@@ -29,7 +29,7 @@ class Day7: AdventTask<Map<String, Day7.Step>, String, Int>(2018, 7) {
 		}
 
 		val steps = mutableMapOf<String, Step>()
-		while (!entries.isEmpty()) {
+		while (entries.isNotEmpty()) {
 			val oldCount = entries.size
 			val iterator = entries.iterator()
 			outer@ while (iterator.hasNext()) {
@@ -59,8 +59,8 @@ class Day7: AdventTask<Map<String, Day7.Step>, String, Int>(2018, 7) {
 		val completed = mutableListOf<Step>()
 		val left = input.values.toMutableList()
 
-		while (!left.isEmpty()) {
-			val availableNow = left.filter { completed.containsAll(it.requires) }.minBy { it.name }!!
+		while (left.isNotEmpty()) {
+			val availableNow = left.filter { completed.containsAll(it.requires) }.minByOrNull { it.name }!!
 			completed += availableNow
 			left -= availableNow
 		}

@@ -81,7 +81,7 @@ class Day23: AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 2
 
 	override fun parseInput(rawInput: String): List<Instruction> {
 		fun parseRegister(text: String): Register {
-			return Register.valueOf(text.toLowerCase())
+			return Register.valueOf(text.lowercase())
 		}
 
 		fun parseOffset(text: String): Int {
@@ -91,7 +91,7 @@ class Day23: AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 2
 		return rawInput.lines().map {
 			val (instruction, argumentsString) = inputPattern.parse2<String, String>(it)
 			val arguments = argumentsString.split(",").map { it.trim() }
-			when (instruction.toLowerCase()) {
+			when (instruction.lowercase()) {
 				"hlf" -> Instruction.Half(parseRegister(arguments[0]))
 				"tpl" -> Instruction.Triple(parseRegister(arguments[0]))
 				"inc" -> Instruction.Increment(parseRegister(arguments[0]))

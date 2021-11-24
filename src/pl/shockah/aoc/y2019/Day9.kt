@@ -9,7 +9,7 @@ import java.util.*
 
 class Day9: Intcode.AdventTask<Long, Long>(2019, 9, instructions) {
 	companion object {
-		val adjustBase = Intcode.Instruction(9) { pointer, relativeBase, parameters, memory, console ->
+		val adjustBase = Intcode.Instruction(9) { pointer, relativeBase, parameters, memory, _ ->
 			val value = parameters.read(pointer, relativeBase, memory).toInt()
 			relativeBase.value += value
 		}

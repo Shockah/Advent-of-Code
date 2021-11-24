@@ -7,7 +7,7 @@ import pl.shockah.unikorn.collection.Array2D
 
 class Day3: AdventTask<Array2D<Int>, Int, Int>(2016, 3) {
 	override fun parseInput(rawInput: String): Array2D<Int> {
-		val lines = rawInput.lines().map { it.trim() }.filter { !it.isEmpty() }.map { it.split(Regex("\\s+")).map { it.trim().toInt() }}
+		val lines = rawInput.lines().map { it.trim() }.filter { it.isNotEmpty() }.map { it.split(Regex("\\s+")).map { it.trim().toInt() }}
 		return Array2D(3, lines.size) { x, y -> lines[y][x] }
 	}
 
@@ -19,8 +19,8 @@ class Day3: AdventTask<Array2D<Int>, Int, Int>(2016, 3) {
 	}
 
 	override fun part2(input: Array2D<Int>): Int {
-		return (0 until input.width).sumBy { x ->
-			return@sumBy (0 until (input.height / 3)).count { ySection ->
+		return (0 until input.width).sumOf { x ->
+			return@sumOf (0 until (input.height / 3)).count { ySection ->
 				val sorted = (0 until 3).map { y -> input[x, ySection * 3 + y] }.sorted()
 				return@count sorted[0] + sorted[1] > sorted[2]
 			}

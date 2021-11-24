@@ -19,7 +19,7 @@ class Day12: AdventTask<List<Day12.Instruction>, Int, Int>(2020, 12) {
 		North('N'), South('S'), East('E'), West('W'), Left('L'), Right('R'), Forward('F');
 
 		companion object {
-			val bySymbol = values().map { it.symbol to it }.toMap()
+			val bySymbol = values().associateBy { it.symbol }
 		}
 	}
 

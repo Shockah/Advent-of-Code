@@ -43,15 +43,11 @@ class Day2: AdventTask<List<Day2.Dimensions>, Int, Int>(2015, 2) {
 	}
 
 	override fun part1(input: List<Dimensions>): Int {
-		return input.map {
-			it.area + it.smallestSide
-		}.sum()
+		return input.sumOf { it.area + it.smallestSide }
 	}
 
 	override fun part2(input: List<Dimensions>): Int {
-		return input.map {
-			(it.shortestSide + it.mediumSide) * 2 + it.volume
-		}.sum()
+		return input.sumOf { (it.shortestSide + it.mediumSide) * 2 + it.volume }
 	}
 
 	class Tests {

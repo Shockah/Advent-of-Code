@@ -13,7 +13,7 @@ class Day11: AdventTask<Array2D<Day11.Tile>, Int, Int>(2020, 11) {
 		Floor('.'), Empty('L'), Occupied('#');
 
 		companion object {
-			val bySymbol = values().map { it.symbol to it }.toMap()
+			val bySymbol = values().associateBy { it.symbol }
 		}
 	}
 

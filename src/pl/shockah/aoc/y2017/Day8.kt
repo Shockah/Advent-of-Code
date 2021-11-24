@@ -7,7 +7,7 @@ import java.util.regex.Pattern
 import kotlin.math.max
 
 class Day8: AdventTask<List<Day8.Instruction>, Int, Int>(2017, 8) {
-	private val inputPattern: Pattern = Pattern.compile("(\\w+) ((?:inc)|(?:dec)) (-?\\d+) if (\\w+) ((?:==)|(?:!=)|(?:>)|(?:<)|(?:>=)|(?:<=)) (-?\\d+)")
+	private val inputPattern: Pattern = Pattern.compile("(\\w+) (inc|dec) (-?\\d+) if (\\w+) (==|!=|>|<|>=|<=) (-?\\d+)")
 
 	enum class Operator(
 			val symbol: String,
@@ -25,7 +25,7 @@ class Day8: AdventTask<List<Day8.Instruction>, Int, Int>(2017, 8) {
 		}
 
 		companion object {
-			val bySymbol = values().map { it.symbol to it }.toMap()
+			val bySymbol = values().associateBy { it.symbol }
 		}
 	}
 
@@ -68,7 +68,7 @@ class Day8: AdventTask<List<Day8.Instruction>, Int, Int>(2017, 8) {
 		}
 
 		return when (mode) {
-			Mode.FinalMaxValue -> registers.values.max()!!
+			Mode.FinalMaxValue -> registers.values.maxOrNull()!!
 			Mode.MaxValueEver -> maxValue
 		}
 	}

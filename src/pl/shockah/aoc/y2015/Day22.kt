@@ -157,7 +157,7 @@ class Day22: AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 			get() = actions.filterIsInstance<Action.CasterCast>().map { it.spell }
 
 		val manaSpent: Int
-			get() = spells.sumBy { it.cost }
+			get() = spells.sumOf { it.cost }
 
 		constructor(
 				caster: Character,
@@ -169,7 +169,7 @@ class Day22: AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 					caster.health,
 					enemy.health,
 					actions.count { it != Action.EffectTick },
-					actions.filterIsInstance<Action.CasterCast>().sumBy { it.spell.cost },
+					actions.filterIsInstance<Action.CasterCast>().sumOf { it.spell.cost },
 					when {
 						caster.health <= 0 -> FightResult.Loss
 						enemy.health <= 0 -> FightResult.Win

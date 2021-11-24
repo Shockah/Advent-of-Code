@@ -23,7 +23,7 @@ class Day7: AdventTask<List<Day7.Program>, String, Int>(2017, 7) {
 		val children: MutableList<Program> = mutableListOf()
 
 		val totalWeight: Int by lazy {
-			weight + children.map { it.totalWeight }.sum()
+			weight + children.sumOf { it.totalWeight }
 		}
 	}
 

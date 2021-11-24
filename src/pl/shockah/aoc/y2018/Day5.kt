@@ -21,7 +21,7 @@ class Day5: AdventTask<String, Int, Int>(2018, 5) {
 			while (i < current.length) {
 				val c1 = current[i - 1]
 				val c2 = current[i]
-				if (c1.toLowerCase() == c2.toLowerCase() && c1.isLowerCase() != c2.isLowerCase()) {
+				if (c1.lowercase() == c2.lowercase() && c1.isLowerCase() != c2.isLowerCase()) {
 					current = current.removeRange(i - 1, i + 1)
 					continue
 				}
@@ -38,10 +38,10 @@ class Day5: AdventTask<String, Int, Int>(2018, 5) {
 	}
 
 	override fun part2(input: String): Int {
-		val polymerTypes = input.toLowerCase().toCharArray().toSet()
+		val polymerTypes = input.lowercase().toCharArray().toSet()
 		return polymerTypes.map {
-			return@map react(input.replace(it.toString(), "").replace(it.toUpperCase().toString(), ""))
-		}.min()!!
+			return@map react(input.replace(it.toString(), "").replace(it.uppercase(), ""))
+		}.minOrNull()!!
 	}
 
 	class Tests {

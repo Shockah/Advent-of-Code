@@ -19,7 +19,7 @@ class Day3: AdventTask<List<Day3.Direction>, Int, Int>(2015, 3) {
 		Down('v', 0, 1);
 
 		companion object {
-			val bySymbol = values().map { it.symbol to it }.toMap()
+			val bySymbol = values().associateBy { it.symbol }
 		}
 	}
 
