@@ -7,7 +7,7 @@ import pl.shockah.unikorn.Ref
 
 class Day24: AdventTask<List<Int>, Long, Long>(2015, 24) {
 	private data class Group(
-			val list: List<Int>
+		val list: List<Int>
 	): List<Int> by list, Comparable<Group> {
 		val sum by lazy { sum() }
 
@@ -29,7 +29,7 @@ class Day24: AdventTask<List<Int>, Long, Long>(2015, 24) {
 	}
 
 	private data class Grouping(
-			val groups: List<Group>
+		val groups: List<Group>
 	) {
 		val isValid: Boolean
 			get() = groups.map { it.sum }.toSet().size == 1

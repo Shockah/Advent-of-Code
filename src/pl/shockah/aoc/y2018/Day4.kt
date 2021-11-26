@@ -15,11 +15,11 @@ class Day4: AdventTask<Map<Int, List<ClosedRange<Day4.Date>>>, Int, Int>(2018, 4
 	private val wakeUp: String = "wakes up"
 
 	data class Date(
-			val year: Int,
-			val month: Int,
-			val day: Int,
-			val hour: Int,
-			val minute: Int
+		val year: Int,
+		val month: Int,
+		val day: Int,
+		val hour: Int,
+		val minute: Int
 	): Comparable<Date> {
 		override fun compareTo(other: Date): Int {
 			if (year != other.year)
@@ -37,8 +37,8 @@ class Day4: AdventTask<Map<Int, List<ClosedRange<Day4.Date>>>, Int, Int>(2018, 4
 	}
 
 	data class LogEntry(
-			val date: Date,
-			val type: LogType
+		val date: Date,
+		val type: LogType
 	): Comparable<LogEntry> {
 		override fun compareTo(other: LogEntry): Int {
 			return date.compareTo(other.date)
@@ -47,7 +47,7 @@ class Day4: AdventTask<Map<Int, List<ClosedRange<Day4.Date>>>, Int, Int>(2018, 4
 
 	sealed class LogType {
 		data class Shift(
-				val guardId: Int
+			val guardId: Int
 		): LogType()
 
 		object WakeUp: LogType()

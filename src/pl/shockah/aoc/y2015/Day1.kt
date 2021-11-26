@@ -3,6 +3,8 @@ package pl.shockah.aoc.y2015
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.createRawPart1TestCases
+import pl.shockah.aoc.createRawPart2TestCases
 import pl.shockah.aoc.expects
 
 class Day1: AdventTask<String, Int, Int>(2015, 1) {
@@ -28,22 +30,22 @@ class Day1: AdventTask<String, Int, Int>(2015, 1) {
 		private val task = Day1()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createSimpleTestCases(
-				"(())" expects 0,
-				"()()" expects 0,
-				"(((" expects 3,
-				"(()(()(" expects 3,
-				"))(((((" expects 3,
-				"())" expects -1,
-				"))(" expects -1,
-				")))" expects -3,
-				")())())" expects -3
-		) { task.part1(task.parseInput(it)) }
+		fun part1(): Collection<DynamicTest> = task.createRawPart1TestCases(
+			"(())" expects 0,
+			"()()" expects 0,
+			"(((" expects 3,
+			"(()(()(" expects 3,
+			"))(((((" expects 3,
+			"())" expects -1,
+			"))(" expects -1,
+			")))" expects -3,
+			")())())" expects -3
+		)
 
 		@TestFactory
-		fun part2(): Collection<DynamicTest> = createSimpleTestCases(
-				")" expects 1,
-				"()())" expects 5
-		) { task.part2(task.parseInput(it)) }
+		fun part2(): Collection<DynamicTest> = task.createRawPart2TestCases(
+			")" expects 1,
+			"()())" expects 5
+		)
 	}
 }

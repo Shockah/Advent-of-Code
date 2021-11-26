@@ -4,13 +4,15 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.createRawPart1TestCases
+import pl.shockah.aoc.createRawPart2TestCases
 import pl.shockah.aoc.expects
 
 class Day2: AdventTask<List<Day2.Dimensions>, Int, Int>(2015, 2) {
 	data class Dimensions(
-			val length: Int,
-			val width: Int,
-			val height: Int
+		val length: Int,
+		val width: Int,
+		val height: Int
 	) {
 		val area: Int by lazy {
 			2 * (length * width + width * height + height * length)
@@ -55,20 +57,20 @@ class Day2: AdventTask<List<Day2.Dimensions>, Int, Int>(2015, 2) {
 
 		@TestFactory
 		fun parseInput(): Collection<DynamicTest> = createTestCases(
-				"2x3x4" expects Dimensions(2, 3, 4),
-				"1x1x10" expects Dimensions(1, 1, 10)
+			"2x3x4" expects Dimensions(2, 3, 4),
+			"1x1x10" expects Dimensions(1, 1, 10)
 		) { rawInput, expected -> Assertions.assertEquals(listOf(expected), task.parseInput(rawInput)) }
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(
-				Dimensions(2, 3, 4) expects 58,
-				Dimensions(1, 1, 10) expects 43
-		) { input, expected -> Assertions.assertEquals(expected, task.part1(listOf(input))) }
+		fun part1(): Collection<DynamicTest> = task.createRawPart1TestCases(
+			"2x3x4" expects 58,
+			"1x1x10" expects 43
+		)
 
 		@TestFactory
-		fun part2(): Collection<DynamicTest> = createTestCases(
-				Dimensions(2, 3, 4) expects 34,
-				Dimensions(1, 1, 10) expects 14
-		) { input, expected -> Assertions.assertEquals(expected, task.part2(listOf(input))) }
+		fun part2(): Collection<DynamicTest> = task.createRawPart2TestCases(
+			"2x3x4" expects 34,
+			"1x1x10" expects 14
+		)
 	}
 }

@@ -10,11 +10,11 @@ class Day3: AdventTask<List<Day3.Rectangle>, Int, Int>(2018, 3) {
 	private val inputPattern: Pattern = Pattern.compile("#(\\d+) @ (\\d+),(\\d+): (\\d+)x(\\d+)")
 
 	data class Rectangle(
-			val id: Int,
-			val x: Int,
-			val y: Int,
-			val w: Int,
-			val h: Int
+		val id: Int,
+		val x: Int,
+		val y: Int,
+		val w: Int,
+		val h: Int
 	)
 
 	override fun parseInput(rawInput: String): List<Rectangle> {

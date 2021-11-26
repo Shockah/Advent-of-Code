@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.createRawPart1TestCases
 import pl.shockah.aoc.expects
 import pl.shockah.aoc.parse3
 import java.util.regex.Pattern
@@ -13,9 +14,9 @@ class Day4: AdventTask<List<Day4.Entry>, Int, Int>(2016, 4) {
 	private val inputPattern = Pattern.compile("([a-z\\-]+)-(\\d+)\\[([a-z]+)]")
 
 	data class Entry(
-			val name: List<String>,
-			val sectorId: Int,
-			val checksum: String
+		val name: List<String>,
+		val sectorId: Int,
+		val checksum: String
 	) {
 		val isReal: Boolean
 			get() {
@@ -58,15 +59,12 @@ class Day4: AdventTask<List<Day4.Entry>, Int, Int>(2016, 4) {
 		private val task = Day4()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(
-				"aaaaa-bbb-z-y-x-123[abxyz]" expects 123,
-				"a-b-c-d-e-f-g-h-987[abcde]" expects 987,
-				"not-a-real-room-404[oarel]" expects 404,
-				"totally-real-room-200[decoy]" expects 0
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part1(input))
-		}
+		fun part1(): Collection<DynamicTest> = task.createRawPart1TestCases(
+			"aaaaa-bbb-z-y-x-123[abxyz]" expects 123,
+			"a-b-c-d-e-f-g-h-987[abcde]" expects 987,
+			"not-a-real-room-404[oarel]" expects 404,
+			"totally-real-room-200[decoy]" expects 0
+		)
 
 		@Test
 		fun part2() {

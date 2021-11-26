@@ -6,7 +6,7 @@ import pl.shockah.aoc.AdventTask
 
 class Day5: AdventTask<List<Day5.BoardingPass>, Int, Int>(2020, 5) {
 	class BoardingPass(
-			val bits: BooleanArray
+		val bits: BooleanArray
 	) {
 		val row by lazy { bits.take(7).map { if (it) '1' else '0' }.joinToString("").toInt(2) }
 		val column by lazy { bits.drop(7).take(3).map { if (it) '1' else '0' }.joinToString("").toInt(2) }

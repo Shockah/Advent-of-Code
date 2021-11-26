@@ -25,49 +25,34 @@ class Day6: AdventTask<List<String>, String, String>(2016, 6) {
 	class Tests {
 		private val task = Day6()
 
+		private val rawInput = """
+			eedadn
+			drvtee
+			eandsr
+			raavrd
+			atevrs
+			tsrnev
+			sdttsa
+			rasrtv
+			nssdts
+			ntnada
+			svetve
+			tesnvt
+			vntsnd
+			vrdear
+			dvrsen
+			enarar
+		""".trimIndent()
+
 		@Test
 		fun part1() {
-			val input = task.parseInput("""
-				eedadn
-				drvtee
-				eandsr
-				raavrd
-				atevrs
-				tsrnev
-				sdttsa
-				rasrtv
-				nssdts
-				ntnada
-				svetve
-				tesnvt
-				vntsnd
-				vrdear
-				dvrsen
-				enarar
-			""".trimIndent())
+			val input = task.parseInput(rawInput)
 			Assertions.assertEquals("easter", task.part1(input))
 		}
 
 		@Test
 		fun part2() {
-			val input = task.parseInput("""
-				eedadn
-				drvtee
-				eandsr
-				raavrd
-				atevrs
-				tsrnev
-				sdttsa
-				rasrtv
-				nssdts
-				ntnada
-				svetve
-				tesnvt
-				vntsnd
-				vrdear
-				dvrsen
-				enarar
-			""".trimIndent())
+			val input = task.parseInput(rawInput)
 			Assertions.assertEquals("advent", task.part2(input))
 		}
 	}

@@ -10,14 +10,14 @@ class Day16: AdventTask<Day16.Input, Int, Int>(2018, 16) {
 	private val examplePattern = Pattern.compile(".*?\\[(\\d+), (\\d+), (\\d+), (\\d+)]")
 
 	data class Input(
-			val examples: List<Example>,
-			val instructions: List<Instruction>
+		val examples: List<Example>,
+		val instructions: List<Instruction>
 	)
 
 	data class Example(
-			val before: IntArray,
-			val instruction: Instruction,
-			val after: IntArray
+		val before: IntArray,
+		val instruction: Instruction,
+		val after: IntArray
 	) {
 		override fun equals(other: Any?): Boolean {
 			if (this === other) return true
@@ -41,15 +41,15 @@ class Day16: AdventTask<Day16.Input, Int, Int>(2018, 16) {
 	}
 
 	data class Instruction(
-			val opcode: Int,
-			val inputA: Int,
-			val inputB: Int,
-			val output: Int
+		val opcode: Int,
+		val inputA: Int,
+		val inputB: Int,
+		val output: Int
 	)
 
 	@Suppress("EnumEntryName")
 	enum class Operation(
-			private val func: (a: Int, b: Int, out: Int, registers: IntArray) -> Unit
+		private val func: (a: Int, b: Int, out: Int, registers: IntArray) -> Unit
 	) {
 		addr({ a, b, out, registers -> registers[out] = registers[a] + registers[b] }),
 		addi({ a, b, out, registers -> registers[out] = registers[a] + b }),

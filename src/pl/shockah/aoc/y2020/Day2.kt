@@ -10,10 +10,10 @@ class Day2: AdventTask<List<Day2.Entry>, Int, Int>(2020, 2) {
 	private val inputPattern = Pattern.compile("(\\d+)-(\\d+) ([a-z]): ([a-z]+)")
 
 	data class Entry(
-			val firstNumber: Int,
-			val secondNumber: Int,
-			val restrictedCharacter: Char,
-			val password: String
+		val firstNumber: Int,
+		val secondNumber: Int,
+		val restrictedCharacter: Char,
+		val password: String
 	)
 
 	override fun parseInput(rawInput: String): List<Entry> {

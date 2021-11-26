@@ -79,29 +79,29 @@ class Day11: AdventTask<String, String, String>(2015, 11) {
 
 		@TestFactory
 		fun passwordNotAmbiguous(): Collection<DynamicTest> = createSimpleTestCases(
-				"hijklmmn" expects false,
-				"abbceffg" expects true,
-				"abbcegjk" expects true
+			"hijklmmn" expects false,
+			"abbceffg" expects true,
+			"abbcegjk" expects true
 		) { !it.isAmbiguous }
 
 		@TestFactory
 		fun passwordContrainsThreeStraight(): Collection<DynamicTest> = createSimpleTestCases(
-				"hijklmmn" expects true,
-				"abbceffg" expects false,
-				"abbcegjk" expects false
+			"hijklmmn" expects true,
+			"abbceffg" expects false,
+			"abbcegjk" expects false
 		) { it.containsThreeStraight }
 
 		@TestFactory
 		fun passwordHasTwoPairs(): Collection<DynamicTest> = createSimpleTestCases(
-				"hijklmmn" expects false,
-				"abbceffg" expects true,
-				"abbcegjk" expects false
+			"hijklmmn" expects false,
+			"abbceffg" expects true,
+			"abbcegjk" expects false
 		) { it.hasTwoPairs }
 
 		@TestFactory
 		fun part1(): Collection<DynamicTest> = createSimpleTestCases(
-				"abcdefgh" expects "abcdffaa",
-				"ghijklmn" expects "ghjaabcc"
+			"abcdefgh" expects "abcdffaa",
+			"ghijklmn" expects "ghjaabcc"
 		) { task.part1(task.parseInput(it)) }
 	}
 }

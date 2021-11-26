@@ -9,60 +9,60 @@ class Day16: AdventTask<List<Day16.Aunt>, Int, Int>(2015, 16) {
 	private val thingPattern: Pattern = Pattern.compile("(\\w+): (\\d+)")
 
 	private val lookingForPart1 = AuntInfo(
-			children = 3,
-			cars = 7,
-			samoyeds = 2,
-			pomeranians = 3,
-			akitas = 0,
-			vizslas = 0,
-			goldfish = 5,
-			trees = 3,
-			cats = 2,
-			perfumes = 1
+		children = 3,
+		cars = 7,
+		samoyeds = 2,
+		pomeranians = 3,
+		akitas = 0,
+		vizslas = 0,
+		goldfish = 5,
+		trees = 3,
+		cats = 2,
+		perfumes = 1
 	)
 
 	private val lookingForPart2 = AuntLookup(
-			children = 3..3,
-			cars = 7..7,
-			samoyeds = 2..2,
-			pomeranians = 0 until 3,
-			akitas = 0..0,
-			vizslas = 0..0,
-			goldfish = 0 until 5,
-			trees = 4..Int.MAX_VALUE,
-			cats = 3..Int.MAX_VALUE,
-			perfumes = 1..1
+		children = 3..3,
+		cars = 7..7,
+		samoyeds = 2..2,
+		pomeranians = 0 until 3,
+		akitas = 0..0,
+		vizslas = 0..0,
+		goldfish = 0 until 5,
+		trees = 4..Int.MAX_VALUE,
+		cats = 3..Int.MAX_VALUE,
+		perfumes = 1..1
 	)
 
 	data class Aunt(
-			val number: Int,
-			val info: AuntInfo
+		val number: Int,
+		val info: AuntInfo
 	)
 
 	data class AuntLookup(
-			val children: IntRange,
-			val cats: IntRange,
-			val samoyeds: IntRange,
-			val pomeranians: IntRange,
-			val akitas: IntRange,
-			val vizslas: IntRange,
-			val goldfish: IntRange,
-			val trees: IntRange,
-			val cars: IntRange,
-			val perfumes: IntRange
+		val children: IntRange,
+		val cats: IntRange,
+		val samoyeds: IntRange,
+		val pomeranians: IntRange,
+		val akitas: IntRange,
+		val vizslas: IntRange,
+		val goldfish: IntRange,
+		val trees: IntRange,
+		val cars: IntRange,
+		val perfumes: IntRange
 	)
 
 	data class AuntInfo(
-			val children: Int? = null,
-			val cats: Int? = null,
-			val samoyeds: Int? = null,
-			val pomeranians: Int? = null,
-			val akitas: Int? = null,
-			val vizslas: Int? = null,
-			val goldfish: Int? = null,
-			val trees: Int? = null,
-			val cars: Int? = null,
-			val perfumes: Int? = null
+		val children: Int? = null,
+		val cats: Int? = null,
+		val samoyeds: Int? = null,
+		val pomeranians: Int? = null,
+		val akitas: Int? = null,
+		val vizslas: Int? = null,
+		val goldfish: Int? = null,
+		val trees: Int? = null,
+		val cars: Int? = null,
+		val perfumes: Int? = null
 	) {
 		infix fun matches(info: AuntInfo): Boolean {
 			if (children != null && info.children != null && children != info.children)

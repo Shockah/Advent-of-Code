@@ -30,13 +30,13 @@ private operator fun <T> MutableArray2D<T>.set(vector: Day15.Vector, value: T) {
 
 class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 	data class Input(
-			val grid: Array2D<Entity>,
-			val units: List<Entity.Unit>
+		val grid: Array2D<Entity>,
+		val units: List<Entity.Unit>
 	)
 
 	data class Vector(
-			val x: Int,
-			val y: Int
+		val x: Int,
+		val y: Int
 	) {
 		val neighbors: Array<Vector>
 			get() = arrayOf(Vector(x - 1, y), Vector(x + 1, y), Vector(x, y - 1), Vector(x, y + 1))
@@ -55,9 +55,9 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 	}
 
 	class AStar(
-			val grid: Array2D<Entity>,
-			val initialPoint: Vector,
-			endPoints: Set<Vector>
+		val grid: Array2D<Entity>,
+		val initialPoint: Vector,
+		endPoints: Set<Vector>
 	) {
 		val endPoints = endPoints.filter { grid[it] == Entity.Empty }
 		private val mutablePaths = MutableArray2D<List<Vector>?>(grid.width, grid.height)
@@ -109,11 +109,11 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 	}
 
 	sealed class Entity(
-			val symbol: Char
+		val symbol: Char
 	) {
 		abstract class Unit(
-				symbol: Char,
-				var position: Vector
+			symbol: Char,
+			var position: Vector
 		): Entity(symbol) {
 			var health: Int = 200
 
@@ -171,7 +171,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 		}
 
 		class Elf(
-				position: Vector
+			position: Vector
 		): Unit(elfSymbol, position) {
 			override fun isEnemy(unit: Unit): Boolean {
 				return unit is Goblin
@@ -179,7 +179,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 		}
 
 		class Goblin(
-				position: Vector
+			position: Vector
 		): Unit(goblinSymbol, position) {
 			override fun isEnemy(unit: Unit): Boolean {
 				return unit is Elf
@@ -312,7 +312,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 		@TestFactory
 		fun part1Outcome(): Collection<DynamicTest> = createTestCases(
-				"""
+			"""
 					#######
 					#.G...#
 					#...EG#
@@ -321,7 +321,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 					#.....#
 					#######
 				""".trimIndent() expects 27730,
-				"""
+			"""
 					################
 					#.......G......#
 					#G.............#
@@ -338,13 +338,13 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 		@TestFactory
 		fun part1FullTurns(): Collection<DynamicTest> = createTestCases(
-				"""
+			"""
 					####
 					##E#
 					#GG#
 					####
-				""".trimIndent() expects 67,
-				"""
+			""".trimIndent() expects 67,
+			"""
 					#####
 					#GG##
 					#.###
@@ -352,14 +352,14 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 					#.#G#
 					#.E##
 					#####
-				""".trimIndent() expects 71,
-				"""
+			""".trimIndent() expects 71,
+			"""
 					#######
 					#.E..G#
 					#.#####
 					#G#####
 					#######
-				""".trimIndent() expects 34
+			""".trimIndent() expects 34
 		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.task(input, ResultType.FullTurns))
@@ -367,7 +367,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 
 		@TestFactory
 		fun part1GoblinFirstMove(): Collection<DynamicTest> = createTestCases(
-				"""
+			"""
 					#####
 					#.#E#
 					#.#.#
@@ -375,7 +375,7 @@ class Day15: AdventTask<Day15.Input, Int, Int>(2018, 15) {
 					#...#
 					#E..#
 					#####
-				""".trimIndent() expects Vector(3, 3)
+			""".trimIndent() expects Vector(3, 3)
 		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			val goblin = input.units.first { it is Entity.Goblin }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.createRawPart1TestCases
 import pl.shockah.aoc.expects
 
 class Day13: AdventTask<Day13.Input, Int, Long>(2020, 13) {
@@ -56,12 +57,9 @@ class Day13: AdventTask<Day13.Input, Int, Long>(2020, 13) {
 		private val task = Day13()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(
+		fun part1(): Collection<DynamicTest> = task.createRawPart1TestCases(
 			"939\n7,13,x,x,59,x,31,19" expects 295
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part1(input))
-		}
+		)
 
 		@TestFactory
 		fun part2(): Collection<DynamicTest> = createTestCases(

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.createRawPart2TestCases
 import pl.shockah.aoc.expects
 import pl.shockah.unikorn.collection.Array2D
 import pl.shockah.unikorn.nextInCycle
@@ -12,14 +13,14 @@ import pl.shockah.unikorn.previousInCycle
 
 class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 	data class Input(
-			val grid: Array2D<Rail?>,
-			val carts: List<Cart>
+		val grid: Array2D<Rail?>,
+		val carts: List<Cart>
 	)
 
 	data class Cart(
-			var x: Int,
-			var y: Int,
-			var direction: Direction
+		var x: Int,
+		var y: Int,
+		var direction: Direction
 	) {
 		var turnsCounter: Int = 0
 		var collided: Boolean = false
@@ -54,10 +55,10 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 	}
 
 	enum class Direction(
-			val x: Int,
-			val y: Int,
-			val symbol: Char,
-			val rail: Rail
+		val x: Int,
+		val y: Int,
+		val symbol: Char,
+		val rail: Rail
 	) {
 		Left(-1, 0, '<', Rail.Horizontal),
 		Up(0, -1, '^', Rail.Vertical),
@@ -70,7 +71,7 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 	}
 
 	enum class Rail(
-			val symbol: Char
+		val symbol: Char
 	) {
 		Horizontal('-'), Vertical('|'), Slash('/'), Backslash('\\'), Crossroad('+');
 
@@ -174,8 +175,8 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 		}
 
 		@TestFactory
-		fun part2(): Collection<DynamicTest> = createTestCases(
-				"""
+		fun part2(): Collection<DynamicTest> = task.createRawPart2TestCases(
+			"""
 					/>-<\
 					|   |
 					| /<+-\
@@ -183,19 +184,16 @@ class Day13: AdventTask<Day13.Input, String, String>(2018, 13) {
 					\>+</ |
 					  |   ^
 					  \<->/
-				""".trimIndent() expects "6,4",
-				"""
+			""".trimIndent() expects "6,4",
+			"""
 					/-\
 					^ |
 					\-+-\
 					  | ^
 					  \</
-				""".trimIndent() expects "2,0",
-				"->>>-" expects "4,0",
-				"->->>-" expects "2,0"
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part2(input))
-		}
+			""".trimIndent() expects "2,0",
+			"->>>-" expects "4,0",
+			"->->>-" expects "2,0"
+		)
 	}
 }

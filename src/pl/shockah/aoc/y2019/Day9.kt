@@ -37,8 +37,8 @@ class Day9: Intcode.AdventTask<Long, Long>(2019, 9, instructions) {
 	inner class Tests {
 		@TestFactory
 		fun part1(): Collection<DynamicTest> = createTestCases(
-				listOf(109L, 1L, 204L, -1L, 1001L, 100L, 1L, 100L, 1008L, 100L, 16L, 101L, 1006L, 101L, 0L, 99L) expects listOf(109L, 1L, 204L, -1L, 1001L, 100L, 1L, 100L, 1008L, 100L, 16L, 101L, 1006L, 101L, 0L, 99L),
-				listOf(104L ,1125899906842624L, 99L) expects listOf(1125899906842624L)
+			listOf(109L, 1L, 204L, -1L, 1001L, 100L, 1L, 100L, 1008L, 100L, 16L, 101L, 1006L, 101L, 0L, 99L) expects listOf(109L, 1L, 204L, -1L, 1001L, 100L, 1L, 100L, 1008L, 100L, 16L, 101L, 1006L, 101L, 0L, 99L),
+			listOf(104L ,1125899906842624L, 99L) expects listOf(1125899906842624L)
 		) { input, expected ->
 			val output = LinkedList<Long>()
 			val intcode = getIntcode(input, null, output)

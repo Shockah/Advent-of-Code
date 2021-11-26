@@ -7,18 +7,18 @@ class Day21: AdventTask<Day21.Stats, Int, Int>(2015, 21) {
 	private val playerHealth = 100
 
 	data class Stats(
-			val health: Int,
-			val damage: Int,
-			val armor: Int
+		val health: Int,
+		val damage: Int,
+		val armor: Int
 	) {
 		constructor(
-				health: Int,
-				equipment: Set<Item>
+			health: Int,
+			equipment: Set<Item>
 		): this(health, equipment.sumOf { it.damage }, equipment.sumOf { it.armor })
 	}
 
 	private class Character(
-			val stats: Stats
+		val stats: Stats
 	) {
 		var health: Int = stats.health
 
@@ -30,17 +30,17 @@ class Day21: AdventTask<Day21.Stats, Int, Int>(2015, 21) {
 	}
 
 	enum class ItemType(
-			val equipLimit: IntRange
+		val equipLimit: IntRange
 	) {
 		Weapon(1..1), Armor(0..1), Ring(0..2)
 	}
 
 	data class Item(
-			val type: ItemType,
-			val name: String,
-			val cost: Int,
-			val damage: Int = 0,
-			val armor: Int = 0
+		val type: ItemType,
+		val name: String,
+		val cost: Int,
+		val damage: Int = 0,
+		val armor: Int = 0
 	) {
 		override fun toString(): String {
 			return "${type.name}: $name"
@@ -48,9 +48,9 @@ class Day21: AdventTask<Day21.Stats, Int, Int>(2015, 21) {
 	}
 
 	private data class Result(
-			val playerHealth: Int,
-			val enemyHealth: Int,
-			val turns: Int
+		val playerHealth: Int,
+		val enemyHealth: Int,
+		val turns: Int
 	) {
 		override fun toString(): String {
 			return if (playerHealth <= 0)
@@ -61,32 +61,32 @@ class Day21: AdventTask<Day21.Stats, Int, Int>(2015, 21) {
 	}
 
 	private val shop = setOf(
-			Item(ItemType.Weapon, "Dagger", 8, damage = 4),
-			Item(ItemType.Weapon, "Shortsword", 10, damage = 5),
-			Item(ItemType.Weapon, "Warhammer", 25, damage = 6),
-			Item(ItemType.Weapon, "Longsword", 40, damage = 7),
-			Item(ItemType.Weapon, "Greataxe", 74, damage = 8),
+		Item(ItemType.Weapon, "Dagger", 8, damage = 4),
+		Item(ItemType.Weapon, "Shortsword", 10, damage = 5),
+		Item(ItemType.Weapon, "Warhammer", 25, damage = 6),
+		Item(ItemType.Weapon, "Longsword", 40, damage = 7),
+		Item(ItemType.Weapon, "Greataxe", 74, damage = 8),
 
-			Item(ItemType.Armor, "Leather", 13, armor = 1),
-			Item(ItemType.Armor, "Chainmail", 31, armor = 2),
-			Item(ItemType.Armor, "Splintmail", 53, armor = 3),
-			Item(ItemType.Armor, "Bandedmail", 75, armor = 4),
-			Item(ItemType.Armor, "Platemail", 102, armor = 5),
+		Item(ItemType.Armor, "Leather", 13, armor = 1),
+		Item(ItemType.Armor, "Chainmail", 31, armor = 2),
+		Item(ItemType.Armor, "Splintmail", 53, armor = 3),
+		Item(ItemType.Armor, "Bandedmail", 75, armor = 4),
+		Item(ItemType.Armor, "Platemail", 102, armor = 5),
 
-			Item(ItemType.Ring, "Damage +1", 25, damage = 1),
-			Item(ItemType.Ring, "Damage +2", 50, damage = 2),
-			Item(ItemType.Ring, "Damage +3", 100, damage = 3),
-			Item(ItemType.Ring, "Defense +1", 20, armor = 1),
-			Item(ItemType.Ring, "Defense +2", 40, armor = 2),
-			Item(ItemType.Ring, "Defense +3", 80, armor = 3)
+		Item(ItemType.Ring, "Damage +1", 25, damage = 1),
+		Item(ItemType.Ring, "Damage +2", 50, damage = 2),
+		Item(ItemType.Ring, "Damage +3", 100, damage = 3),
+		Item(ItemType.Ring, "Defense +1", 20, armor = 1),
+		Item(ItemType.Ring, "Defense +2", 40, armor = 2),
+		Item(ItemType.Ring, "Defense +3", 80, armor = 3)
 	)
 
 	override fun parseInput(rawInput: String): Stats {
 		val lines = rawInput.lines()
 		return Stats(
-				lines[0].split(" ").last().toInt(),
-				lines[1].split(" ").last().toInt(),
-				lines[2].split(" ").last().toInt()
+			lines[0].split(" ").last().toInt(),
+			lines[1].split(" ").last().toInt(),
+			lines[2].split(" ").last().toInt()
 		)
 	}
 

@@ -66,4 +66,6 @@ class Day4: AdventTask<IntRange, Int, Int>(2019, 4) {
 	override fun part2(input: IntRange): Int {
 		return task(input, false)
 	}
+
+	// TODO: tests
 }

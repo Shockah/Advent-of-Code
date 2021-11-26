@@ -16,9 +16,9 @@ class Day6: AdventTask<List<Day6.Instruction>, Int, Int>(2015, 6) {
 	private val inputPattern: Pattern = Pattern.compile("(turn on|turn off|toggle) (\\d+),(\\d+) through (\\d+),(\\d+)")
 
 	enum class Operation(
-			val inputName: String,
-			val part1Action: (set: MutableSet<Pair<Int, Int>>, point: Pair<Int, Int>) -> Unit,
-			val part2Action: (map: MutableArray2D<Int>, point: Pair<Int, Int>) -> Unit
+		val inputName: String,
+		val part1Action: (set: MutableSet<Pair<Int, Int>>, point: Pair<Int, Int>) -> Unit,
+		val part2Action: (map: MutableArray2D<Int>, point: Pair<Int, Int>) -> Unit
 	) {
 		TurnOn("turn on", { set, point ->
 			set += point
@@ -45,22 +45,22 @@ class Day6: AdventTask<List<Day6.Instruction>, Int, Int>(2015, 6) {
 	}
 
 	data class Instruction(
-			val operation: Operation,
-			val x1: Int,
-			val y1: Int,
-			val x2: Int,
-			val y2: Int
+		val operation: Operation,
+		val x1: Int,
+		val y1: Int,
+		val x2: Int,
+		val y2: Int
 	)
 
 	override fun parseInput(rawInput: String): List<Instruction> {
 		return rawInput.lines().map {
 			val (operation, x1, y1, x2, y2) = inputPattern.parse(
-					it,
-					{ Operation.byInputName[it]!! },
-					IntPatternParser,
-					IntPatternParser,
-					IntPatternParser,
-					IntPatternParser
+				it,
+				{ Operation.byInputName[it]!! },
+				IntPatternParser,
+				IntPatternParser,
+				IntPatternParser,
+				IntPatternParser
 			)
 			return@map Instruction(operation, x1, y1, x2, y2)
 		}
@@ -95,24 +95,24 @@ class Day6: AdventTask<List<Day6.Instruction>, Int, Int>(2015, 6) {
 
 		@TestFactory
 		fun parseInput(): Collection<DynamicTest> = createTestCases(
-				"turn on 0,0 through 999,999" expects Instruction(TurnOn, 0, 0, 999, 999),
-				"toggle 0,0 through 999,0" expects Instruction(Toggle, 0, 0, 999, 0),
-				"turn off 499,499 through 500,500" expects Instruction(TurnOff, 499, 499, 500, 500)
+			"turn on 0,0 through 999,999" expects Instruction(TurnOn, 0, 0, 999, 999),
+			"toggle 0,0 through 999,0" expects Instruction(Toggle, 0, 0, 999, 0),
+			"turn off 499,499 through 500,500" expects Instruction(TurnOff, 499, 499, 500, 500)
 		) { rawInput, expected -> Assertions.assertEquals(listOf(expected), task.parseInput(rawInput)) }
 
 		@TestFactory
 		fun part1(): Collection<DynamicTest> = createTestCases(
-				listOf(Instruction(TurnOn, 0, 0, 999, 999)) expects 1_000_000,
-				listOf(Instruction(TurnOn, 0, 0, 999, 999), Instruction(Toggle, 0, 0, 999, 0)) expects 999_000,
-				listOf(Instruction(TurnOn, 0, 0, 999, 999), Instruction(Toggle, 0, 0, 999, 0), Instruction(TurnOff, 499, 499, 500, 500)) expects 998_996,
-				listOf(Instruction(Toggle, 0, 0, 999, 0)) expects 1_000
+			listOf(Instruction(TurnOn, 0, 0, 999, 999)) expects 1_000_000,
+			listOf(Instruction(TurnOn, 0, 0, 999, 999), Instruction(Toggle, 0, 0, 999, 0)) expects 999_000,
+			listOf(Instruction(TurnOn, 0, 0, 999, 999), Instruction(Toggle, 0, 0, 999, 0), Instruction(TurnOff, 499, 499, 500, 500)) expects 998_996,
+			listOf(Instruction(Toggle, 0, 0, 999, 0)) expects 1_000
 		) { input, expected -> Assertions.assertEquals(expected, task.part1(input)) }
 
 		@TestFactory
 		fun part2(): Collection<DynamicTest> = createTestCases(
-				Instruction(TurnOn, 0, 0, 0, 0) expects 1,
-				Instruction(Toggle, 0, 0, 999, 999) expects 2_000_000,
-				Instruction(TurnOff, 0, 0, 0, 0) expects 0
+			Instruction(TurnOn, 0, 0, 0, 0) expects 1,
+			Instruction(Toggle, 0, 0, 999, 999) expects 2_000_000,
+			Instruction(TurnOff, 0, 0, 0, 0) expects 0
 		) { input, expected -> Assertions.assertEquals(expected, task.part2(listOf(input))) }
 	}
 }

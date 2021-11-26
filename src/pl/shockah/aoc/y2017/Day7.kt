@@ -10,14 +10,14 @@ class Day7: AdventTask<List<Day7.Program>, String, Int>(2017, 7) {
 	private val inputPattern: Pattern = Pattern.compile("(\\w+) \\((\\d+)\\)(?: -> ([\\w, ]+))?")
 
 	private data class InputEntry(
-			val name: String,
-			val weight: Int,
-			val childrenNames: List<String>
+		val name: String,
+		val weight: Int,
+		val childrenNames: List<String>
 	)
 
 	data class Program(
-			val name: String,
-			val weight: Int
+		val name: String,
+		val weight: Int
 	) {
 		var parent: Program? = null
 		val children: MutableList<Program> = mutableListOf()

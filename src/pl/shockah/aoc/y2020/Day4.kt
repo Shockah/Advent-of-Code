@@ -13,7 +13,7 @@ class Day4: AdventTask<List<Day4.Passport>, Int, Int>(2020, 4) {
 	private val inchHeightRegex = Pattern.compile("(\\d+)in")
 
 	data class Passport(
-			val fields: Map<String, String>
+		val fields: Map<String, String>
 	)
 
 	override fun parseInput(rawInput: String): List<Passport> {

@@ -1,8 +1,11 @@
 package pl.shockah.aoc.y2016
 
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.DynamicTest
+import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.createRawPart1TestCases
+import pl.shockah.aoc.createRawPart2TestCases
+import pl.shockah.aoc.expects
 
 class Day7: AdventTask<List<String>, Int, Int>(2016, 7) {
 	override fun parseInput(rawInput: String): List<String> {
@@ -62,26 +65,20 @@ class Day7: AdventTask<List<String>, Int, Int>(2016, 7) {
 	class Tests {
 		private val task = Day7()
 
-		@Test
-		fun part1() {
-			val input = task.parseInput("""
-				abba[mnop]qrst
-				abcd[bddb]xyyx
-				aaaa[qwer]tyui
-				ioxxoj[asdfgh]zxcvbn
-			""".trimIndent())
-			Assertions.assertEquals(2, task.part1(input))
-		}
+		@TestFactory
+		fun part1(): Collection<DynamicTest> = task.createRawPart1TestCases(
+			"abba[mnop]qrst" expects 1,
+			"abcd[bddb]xyyx" expects 0,
+			"aaaa[qwer]tyui" expects 0,
+			"ioxxoj[asdfgh]zxcvbn" expects 1
+		)
 
-		@Test
-		fun part2() {
-			val input = task.parseInput("""
-				aba[bab]xyz
-				xyx[xyx]xyx
-				aaa[kek]eke
-				zazbz[bzb]cdb
-			""".trimIndent())
-			Assertions.assertEquals(3, task.part2(input))
-		}
+		@TestFactory
+		fun part2(): Collection<DynamicTest> = task.createRawPart2TestCases(
+			"aba[bab]xyz" expects 1,
+			"xyx[xyx]xyx" expects 0,
+			"aaa[kek]eke" expects 1,
+			"zazbz[bzb]cdb" expects 1
+		)
 	}
 }

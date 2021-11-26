@@ -1,9 +1,10 @@
 package pl.shockah.aoc.y2017
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.createRawPart1TestCases
+import pl.shockah.aoc.createRawPart2TestCases
 import pl.shockah.aoc.expects
 import kotlin.streams.toList
 
@@ -42,26 +43,20 @@ class Day1: AdventTask<List<Int>, Int, Int>(2017, 1) {
 		private val task = Day1()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(
-				"1122" expects 3,
-				"1111" expects 4,
-				"1234" expects 0,
-				"91212129" expects 9
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part1(input))
-		}
+		fun part1(): Collection<DynamicTest> = task.createRawPart1TestCases(
+			"1122" expects 3,
+			"1111" expects 4,
+			"1234" expects 0,
+			"91212129" expects 9
+		)
 
 		@TestFactory
-		fun part2(): Collection<DynamicTest> = createTestCases(
-				"1212" expects 6,
-				"1221" expects 0,
-				"123425" expects 4,
-				"123123" expects 12,
-				"12131415" expects 4
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part2(input))
-		}
+		fun part2(): Collection<DynamicTest> = task.createRawPart2TestCases(
+			"1212" expects 6,
+			"1221" expects 0,
+			"123425" expects 4,
+			"123123" expects 12,
+			"12131415" expects 4
+		)
 	}
 }

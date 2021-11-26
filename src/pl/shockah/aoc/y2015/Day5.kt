@@ -1,9 +1,10 @@
 package pl.shockah.aoc.y2015
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.createRawPart1TestCases
+import pl.shockah.aoc.createRawPart2TestCases
 import pl.shockah.aoc.expects
 
 class Day5: AdventTask<List<String>, Int, Int>(2015, 5) {
@@ -68,20 +69,20 @@ class Day5: AdventTask<List<String>, Int, Int>(2015, 5) {
 		private val task = Day5()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(
-				"ugknbfddgicrmopn" expects 1,
-				"aaa" expects 1,
-				"jchzalrnumimnmhp" expects 0,
-				"haegwjzuvuyypxyu" expects 0,
-				"dvszwmarrgswjxmb" expects 0
-		) { rawInput, expected -> Assertions.assertEquals(expected, task.part1(task.parseInput(rawInput))) }
+		fun part1(): Collection<DynamicTest> = task.createRawPart1TestCases(
+			"ugknbfddgicrmopn" expects 1,
+			"aaa" expects 1,
+			"jchzalrnumimnmhp" expects 0,
+			"haegwjzuvuyypxyu" expects 0,
+			"dvszwmarrgswjxmb" expects 0
+		)
 
 		@TestFactory
-		fun part2(): Collection<DynamicTest> = createTestCases(
-				"qjhvhtzxzqqjkmpb" expects 1,
-				"xxyxx" expects 1,
-				"uurcxstgmygtbstg" expects 0,
-				"ieodomkazucvgmuy" expects 0
-		) { rawInput, expected -> Assertions.assertEquals(expected, task.part2(task.parseInput(rawInput))) }
+		fun part2(): Collection<DynamicTest> = task.createRawPart2TestCases(
+			"qjhvhtzxzqqjkmpb" expects 1,
+			"xxyxx" expects 1,
+			"uurcxstgmygtbstg" expects 0,
+			"ieodomkazucvgmuy" expects 0
+		)
 	}
 }

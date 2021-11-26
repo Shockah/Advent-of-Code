@@ -6,8 +6,8 @@ import pl.shockah.aoc.AdventTask
 
 class Day8: AdventTask<Day8.Node, Int, Int>(2018, 8) {
 	data class Node(
-			val children: List<Node>,
-			val metadata: List<Int>
+		val children: List<Node>,
+		val metadata: List<Int>
 	) {
 		val totalMetadataSum: Int by lazy {
 			metadata.sum() + children.sumOf { it.totalMetadataSum }

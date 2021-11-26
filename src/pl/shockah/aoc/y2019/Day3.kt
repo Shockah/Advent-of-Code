@@ -8,9 +8,9 @@ import kotlin.math.abs
 
 class Day3: AdventTask<Pair<Polygon, Polygon>, Int, Int>(2019, 3) {
 	enum class Direction(
-			val symbol: Char,
-			val x: Int,
-			val y: Int
+		val symbol: Char,
+		val x: Int,
+		val y: Int
 	) {
 		Right('R', 1, 0),
 		Up('U', 0, -1),
@@ -80,4 +80,6 @@ class Day3: AdventTask<Pair<Polygon, Polygon>, Int, Int>(2019, 3) {
 	override fun part2(input: Pair<Polygon, Polygon>): Int {
 		return task(input, Mode.Delay)
 	}
+
+	// TODO: tests
 }

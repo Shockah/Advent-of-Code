@@ -8,7 +8,7 @@ import pl.shockah.unikorn.collection.Array2D
 class Day3: AdventTask<Array2D<Day3.Tile>, Int, Long>(2020, 3) {
 	@Suppress("unused")
 	enum class Tile(
-			val symbol: Char
+		val symbol: Char
 	) {
 		Empty('.'), Tree('#');
 
@@ -44,11 +44,11 @@ class Day3: AdventTask<Array2D<Day3.Tile>, Int, Long>(2020, 3) {
 
 	override fun part2(input: Array2D<Tile>): Long {
 		return listOf(
-				calculateTreeCount(input, 1, 1),
-				calculateTreeCount(input, 3, 1),
-				calculateTreeCount(input, 5, 1),
-				calculateTreeCount(input, 7, 1),
-				calculateTreeCount(input, 1, 2)
+			calculateTreeCount(input, 1, 1),
+			calculateTreeCount(input, 3, 1),
+			calculateTreeCount(input, 5, 1),
+			calculateTreeCount(input, 7, 1),
+			calculateTreeCount(input, 1, 2)
 		).map { it.toLong() }.reduce(Long::times)
 	}
 

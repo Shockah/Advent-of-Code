@@ -7,9 +7,9 @@ import pl.shockah.unikorn.collection.Array2D
 
 class Day2: AdventTask<List<List<Day2.Direction>>, String, String>(2016, 2) {
 	enum class Direction(
-			val x: Int,
-			val y: Int,
-			val symbol: Char
+		val x: Int,
+		val y: Int,
+		val symbol: Char
 	) {
 		Right(1, 0, 'R'),
 		Up(0, -1, 'U'),

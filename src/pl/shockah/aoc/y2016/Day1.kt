@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.createRawPart1TestCases
 import pl.shockah.aoc.expects
 import pl.shockah.unikorn.nextInCycle
 import pl.shockah.unikorn.previousInCycle
@@ -16,13 +17,13 @@ class Day1: AdventTask<List<Day1.Instruction>, Int, Int>(2016, 1) {
 	}
 
 	data class Instruction(
-			val turn: Turn,
-			val steps: Int
+		val turn: Turn,
+		val steps: Int
 	)
 
 	private enum class Direction(
-			val x: Int,
-			val y: Int
+		val x: Int,
+		val y: Int
 	) {
 		Right(1, 0),
 		Up(0, -1),
@@ -93,14 +94,11 @@ class Day1: AdventTask<List<Day1.Instruction>, Int, Int>(2016, 1) {
 		private val task = Day1()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(
-				"R2, L3" expects 5,
-				"R2, R2, R2" expects 2,
-				"R5, L5, R5, R3" expects 12
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part1(input))
-		}
+		fun part1(): Collection<DynamicTest> = task.createRawPart1TestCases(
+			"R2, L3" expects 5,
+			"R2, R2, R2" expects 2,
+			"R5, L5, R5, R3" expects 12
+		)
 
 		@Test
 		fun part2() {

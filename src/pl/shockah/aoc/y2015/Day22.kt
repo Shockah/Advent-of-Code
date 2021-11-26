@@ -7,14 +7,14 @@ import kotlin.math.max
 
 class Day22: AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 	data class Stats(
-			val health: Int,
-			val mana: Int,
-			val damage: Int = 0,
-			val armor: Int = 0
+		val health: Int,
+		val mana: Int,
+		val damage: Int = 0,
+		val armor: Int = 0
 	)
 
 	private class Character(
-			val stats: Stats
+		val stats: Stats
 	) {
 		var health = stats.health
 		var mana = stats.mana
@@ -54,10 +54,10 @@ class Day22: AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 	}
 
 	private enum class Effect(
-			val duration: Int,
-			val onTick: ((character: Character) -> Unit)? = null,
-			val onApply: ((character: Character) -> Unit)? = null,
-			val onRemove: ((character: Character) -> Unit)? = null
+		val duration: Int,
+		val onTick: ((character: Character) -> Unit)? = null,
+		val onApply: ((character: Character) -> Unit)? = null,
+		val onRemove: ((character: Character) -> Unit)? = null
 	) {
 		Shield(6, onApply = { it.armor += 7 }, onRemove = { it.armor -= 7 }),
 		Poison(6, onTick = { it.health -= 3 }),
@@ -69,8 +69,8 @@ class Day22: AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 	}
 
 	private data class AppliedEffect(
-			val effect: Effect,
-			val target: EffectTarget
+		val effect: Effect,
+		val target: EffectTarget
 	) {
 		fun getRealTarget(caster: Character, enemy: Character): Character {
 			return when (target) {
@@ -87,9 +87,9 @@ class Day22: AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 	}
 
 	private enum class Spell(
-			val cost: Int,
-			val appliedEffect: AppliedEffect? = null,
-			val action: ((caster: Character, enemy: Character) -> Unit)? = null
+		val cost: Int,
+		val appliedEffect: AppliedEffect? = null,
+		val action: ((caster: Character, enemy: Character) -> Unit)? = null
 	) {
 		MagicMissile(53, action = { _, enemy -> enemy.health -= 4 }),
 		Drain(73, action = { caster, enemy ->
@@ -117,7 +117,7 @@ class Day22: AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 
 	private sealed class Action {
 		data class CasterCast(
-				val spell: Spell
+			val spell: Spell
 		): Action() {
 			override fun toString(): String {
 				return "Cast: ${spell.name}"
@@ -148,10 +148,10 @@ class Day22: AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 	}
 
 	private data class State(
-			val turn: Turn,
-			val caster: Character,
-			val enemy: Character,
-			val actions: List<Action>
+		val turn: Turn,
+		val caster: Character,
+		val enemy: Character,
+		val actions: List<Action>
 	) {
 		val spells: List<Spell>
 			get() = actions.filterIsInstance<Action.CasterCast>().map { it.spell }
@@ -160,22 +160,22 @@ class Day22: AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 			get() = spells.sumOf { it.cost }
 
 		constructor(
-				caster: Character,
-				enemy: Character
+			caster: Character,
+			enemy: Character
 		): this(Turn.FirstTick, caster, enemy, emptyList())
 
 		fun getResult(): Result {
 			return Result(
-					caster.health,
-					enemy.health,
-					actions.count { it != Action.EffectTick },
-					actions.filterIsInstance<Action.CasterCast>().sumOf { it.spell.cost },
-					when {
-						caster.health <= 0 -> FightResult.Loss
-						enemy.health <= 0 -> FightResult.Win
-						actions.last() == Action.CasterNoSpellAvailable -> FightResult.NoSpellAvailable
-						else -> throw IllegalStateException()
-					}
+				caster.health,
+				enemy.health,
+				actions.count { it != Action.EffectTick },
+				actions.filterIsInstance<Action.CasterCast>().sumOf { it.spell.cost },
+				when {
+					caster.health <= 0 -> FightResult.Loss
+					enemy.health <= 0 -> FightResult.Win
+					actions.last() == Action.CasterNoSpellAvailable -> FightResult.NoSpellAvailable
+					else -> throw IllegalStateException()
+				}
 			)
 		}
 	}
@@ -185,17 +185,17 @@ class Day22: AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 	}
 
 	private enum class Difficulty(
-			val ignoreTurns: Set<Turn> = emptySet()
+		val ignoreTurns: Set<Turn> = emptySet()
 	) {
 		Normal(setOf(Turn.HardDifficultyDamage)), Hard
 	}
 
 	private data class Result(
-			val playerHealth: Int,
-			val enemyHealth: Int,
-			val turns: Int,
-			val manaSpent: Int,
-			val fightResult: FightResult
+		val playerHealth: Int,
+		val enemyHealth: Int,
+		val turns: Int,
+		val manaSpent: Int,
+		val fightResult: FightResult
 	) {
 		override fun toString(): String {
 			return if (playerHealth <= 0)
@@ -208,9 +208,9 @@ class Day22: AdventTask<Day22.Stats, Int, Int>(2015, 22) {
 	override fun parseInput(rawInput: String): Stats {
 		val lines = rawInput.lines()
 		return Stats(
-				lines[0].split(" ").last().toInt(),
-				0,
-				lines[1].split(" ").last().toInt()
+			lines[0].split(" ").last().toInt(),
+			0,
+			lines[1].split(" ").last().toInt()
 		)
 	}
 

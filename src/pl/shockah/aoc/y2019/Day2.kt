@@ -59,10 +59,10 @@ class Day2: Intcode.AdventTask<Long, Long>(2019, 2, instructions) {
 	inner class Tests {
 		@TestFactory
 		fun execute(): Collection<DynamicTest> = createTestCases(
-				listOf(1, 0, 0, 0, 99) expects listOf(2, 0, 0, 0, 99),
-				listOf(2, 3, 0, 3, 99) expects listOf(2, 3, 0, 6, 99),
-				listOf(2, 4, 4, 5, 99, 0) expects listOf(2, 4, 4, 5, 99, 9801),
-				listOf(1, 1, 1, 4, 99, 5, 6, 0, 99) expects listOf(30, 1, 1, 4, 2, 5, 6, 0, 99)
+			listOf(1, 0, 0, 0, 99) expects listOf(2, 0, 0, 0, 99),
+			listOf(2, 3, 0, 3, 99) expects listOf(2, 3, 0, 6, 99),
+			listOf(2, 4, 4, 5, 99, 0) expects listOf(2, 4, 4, 5, 99, 9801),
+			listOf(1, 1, 1, 4, 99, 5, 6, 0, 99) expects listOf(30, 1, 1, 4, 2, 5, 6, 0, 99)
 		) { input, expected -> Assertions.assertEquals(expected.map { it.toLong() }, getIntcode(input.map { it.toLong() }).also { it.execute() }.memory.data.values.toList()) }
 	}
 }

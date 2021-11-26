@@ -36,8 +36,8 @@ class Day8: AdventTask<List<Array2D<Int>>, Int, String>(2019, 8) {
 	}
 
 	private enum class Color(
-			val id: Int,
-			val symbol: Char
+		val id: Int,
+		val symbol: Char
 	) {
 		Black(0, ' '), White(1, '#'), Transparent(2, '?');
 

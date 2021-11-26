@@ -9,8 +9,8 @@ import kotlin.math.absoluteValue
 
 class Day6: AdventTask<List<Day6.Point>, Int, Int>(2018, 6) {
 	data class Point(
-			val x: Int,
-			val y: Int
+		val x: Int,
+		val y: Int
 	) {
 		val neighbors: Array<Point>
 			get() = arrayOf(Point(x - 1, y), Point(x + 1, y), Point(x, y - 1), Point(x, y + 1))
@@ -25,16 +25,16 @@ class Day6: AdventTask<List<Day6.Point>, Int, Int>(2018, 6) {
 
 	private sealed class GridPoint {
 		data class Initial(
-				val point: Point
+			val point: Point
 		): GridPoint()
 
 		data class Closest(
-				val initial: Initial,
-				val distance: Int
+			val initial: Initial,
+			val distance: Int
 		): GridPoint()
 
 		data class Ambiguous(
-				val distance: Int
+			val distance: Int
 		): GridPoint()
 
 		object Empty: GridPoint()

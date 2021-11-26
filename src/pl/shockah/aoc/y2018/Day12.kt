@@ -11,8 +11,8 @@ class Day12: AdventTask<Day12.Input, Long, Long>(2018, 12) {
 	private val replacementInputPattern: Pattern = Pattern.compile("([.#]+) => ([.#])")
 
 	data class Input(
-			val state: Set<Int>,
-			val combinations: List<Pair<BooleanArray, Boolean>>
+		val state: Set<Int>,
+		val combinations: List<Pair<BooleanArray, Boolean>>
 	)
 
 	override fun parseInput(rawInput: String): Input {

@@ -20,7 +20,7 @@ class Day23: AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 2
 		abstract fun execute(registers: Array<BigInteger>, counter: Box<Int>)
 
 		data class Half(
-				val register: Register
+			val register: Register
 		): Instruction() {
 			override fun execute(registers: Array<BigInteger>, counter: Box<Int>) {
 				registers[register.ordinal] /= 2.toBigInteger()
@@ -29,7 +29,7 @@ class Day23: AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 2
 		}
 
 		data class Triple(
-				val register: Register
+			val register: Register
 		): Instruction() {
 			override fun execute(registers: Array<BigInteger>, counter: Box<Int>) {
 				registers[register.ordinal] *= 3.toBigInteger()
@@ -38,7 +38,7 @@ class Day23: AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 2
 		}
 
 		data class Increment(
-				val register: Register
+			val register: Register
 		): Instruction() {
 			override fun execute(registers: Array<BigInteger>, counter: Box<Int>) {
 				registers[register.ordinal]++
@@ -47,7 +47,7 @@ class Day23: AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 2
 		}
 
 		data class Jump(
-				val offset: Int
+			val offset: Int
 		): Instruction() {
 			override fun execute(registers: Array<BigInteger>, counter: Box<Int>) {
 				counter.value += offset
@@ -55,8 +55,8 @@ class Day23: AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 2
 		}
 
 		data class JumpIfEven(
-				val register: Register,
-				val offset: Int
+			val register: Register,
+			val offset: Int
 		): Instruction() {
 			override fun execute(registers: Array<BigInteger>, counter: Box<Int>) {
 				if (registers[register.ordinal] % 2.toBigInteger() == BigInteger.ZERO)
@@ -67,8 +67,8 @@ class Day23: AdventTask<List<Day23.Instruction>, BigInteger, BigInteger>(2015, 2
 		}
 
 		data class JumpIfOne(
-				val register: Register,
-				val offset: Int
+			val register: Register,
+			val offset: Int
 		): Instruction() {
 			override fun execute(registers: Array<BigInteger>, counter: Box<Int>) {
 				if (registers[register.ordinal] == BigInteger.ONE)

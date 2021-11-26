@@ -1,9 +1,10 @@
 package pl.shockah.aoc.y2020
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.createRawPart1TestCases
+import pl.shockah.aoc.createRawPart2TestCases
 import pl.shockah.aoc.expects
 
 class Day1: AdventTask<List<Int>, Int, Int>(2020, 1) {
@@ -37,19 +38,13 @@ class Day1: AdventTask<List<Int>, Int, Int>(2020, 1) {
 		private val task = Day1()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(
-				"1721\n979\n366\n299\n675\n1456" expects 514579
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part1(input))
-		}
+		fun part1(): Collection<DynamicTest> = task.createRawPart1TestCases(
+			"1721\n979\n366\n299\n675\n1456" expects 514579
+		)
 
 		@TestFactory
-		fun part2(): Collection<DynamicTest> = createTestCases(
-				"1721\n979\n366\n299\n675\n1456" expects 241861950
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part2(input))
-		}
+		fun part2(): Collection<DynamicTest> = task.createRawPart2TestCases(
+			"1721\n979\n366\n299\n675\n1456" expects 241861950
+		)
 	}
 }

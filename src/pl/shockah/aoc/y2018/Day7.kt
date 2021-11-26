@@ -11,8 +11,8 @@ class Day7: AdventTask<Map<String, Day7.Step>, String, Int>(2018, 7) {
 	private val inputPattern: Pattern = Pattern.compile("Step (\\w+) must be finished before step (\\w+) can begin.")
 
 	data class Step(
-			val name: String,
-			val requires: List<Step>
+		val name: String,
+		val requires: List<Step>
 	) {
 		val requiredBy: MutableList<Step> = mutableListOf()
 	}

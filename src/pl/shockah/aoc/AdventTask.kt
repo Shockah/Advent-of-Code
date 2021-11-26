@@ -48,3 +48,32 @@ abstract class AdventTask<ParsedInput, A, B>(
 infix fun <Input, Output> Input.expects(expected: Output): AdventTask.Case<Input, Output> {
 	return AdventTask.Case(this, expected)
 }
+
+fun <ParsedInput, A, B, Self: AdventTask<ParsedInput, A, B>, Output> Self.createRawTestCases(vararg cases: AdventTask.Case<String, Output>, executable: (Self, input: ParsedInput) -> Output): Collection<DynamicTest> {
+	return createRawTestCases(cases.toList(), executable)
+}
+
+fun <ParsedInput, A, B, Self: AdventTask<ParsedInput, A, B>, Output> Self.createRawTestCases(cases: List<AdventTask.Case<String, Output>>, executable: (Self, input: ParsedInput) -> Output): Collection<DynamicTest> {
+	return AdventTask.createTestCases(cases.toList()) { input, expected ->
+		Assertions.assertEquals(
+			expected,
+			executable(this, parseInput(input))
+		)
+	}
+}
+
+fun <ParsedInput, A, B, Self: AdventTask<ParsedInput, A, B>> Self.createRawPart1TestCases(vararg cases: AdventTask.Case<String, A>): Collection<DynamicTest> {
+	return createRawPart1TestCases(cases.toList())
+}
+
+fun <ParsedInput, A, B, Self: AdventTask<ParsedInput, A, B>> Self.createRawPart1TestCases(cases: List<AdventTask.Case<String, A>>): Collection<DynamicTest> {
+	return createRawTestCases(cases) { task, input -> task.part1(input) }
+}
+
+fun <ParsedInput, A, B, Self: AdventTask<ParsedInput, A, B>> Self.createRawPart2TestCases(vararg cases: AdventTask.Case<String, B>): Collection<DynamicTest> {
+	return createRawPart2TestCases(cases.toList())
+}
+
+fun <ParsedInput, A, B, Self: AdventTask<ParsedInput, A, B>> Self.createRawPart2TestCases(cases: List<AdventTask.Case<String, B>>): Collection<DynamicTest> {
+	return createRawTestCases(cases) { task, input -> task.part2(input) }
+}

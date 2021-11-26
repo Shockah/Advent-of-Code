@@ -13,8 +13,8 @@ class Day9: AdventTask<Map<Day9.UnorderedPair<String>, Int>, Int, Int>(2015, 9) 
 	private val inputPattern: Pattern = Pattern.compile("(.*) to (.*) = (\\d+)")
 
 	data class UnorderedPair<T>(
-			val first: T,
-			val second: T
+		val first: T,
+		val second: T
 	) {
 		override fun equals(other: Any?): Boolean {
 			return other is UnorderedPair<*> && ((first == other.first && second == other.second) || (first == other.second && second == other.first))
@@ -75,9 +75,9 @@ class Day9: AdventTask<Map<Day9.UnorderedPair<String>, Int>, Int, Int>(2015, 9) 
 
 		@TestFactory
 		fun parseInput(): Collection<DynamicTest> = createTestCases(
-				"London to Dublin = 464" expects (UnorderedPair("London", "Dublin") to 464),
-				"London to Belfast = 518" expects (UnorderedPair("London", "Belfast") to 518),
-				"Dublin to Belfast = 141" expects (UnorderedPair("Dublin", "Belfast") to 141)
+			"London to Dublin = 464" expects (UnorderedPair("London", "Dublin") to 464),
+			"London to Belfast = 518" expects (UnorderedPair("London", "Belfast") to 518),
+			"Dublin to Belfast = 141" expects (UnorderedPair("Dublin", "Belfast") to 141)
 		) { rawInput, expected -> Assertions.assertEquals(mapOf(expected), task.parseInput(rawInput)) }
 
 		@Test

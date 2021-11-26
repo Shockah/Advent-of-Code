@@ -10,8 +10,8 @@ class Day8: AdventTask<List<Day8.Instruction>, Int, Int>(2017, 8) {
 	private val inputPattern: Pattern = Pattern.compile("(\\w+) (inc|dec) (-?\\d+) if (\\w+) (==|!=|>|<|>=|<=) (-?\\d+)")
 
 	enum class Operator(
-			val symbol: String,
-			private val lambda: (Int, Int) -> Boolean
+		val symbol: String,
+		private val lambda: (Int, Int) -> Boolean
 	) {
 		Equals("==", { a, b -> a == b }),
 		NotEquals("!=", { a, b -> a != b }),
@@ -30,11 +30,11 @@ class Day8: AdventTask<List<Day8.Instruction>, Int, Int>(2017, 8) {
 	}
 
 	data class Instruction(
-			val register: String,
-			val adding: Int,
-			val conditionRegister: String,
-			val conditionOperator: Operator,
-			val conditionValue: Int
+		val register: String,
+		val adding: Int,
+		val conditionRegister: String,
+		val conditionOperator: Operator,
+		val conditionValue: Int
 	)
 
 	override fun parseInput(rawInput: String): List<Instruction> {

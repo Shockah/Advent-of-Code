@@ -6,7 +6,7 @@ import pl.shockah.aoc.AdventTask
 
 class Day17: AdventTask<List<Day17.Container>, Int, Int>(2015, 17) {
 	class Container(
-			val capacity: Int
+		val capacity: Int
 	) {
 		override fun toString(): String {
 			return "$capacity"

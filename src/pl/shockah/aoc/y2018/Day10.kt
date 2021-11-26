@@ -14,8 +14,8 @@ class Day10: AdventTask<List<Day10.Point>, String, Int>(2018, 10) {
 	private val inputPattern: Pattern = Pattern.compile("position=<\\s*(-?\\d+)\\s*,\\s*(-?\\d+)\\s*> velocity=<\\s*(-?\\d+)\\s*,\\s*(-?\\d+)\\s*>")
 
 	data class Vector(
-			val x: Int,
-			val y: Int
+		val x: Int,
+		val y: Int
 	) {
 		val manhattanLength: Int
 			get() = x.absoluteValue + y.absoluteValue
@@ -30,8 +30,8 @@ class Day10: AdventTask<List<Day10.Point>, String, Int>(2018, 10) {
 	}
 
 	data class Point(
-			val position: Vector,
-			val velocity: Vector
+		val position: Vector,
+		val velocity: Vector
 	) {
 		fun advance(): Point {
 			return Point(position + velocity, velocity)

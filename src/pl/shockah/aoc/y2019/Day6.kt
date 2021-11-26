@@ -11,8 +11,8 @@ import kotlin.math.min
 
 class Day6: AdventTask<Pair<Day6.Celestial, Map<String, Day6.Celestial>>, Int, Int>(2019, 6) {
 	class Celestial(
-			val identifier: String,
-			val root: Celestial? = null
+		val identifier: String,
+		val root: Celestial? = null
 	) {
 		val orbitedBy = mutableListOf<Celestial>()
 
@@ -113,12 +113,12 @@ class Day6: AdventTask<Pair<Day6.Celestial, Map<String, Day6.Celestial>>, Int, I
 	inner class Tests {
 		@TestFactory
 		fun part1(): Collection<DynamicTest> = createTestCases(
-				listOf("COM" to "B", "B" to "C", "C" to "D", "D" to "E", "E" to "F", "B" to "G", "G" to "H", "D" to "I", "E" to "J", "J" to "K", "K" to "L") expects 42
+			listOf("COM" to "B", "B" to "C", "C" to "D", "D" to "E", "E" to "F", "B" to "G", "G" to "H", "D" to "I", "E" to "J", "J" to "K", "K" to "L") expects 42
 		) { preParsedInput, expected -> Assertions.assertEquals(expected, part1(parseInputStep2(preParsedInput))) }
 
 		@TestFactory
 		fun part2(): Collection<DynamicTest> = createTestCases(
-				listOf("COM" to "B", "B" to "C", "C" to "D", "D" to "E", "E" to "F", "B" to "G", "G" to "H", "D" to "I", "E" to "J", "J" to "K", "K" to "L", "K" to "YOU", "I" to "SAN") expects 4
+			listOf("COM" to "B", "B" to "C", "C" to "D", "D" to "E", "E" to "F", "B" to "G", "G" to "H", "D" to "I", "E" to "J", "J" to "K", "K" to "L", "K" to "YOU", "I" to "SAN") expects 4
 		) { preParsedInput, expected -> Assertions.assertEquals(expected, part2(parseInputStep2(preParsedInput))) }
 	}
 }

@@ -11,12 +11,12 @@ class Day15: AdventTask<List<Day15.Ingredient>, Int, Int>(2015, 15) {
 	private val inputPattern: Pattern = Pattern.compile("(.*): capacity (-?\\d+), durability (-?\\d+), flavor (-?\\d+), texture (-?\\d+), calories (-?\\d+)")
 
 	data class Ingredient(
-			val name: String,
-			val capacity: Int,
-			val durability: Int,
-			val flavor: Int,
-			val texture: Int,
-			val calories: Int
+		val name: String,
+		val capacity: Int,
+		val durability: Int,
+		val flavor: Int,
+		val texture: Int,
+		val calories: Int
 	)
 
 	override fun parseInput(rawInput: String): List<Ingredient> {

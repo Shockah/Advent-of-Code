@@ -16,9 +16,9 @@ class Day7: AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 	private val twoArgumentInputPattern: Pattern = Pattern.compile("(\\w+) (AND|OR|LSHIFT|RSHIFT) (\\w+)")
 
 	data class InputTemplate(
-			val name: String,
-			val leftSide: String,
-			val requiredInputs: List<String>
+		val name: String,
+		val leftSide: String,
+		val requiredInputs: List<String>
 	)
 
 	interface Input {
@@ -34,7 +34,7 @@ class Day7: AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 	}
 
 	data class Signal(
-			val value: Int
+		val value: Int
 	): Input {
 		override fun getValue(map: Map<String, Input>): Int {
 			return value
@@ -42,7 +42,7 @@ class Day7: AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 	}
 
 	data class AnotherInput(
-			val name: String
+		val name: String
 	): Input {
 		override fun getValue(map: Map<String, Input>): Int {
 			return map[name]!!.getValue(map)
@@ -50,7 +50,7 @@ class Day7: AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 	}
 
 	data class Not(
-			val input: Input
+		val input: Input
 	): Input.Cacheable() {
 		override fun getValue(map: Map<String, Input>): Int {
 			if (cached == null)
@@ -60,8 +60,8 @@ class Day7: AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 	}
 
 	data class And(
-			val input1: Input,
-			val input2: Input
+		val input1: Input,
+		val input2: Input
 	): Input.Cacheable() {
 		override fun getValue(map: Map<String, Input>): Int {
 			if (cached == null)
@@ -71,8 +71,8 @@ class Day7: AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 	}
 
 	data class Or(
-			val input1: Input,
-			val input2: Input
+		val input1: Input,
+		val input2: Input
 	): Input.Cacheable() {
 		override fun getValue(map: Map<String, Input>): Int {
 			if (cached == null)
@@ -82,8 +82,8 @@ class Day7: AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 	}
 
 	data class LeftShift(
-			val input1: Input,
-			val input2: Input
+		val input1: Input,
+		val input2: Input
 	): Input.Cacheable() {
 		override fun getValue(map: Map<String, Input>): Int {
 			if (cached == null)
@@ -93,8 +93,8 @@ class Day7: AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 	}
 
 	data class RightShift(
-			val input1: Input,
-			val input2: Input
+		val input1: Input,
+		val input2: Input
 	): Input.Cacheable() {
 		override fun getValue(map: Map<String, Input>): Int {
 			if (cached == null)
@@ -209,14 +209,14 @@ class Day7: AdventTask<Map<String, Day7.Input>, Int, Int>(2015, 7) {
 
 		@TestFactory
 		fun parseInput(): Collection<DynamicTest> = createTestCases(
-				"d" expects 72,
-				"e" expects 507,
-				"f" expects 492,
-				"g" expects 114,
-				"h" expects 65412,
-				"i" expects 65079,
-				"x" expects 123,
-				"y" expects 456
+			"d" expects 72,
+			"e" expects 507,
+			"f" expects 492,
+			"g" expects 114,
+			"h" expects 65412,
+			"i" expects 65079,
+			"x" expects 123,
+			"y" expects 456
 		) { entry, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, input[entry]!!.getValue(input))

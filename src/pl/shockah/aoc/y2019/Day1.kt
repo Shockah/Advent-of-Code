@@ -1,9 +1,10 @@
 package pl.shockah.aoc.y2019
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.createRawPart1TestCases
+import pl.shockah.aoc.createRawPart2TestCases
 import pl.shockah.aoc.expects
 import pl.shockah.unikorn.collection.sumByLong
 
@@ -36,24 +37,18 @@ class Day1: AdventTask<List<Long>, Long, Long>(2019, 1) {
 		private val task = Day1()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(
-				"12" expects 2L,
-				"14" expects 2L,
-				"1969" expects 654L,
-				"100756" expects 33583L
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part1(input))
-		}
+		fun part1(): Collection<DynamicTest> = task.createRawPart1TestCases(
+			"12" expects 2L,
+			"14" expects 2L,
+			"1969" expects 654L,
+			"100756" expects 33583L
+		)
 
 		@TestFactory
-		fun part2(): Collection<DynamicTest> = createTestCases(
-				"14" expects 2L,
-				"1969" expects 966L,
-				"100756" expects 50346L
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part2(input))
-		}
+		fun part2(): Collection<DynamicTest> = task.createRawPart2TestCases(
+			"14" expects 2L,
+			"1969" expects 966L,
+			"100756" expects 50346L
+		)
 	}
 }

@@ -1,9 +1,9 @@
 package pl.shockah.aoc.y2017
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.createRawPart1TestCases
 import pl.shockah.aoc.expects
 import pl.shockah.unikorn.nextInCycle
 import kotlin.math.absoluteValue
@@ -14,8 +14,8 @@ class Day3: AdventTask<Int, Int, Int>(2017, 3) {
 	}
 
 	private enum class Direction(
-			val x: Int,
-			val y: Int
+		val x: Int,
+		val y: Int
 	) {
 		Right(1, 0),
 		Up(0, -1),
@@ -87,14 +87,13 @@ class Day3: AdventTask<Int, Int, Int>(2017, 3) {
 		private val task = Day3()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(
-				"1" expects 0,
-				"12" expects 3,
-				"23" expects 2,
-				"1024" expects 31
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part1(input))
-		}
+		fun part1(): Collection<DynamicTest> = task.createRawPart1TestCases(
+			"1" expects 0,
+			"12" expects 3,
+			"23" expects 2,
+			"1024" expects 31
+		)
+
+		// TODO: part 2 tests
 	}
 }

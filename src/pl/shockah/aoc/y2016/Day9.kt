@@ -1,11 +1,8 @@
 package pl.shockah.aoc.y2016
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
-import pl.shockah.aoc.AdventTask
-import pl.shockah.aoc.expects
-import pl.shockah.aoc.parse2OrNull
+import pl.shockah.aoc.*
 import pl.shockah.unikorn.Ref
 import java.util.regex.Pattern
 
@@ -93,27 +90,21 @@ class Day9: AdventTask<String, Int, Long>(2016, 9) {
 		private val task = Day9()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(
+		fun part1(): Collection<DynamicTest> = task.createRawPart1TestCases(
 			"ADVENT" expects 6,
 			"A(1x5)BC" expects 7,
 			"(3x3)XYZ" expects 9,
 			"A(2x2)BCD(2x2)EFG" expects 11,
 			"(6x1)(1x3)A" expects 6,
 			"X(8x2)(3x3)ABCY" expects 18
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part1(input))
-		}
+		)
 
 		@TestFactory
-		fun part2(): Collection<DynamicTest> = createTestCases(
+		fun part2(): Collection<DynamicTest> = task.createRawPart2TestCases(
 			"(3x3)XYZ" expects 9L,
 			"X(8x2)(3x3)ABCY" expects 20L,
 			"(27x12)(20x12)(13x14)(7x10)(1x12)A" expects 241920L,
 			"(25x3)(3x3)ABC(2x3)XY(5x2)PQRSTX(18x9)(3x2)TWO(5x7)SEVEN" expects 445L
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part2(input))
-		}
+		)
 	}
 }

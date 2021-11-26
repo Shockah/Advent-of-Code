@@ -10,14 +10,14 @@ class Day14: AdventTask<List<Day14.ReindeerStats>, Int, Int>(2015, 14) {
 	private val inputPattern: Pattern = Pattern.compile("(\\w+) can fly (\\d+) km/s for (\\d+) seconds, but then must rest for (\\d+) seconds.")
 
 	data class ReindeerStats(
-			val name: String,
-			val speed: Int,
-			val flightTime: Int,
-			val restTime: Int
+		val name: String,
+		val speed: Int,
+		val flightTime: Int,
+		val restTime: Int
 	)
 
 	class Reindeer(
-			val stats: ReindeerStats
+		val stats: ReindeerStats
 	) {
 		var timer: Int = 0
 		var flying: Boolean = true

@@ -40,7 +40,7 @@ class Day20: AdventTask<Int, Int, Int>(2015, 20) {
 
 		@TestFactory
 		fun part1(): Collection<DynamicTest> = createTestCases(
-				"150" expects 8
+			"150" expects 8
 		) { rawInput, expected ->
 			val input = task.parseInput(rawInput)
 			Assertions.assertEquals(expected, task.part1(input))

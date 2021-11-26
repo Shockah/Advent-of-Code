@@ -36,8 +36,8 @@ class Day19: AdventTask<Day19.Input, Int, Int>(2015, 19) {
 	private val replacementInputPattern: Pattern = Pattern.compile("(\\w+) => (\\w+)")
 
 	data class Input(
-			val replacements: List<Pair<String, String>>,
-			val initialMolecule: String
+		val replacements: List<Pair<String, String>>,
+		val initialMolecule: String
 	)
 
 	override fun parseInput(rawInput: String): Input {
@@ -89,8 +89,8 @@ class Day19: AdventTask<Day19.Input, Int, Int>(2015, 19) {
 
 		@TestFactory
 		fun part2(): Collection<DynamicTest> = createTestCases(
-				"HOH" expects 2,
-				"HOHOHO" expects 5
+			"HOH" expects 2,
+			"HOHOHO" expects 5
 		) { rawInput, expected ->
 			val baseInput = """
 				e => H

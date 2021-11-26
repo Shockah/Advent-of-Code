@@ -1,9 +1,9 @@
 package pl.shockah.aoc.y2018
 
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.createRawPart1TestCases
 import pl.shockah.aoc.expects
 import pl.shockah.aoc.parse2
 import pl.shockah.unikorn.collection.MutableCircularListImpl
@@ -13,12 +13,12 @@ class Day9: AdventTask<Day9.Input, Long, Long>(2018, 9) {
 	private val inputPattern: Pattern = Pattern.compile("(\\d+) players; last marble is worth (\\d+) points")
 
 	data class Input(
-			val playerCount: Int,
-			val lastMarble: Int
+		val playerCount: Int,
+		val lastMarble: Int
 	)
 
 	data class Marble(
-			val value: Int
+		val value: Int
 	) {
 		var clockwise: Marble = this
 		var counterClockwise: Marble = this
@@ -62,16 +62,15 @@ class Day9: AdventTask<Day9.Input, Long, Long>(2018, 9) {
 		private val task = Day9()
 
 		@TestFactory
-		fun part1(): Collection<DynamicTest> = createTestCases(
-				"9 players; last marble is worth 25 points" expects 32L,
-				"10 players; last marble is worth 1618 points" expects 8317L,
-				"13 players; last marble is worth 7999 points" expects 146373L,
-				"17 players; last marble is worth 1104 points" expects 2764L,
-				"21 players; last marble is worth 6111 points" expects 54718L,
-				"30 players; last marble is worth 5807 points" expects 37305L
-		) { rawInput, expected ->
-			val input = task.parseInput(rawInput)
-			Assertions.assertEquals(expected, task.part1(input))
-		}
+		fun part1(): Collection<DynamicTest> = task.createRawPart1TestCases(
+			"9 players; last marble is worth 25 points" expects 32L,
+			"10 players; last marble is worth 1618 points" expects 8317L,
+			"13 players; last marble is worth 7999 points" expects 146373L,
+			"17 players; last marble is worth 1104 points" expects 2764L,
+			"21 players; last marble is worth 6111 points" expects 54718L,
+			"30 players; last marble is worth 5807 points" expects 37305L
+		)
+
+		// TODO: part 2 tests
 	}
 }
