@@ -10,7 +10,7 @@ class Day1: AdventTask<List<Int>, Int, Int>(2021, 1) {
 	}
 
 	private fun task(input: List<Int>): Int {
-		return input.indices.toList().dropLast(1).count { input[it] < input[it + 1] }
+		return input.windowed(2).count { (a, b) -> a < b }
 	}
 
 	override fun part1(input: List<Int>): Int {
