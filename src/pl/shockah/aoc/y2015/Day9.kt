@@ -5,25 +5,13 @@ import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.UnorderedPair
 import pl.shockah.aoc.expects
 import pl.shockah.aoc.parse3
 import java.util.regex.Pattern
 
-class Day9: AdventTask<Map<Day9.UnorderedPair<String>, Int>, Int, Int>(2015, 9) {
+class Day9: AdventTask<Map<UnorderedPair<String>, Int>, Int, Int>(2015, 9) {
 	private val inputPattern: Pattern = Pattern.compile("(.*) to (.*) = (\\d+)")
-
-	data class UnorderedPair<T>(
-		val first: T,
-		val second: T
-	) {
-		override fun equals(other: Any?): Boolean {
-			return other is UnorderedPair<*> && ((first == other.first && second == other.second) || (first == other.second && second == other.first))
-		}
-
-		override fun hashCode(): Int {
-			return first.hashCode() xor second.hashCode()
-		}
-	}
 
 	override fun parseInput(rawInput: String): Map<UnorderedPair<String>, Int> {
 		return rawInput.lines().map {

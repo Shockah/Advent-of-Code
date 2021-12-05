@@ -3,21 +3,9 @@ package pl.shockah.aoc.y2017
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.UnorderedPair
 
-class Day24: AdventTask<List<Day24.UnorderedPair<Int>>, Int, Int>(2017, 24) {
-	data class UnorderedPair<T>(
-		val first: T,
-		val second: T
-	) {
-		override fun equals(other: Any?): Boolean {
-			return other is UnorderedPair<*> && ((first == other.first && second == other.second) || (first == other.second && second == other.first))
-		}
-
-		override fun hashCode(): Int {
-			return first.hashCode() xor second.hashCode()
-		}
-	}
-
+class Day24: AdventTask<List<UnorderedPair<Int>>, Int, Int>(2017, 24) {
 	override fun parseInput(rawInput: String): List<UnorderedPair<Int>> {
 		return rawInput.trim().lines().map {
 			val split = it.split("/")
