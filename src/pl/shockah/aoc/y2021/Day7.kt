@@ -24,7 +24,7 @@ class Day7: AdventTask<List<Int>, Int, Int>(2021, 7) {
 		return positions.minOf { position ->
 			return@minOf input.sumOf {
 				val n = abs(it - position)
-				return@sumOf ceil(n * (1 + n) * 0.5).toInt()
+				return@sumOf n * (1 + n) / 2
 			}
 		}
 	}
