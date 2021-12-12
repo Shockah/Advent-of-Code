@@ -16,9 +16,7 @@ class Day12: AdventTask<Day12.Graph, Int, Int>(2021, 12) {
 		val name: String
 	) {
 		var connections: Set<Cave> = emptySet()
-
-		val isBig: Boolean
-			get() = name.uppercase() == name
+		val isBig = name.uppercase() == name
 	}
 
 	override fun parseInput(rawInput: String): Graph {
