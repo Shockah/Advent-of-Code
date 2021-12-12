@@ -35,26 +35,25 @@ class Day12: AdventTask<Day12.Graph, Int, Int>(2021, 12) {
 		return Graph(caves["start"]!!, caves["end"]!!, caves.values.toSet())
 	}
 
-	private fun countPossiblePaths(end: Cave, caveAllowedTwice: Cave?, currentPath: List<Cave>): Int {
-		val current = currentPath.last()
+	private fun countPossiblePaths(end: Cave, current: Cave, caveAllowedTwice: Cave?, currentPath: List<Cave>): Int {
 		if (current == end)
 			return if (caveAllowedTwice == null) 1 else if (currentPath.count { it == caveAllowedTwice } == 2) 1 else 0
 		val possibleCaves = current.connections.filter { cave ->
 			val allowedCount = if (caveAllowedTwice == cave) 2 else 1
 			return@filter cave.isBig || currentPath.count { it == cave } <= allowedCount - 1
 		}
-		return possibleCaves.sumOf { countPossiblePaths(end, caveAllowedTwice, currentPath + it) }
+		return possibleCaves.sumOf { countPossiblePaths(end, it, caveAllowedTwice, if (it.isBig) currentPath else currentPath + it) }
 	}
 
 	override fun part1(input: Graph): Int {
-		return countPossiblePaths(input.end, null, listOf(input.start))
+		return countPossiblePaths(input.end, input.start, null, listOf(input.start))
 	}
 
 	override fun part2(input: Graph): Int {
-		val noRepeatCount = countPossiblePaths(input.end, null, listOf(input.start))
+		val noRepeatCount = countPossiblePaths(input.end, input.start, null, listOf(input.start))
 		val withRepeatCount = input.caves
 			.filter { it != input.start && it != input.end && !it.isBig }
-			.sumOf { countPossiblePaths(input.end, it, listOf(input.start)) }
+			.sumOf { countPossiblePaths(input.end, input.start, it, listOf(input.start)) }
 		return noRepeatCount + withRepeatCount
 	}
 
