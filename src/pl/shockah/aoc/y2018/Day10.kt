@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
 import pl.shockah.aoc.parse4
+import pl.shockah.aoc.toCharString
 import pl.shockah.unikorn.collection.MutableArray2D
 import java.util.regex.Pattern
 import kotlin.math.absoluteValue
@@ -84,12 +85,7 @@ class Day10: AdventTask<List<Day10.Point>, String, Int>(2018, 10) {
 			for (point in setup) {
 				grid[point.position.x - minX, point.position.y - minY] = true
 			}
-
-			val readableOutput = (0 until grid.height).joinToString("\n") { y ->
-				(0 until grid.width).joinToString("") { x ->
-					if (grid[x, y]) "#" else "."
-				}
-			}
+			val readableOutput = grid.toCharString(false, '.', '#')
 
 			@Suppress("ConstantConditionIf")
 			if (askForValidity) {

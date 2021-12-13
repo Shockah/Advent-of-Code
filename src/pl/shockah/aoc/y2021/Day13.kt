@@ -3,6 +3,8 @@ package pl.shockah.aoc.y2021
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import pl.shockah.aoc.AdventTask
+import pl.shockah.aoc.toCharString
+import pl.shockah.unikorn.collection.Array2D
 
 class Day13: AdventTask<Day13.Input, Int, String>(2021, 13) {
 	data class Input(
@@ -77,11 +79,8 @@ class Day13: AdventTask<Day13.Input, Int, String>(2021, 13) {
 		val minY = keys.minOf { it.second }
 		val maxX = keys.maxOf { it.first }
 		val maxY = keys.maxOf { it.second }
-		return (minY .. maxY).joinToString("\n") { y ->
-			(minX .. maxX).joinToString("") { x ->
-				if ((data[x to y] ?: 0) > 0) "#" else "."
-			}
-		}
+		return Array2D(maxX - minX + 1, maxY - minY + 1) { x, y -> data[x + minX to y + minY] ?: 0 }
+			.toCharString(0, '.', '#')
 	}
 
 	class Tests {
