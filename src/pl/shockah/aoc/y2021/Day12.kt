@@ -37,12 +37,11 @@ class Day12: AdventTask<Day12.Graph, Int, Int>(2021, 12) {
 
 	private fun countPossiblePaths(end: Cave, current: Cave, caveAllowedTwice: Cave?, currentPath: List<Cave>): Int {
 		if (current == end)
-			return if (caveAllowedTwice == null) 1 else if (currentPath.count { it == caveAllowedTwice } == 2) 1 else 0
-		val possibleCaves = current.connections.filter { cave ->
+			return if (caveAllowedTwice == null) 1 else currentPath.count { it == caveAllowedTwice } / 2
+		return current.connections.filter { cave ->
 			val allowedCount = if (caveAllowedTwice == cave) 2 else 1
 			return@filter cave.isBig || currentPath.count { it == cave } <= allowedCount - 1
-		}
-		return possibleCaves.sumOf { countPossiblePaths(end, it, caveAllowedTwice, if (it.isBig) currentPath else currentPath + it) }
+		}.sumOf { countPossiblePaths(end, it, caveAllowedTwice, if (it.isBig) currentPath else currentPath + it) }
 	}
 
 	override fun part1(input: Graph): Int {
